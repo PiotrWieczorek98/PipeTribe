@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
-public class Pipe : MonoBehaviour {
+public class Pipe : MonoBehaviour 
+{
 
 	public float pipeRadius;
 	public int pipeSegmentCount;
@@ -21,15 +23,19 @@ public class Pipe : MonoBehaviour {
 	float curveAngle;
 	float relativeRotation;
 
+	float timeToPassPipe = 0;
+
 	public RandomPlacer notePlacer;
 
-	private void Awake () {
+	private void Awake () 
+	{
 		GetComponent<MeshFilter>().mesh = mesh = new Mesh();
 		mesh.name = "Pipe";
 	}
 
 
-	public void Generate () {
+	public float Generate(List<(float, float)> songMusicNotes, float timeWhenPipeEntered, bool isFirstPipe = false) 
+	{
 		curveRadius = Random.Range(minCurveRadius, maxCurveRadius);
 		curveSegmentCount = Random.Range(minCurveSegmentCount, maxCurveSegmentCount + 1);
 		mesh.Clear();
@@ -37,10 +43,58 @@ public class Pipe : MonoBehaviour {
 		SetUV();
 		SetTriangles();
 		mesh.RecalculateNormals();
-		notePlacer.GenerateItems(this);
+
+		// -------------------------------------------------------------------------------------------------------
+		Player player = GameObject.FindGameObjectWithTag("Player").GetComponent(typeof(Player)) as Player;
+		// How long will it take to pass this pipe
+		float arcLength = curveAngle / 360 * (2f * Mathf.PI * curveRadius);
+		timeToPassPipe = arcLength / player.velocity;
+
+		// Since we start the game at the second pipe, do not generate notes for the first one
+		if (!isFirstPipe)
+        {
+			List<(float, float, float)> notesForThisPipe = new List<(float, float, float)> { };
+            for (int i = 0; i < songMusicNotes.Count; i++)
+            {
+				float noteAppearTime = songMusicNotes[i].Item1;
+                if (noteAppearTime > timeWhenPipeEntered && noteAppearTime < timeWhenPipeEntered + timeToPassPipe)
+                {
+                    noteAppearTime -= timeWhenPipeEntered;
+
+                    float noteAppearSegment = Remap(noteAppearTime, 0, timeToPassPipe, 0, curveAngle);
+					(float, float, float) tmp = (noteAppearSegment, songMusicNotes[i].Item2, songMusicNotes[i].Item1);
+
+                    notesForThisPipe.Add(tmp);
+                }
+            }
+
+			// Generate notes for this pipe
+			notePlacer.GenerateItems(this, notesForThisPipe);
+
+			// Remove generated notes from original list
+			for (int i = 0; i < notesForThisPipe.Count; i++)
+			{
+				for (int j = 0; j < songMusicNotes.Count; j++)
+				{
+					if (notesForThisPipe[i].Item1 == songMusicNotes[j].Item1)
+					{
+						songMusicNotes.RemoveAt(j);
+						break;
+					}
+				}
+			}
+		}
+
+		return timeWhenPipeEntered + timeToPassPipe;
+		// -------------------------------------------------------------------------------------------------------
+	}
+	public static float Remap(float value, float from1, float to1, float from2, float to2)
+	{
+		return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
 	}
 
-	private void SetVertices () {
+	private void SetVertices () 
+	{
 		vertices = new Vector3[pipeSegmentCount * curveSegmentCount * 4];
 
 		float uStep = ringDistance / curveRadius;
@@ -130,8 +184,19 @@ public class Pipe : MonoBehaviour {
 		transform.localScale = Vector3.one;
 	}
 
-	public int CurveSegmentCount{ get { return curveSegmentCount; } }
-	public float CurveAngle { get { return curveAngle; } }
-	public float CurveRadius { get { return curveRadius; } }
-	public float RelativeRotation { get { return relativeRotation; } }
+	public void destroyChildren()
+    {
+		foreach (Transform child in transform)
+        {
+			GameObject.Destroy(child.gameObject);
+        }
+    }
+
+	public int GetCurveSegmentCount{ get { return curveSegmentCount; } }
+	public float GetCurveAngle { get { return curveAngle; } }
+	public float GetCurveRadius { get { return curveRadius; } }
+	public float GetRelativeRotation { get { return relativeRotation; } }
+
+	public float GetTimeToPassPipe { get { return timeToPassPipe; } }
+
 }

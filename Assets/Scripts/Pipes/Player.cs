@@ -26,22 +26,22 @@ public class Player : MonoBehaviour {
 		float delta = velocity * Time.deltaTime;
 		systemRotation += delta * deltaToRotation;
 
-		if (systemRotation >= currentPipe.CurveAngle) 
+		if (systemRotation >= currentPipe.GetCurveAngle) 
 		{
-			delta = (systemRotation - currentPipe.CurveAngle) / deltaToRotation;
+			delta = (systemRotation - currentPipe.GetCurveAngle) / deltaToRotation;
 			currentPipe = pipeSystem.SetupNextPipe();
 			SetupCurrentPipe();
 			systemRotation = delta * deltaToRotation;
 		}
 
 		pipeSystem.transform.localRotation = Quaternion.Euler(0f, 0f, systemRotation);
-
+		//Debug.Log(Time.time);
 	}
 
 	private void SetupCurrentPipe () 
 	{
-		deltaToRotation = 360f / (2f * Mathf.PI * currentPipe.CurveRadius);
-		worldRotation += currentPipe.RelativeRotation;
+		deltaToRotation = 360f / (2f * Mathf.PI * currentPipe.GetCurveRadius);
+		worldRotation += currentPipe.GetRelativeRotation;
 
 		if (worldRotation < 0f) 
 			worldRotation += 360f;
