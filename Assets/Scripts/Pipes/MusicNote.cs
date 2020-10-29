@@ -8,6 +8,7 @@ public class MusicNote : MonoBehaviour
 	Transform rotater;
 	MeshRenderer cube;
 	Dictionary<int, Color> cubeColor;
+	PipeSystem pipeSystem;
 
 	private void Awake()
 	{
@@ -15,25 +16,32 @@ public class MusicNote : MonoBehaviour
 		cube = rotater.GetChild(0).GetComponent(typeof(MeshRenderer)) as MeshRenderer;
 		cubeColor = new Dictionary<int, Color>
 		{
-			{0, new Color(251/255f,135/255f,57/255f) },
-			{1, new Color(121/255f,55/255f,172/255f) },
-			{2, new Color(255/255f,255/255f,6/255f) },
-			{3, new Color(251/255f,135/255f,57/255f) },
-			{4, new Color(76/255f,123/255f,209/255f) },
-			{5, new Color(255/255f,255/255f,21/255f) },
-			{6, new Color(122/255f,184/255f,80/255f) },
+			{30, new Color(1.0f, 1f, 0f) },		// yellow
+			{90, new Color(0.15f, 0f, 1f) },	// purple
+			{150, new Color(1f, 0.4f, 0f) },	// orange
+			{-150, new Color(0f, 1f, 0f) },		// green
+			{-90, new Color(1f, 0f, 0f) },		// red
+			{-30, new Color(0f, 0.25f, 1f) },	// blue
 		};
 	}
 
-	public void Position(Pipe pipe, float curveRotation, float ringRotation, int pipeSegment)
+	public void Position(Pipe pipe, float curveRotation, float pipeRotation)
 	{
+		cube.material.color = cubeColor[(int)pipeRotation];
+		cube.material.SetColor("_EmissionColor", cubeColor[(int)pipeRotation]);
+
 		transform.SetParent(pipe.transform, false);
 		transform.localRotation = Quaternion.Euler(0f, 0f, -curveRotation);
 
-		rotater.localPosition = new Vector3(0f, pipe.GetCurveRadius);
-		rotater.localRotation = Quaternion.Euler(ringRotation, 0f, 0f);
+		// Pipe system is an only child of root which is the "world" game object
+		pipeSystem = transform.root.GetChild(0).GetComponent(typeof(PipeSystem)) as PipeSystem;
+		// Futher rotation based on absolute world rotation to avoid color shift when entering next pipe
+		pipeRotation -= pipeSystem.GetWorldAbsoluteRotation;
 
-		cube.material.color = cubeColor[pipeSegment];
+		rotater.localPosition = new Vector3(0f, pipe.GetCurveRadius);
+		rotater.localRotation = Quaternion.Euler(pipeRotation, 0f, 0f);
+
+		//Debug.Log(transform.root.rotation.x);
 	}
 
 }

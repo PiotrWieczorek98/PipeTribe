@@ -45,3 +45,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemPrefabs:
   - {fileID: 632623619152758741, guid: 2c52bbd0332f3e0408d1a33fe3e270df, type: 3}
+  minDeltaTimeToSwitch: 0.4

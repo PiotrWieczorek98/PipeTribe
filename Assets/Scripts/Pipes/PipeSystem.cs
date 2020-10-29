@@ -14,6 +14,8 @@ public class PipeSystem : MonoBehaviour
 	List<(float, float)> loadedTimeline;
 	GameSettings gameSettings;
 	float timeWhenPipeEntered = 0;
+	float worldAbsoluteRotation = 0;
+
 
 	private void Awake () 
 	{
@@ -29,12 +31,14 @@ public class PipeSystem : MonoBehaviour
 			// Since we start the game at the second pipe, do not generate notes for the first one
 			if (i==0)
             {
-				pipe.Generate(loadedTimeline, timeWhenPipeEntered, true);
+				pipe.GeneratePipe();
+				pipe.GenerateMusicNotes(loadedTimeline, timeWhenPipeEntered, worldAbsoluteRotation ,true);
 			}
 			else 
 			{
-				timeWhenPipeEntered += pipe.Generate(loadedTimeline, timeWhenPipeEntered);
-				pipe.AlignWith(pipes[i - 1]);
+				pipe.GeneratePipe();
+				worldAbsoluteRotation = pipe.AlignWith(pipes[i - 1], worldAbsoluteRotation);
+				timeWhenPipeEntered += pipe.GenerateMusicNotes(loadedTimeline, timeWhenPipeEntered, worldAbsoluteRotation);
 			}
 		}
 		AlignNextPipeWithOrigin();
@@ -52,10 +56,12 @@ public class PipeSystem : MonoBehaviour
 		AlignNextPipeWithOrigin();
 
 		// Regenerate the last pipe to avoid looping pipes
-		timeWhenPipeEntered += pipes[pipes.Length - 1].Generate(loadedTimeline, timeWhenPipeEntered);
+		pipes[pipes.Length - 1].GeneratePipe();
 		// Align newly generated pipe
-		pipes[pipes.Length - 1].AlignWith(pipes[pipes.Length - 2]);
+		worldAbsoluteRotation = pipes[pipes.Length - 1].AlignWith(pipes[pipes.Length - 2], worldAbsoluteRotation);
 		transform.localPosition = new Vector3(0f, -pipes[1].GetCurveRadius);
+		// Generate music notes for new pipe
+		timeWhenPipeEntered += pipes[pipes.Length - 1].GenerateMusicNotes(loadedTimeline, timeWhenPipeEntered, worldAbsoluteRotation);
 		return pipes[1];
 	}
 
@@ -85,7 +91,8 @@ public class PipeSystem : MonoBehaviour
 		
 		transformToAlign.localPosition = Vector3.zero;
 		transformToAlign.localRotation = Quaternion.identity;
-		
+
+
 		for (int i = 0; i < pipes.Length; i++) {
 			if (i != 1) {
 				pipes[i].transform.SetParent(transform);
@@ -116,4 +123,6 @@ public class PipeSystem : MonoBehaviour
 				tw.WriteLine(note);
 		}
 	}
+
+	public float GetWorldAbsoluteRotation { get { return worldAbsoluteRotation; } }
 }

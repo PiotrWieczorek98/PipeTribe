@@ -34,7 +34,7 @@ public class Pipe : MonoBehaviour
 	}
 
 
-	public float Generate(List<(float, float)> songMusicNotes, float timeWhenPipeEntered, bool isFirstPipe = false) 
+	public void GeneratePipe() 
 	{
 		curveRadius = Random.Range(minCurveRadius, maxCurveRadius);
 		curveSegmentCount = Random.Range(minCurveSegmentCount, maxCurveSegmentCount + 1);
@@ -43,35 +43,38 @@ public class Pipe : MonoBehaviour
 		SetUV();
 		SetTriangles();
 		mesh.RecalculateNormals();
+	}
 
-		// -------------------------------------------------------------------------------------------------------
+	public float GenerateMusicNotes(List<(float, float)> songMusicNotes, float timeWhenPipeEntered,float worldAbsoluteRotation, bool isFirstPipe = false)
+    {
 		Player player = GameObject.FindGameObjectWithTag("Player").GetComponent(typeof(Player)) as Player;
+
 		// How long will it take to pass this pipe
 		float arcLength = curveAngle / 360 * (2f * Mathf.PI * curveRadius);
 		timeToPassPipe = arcLength / player.velocity;
 
 		// Since we start the game at the second pipe, do not generate notes for the first one
 		if (!isFirstPipe)
-        {
+		{
 			List<(float, float, float)> notesForThisPipe = new List<(float, float, float)> { };
-            for (int i = 0; i < songMusicNotes.Count; i++)
-            {
+			for (int i = 0; i < songMusicNotes.Count; i++)
+			{
 				float noteAppearTime = songMusicNotes[i].Item1;
-                if (noteAppearTime > timeWhenPipeEntered && noteAppearTime < timeWhenPipeEntered + timeToPassPipe)
-                {
-                    noteAppearTime -= timeWhenPipeEntered;
+				if (noteAppearTime > timeWhenPipeEntered && noteAppearTime < timeWhenPipeEntered + timeToPassPipe)
+				{
+					noteAppearTime -= timeWhenPipeEntered;
 
-                    float noteAppearSegment = Remap(noteAppearTime, 0, timeToPassPipe, 0, curveAngle);
+					float noteAppearSegment = Remap(noteAppearTime, 0, timeToPassPipe, 0, curveAngle);
 					(float, float, float) tmp = (noteAppearSegment, songMusicNotes[i].Item2, songMusicNotes[i].Item1);
 
-                    notesForThisPipe.Add(tmp);
-                }
-            }
+					notesForThisPipe.Add(tmp);
+				}
+			}
 
 			// Generate notes for this pipe
 			notePlacer.GenerateItems(this, notesForThisPipe);
 
-			// Remove generated notes from original list
+			// Remove notes for this pipe from original list to avoid repetition
 			for (int i = 0; i < notesForThisPipe.Count; i++)
 			{
 				for (int j = 0; j < songMusicNotes.Count; j++)
@@ -86,8 +89,8 @@ public class Pipe : MonoBehaviour
 		}
 
 		return timeWhenPipeEntered + timeToPassPipe;
-		// -------------------------------------------------------------------------------------------------------
 	}
+
 	public static float Remap(float value, float from1, float to1, float from2, float to2)
 	{
 		return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
@@ -170,9 +173,26 @@ public class Pipe : MonoBehaviour
 		return p;
 	}
 
-	public void AlignWith (Pipe pipe) 
+	public float AlignWith (Pipe pipe, float worldAbsoluteRotation) 
 	{
+		// Random rotation for a new pipe restricted by segment count to allign perfectly
 		relativeRotation = Random.Range(0, curveSegmentCount) * 360f / pipeSegmentCount;
+
+		// Futher restrictions to limit rotation in <-180, 180)
+		if(relativeRotation > 360)
+        {
+			int tmp = (int)(relativeRotation / 360f);
+			tmp *= 360;
+			relativeRotation -= tmp;
+        }
+		if (relativeRotation >= 180)
+			relativeRotation -= 360;
+
+		worldAbsoluteRotation += relativeRotation;
+		if (worldAbsoluteRotation < -180)
+			worldAbsoluteRotation += 360;
+		else if (worldAbsoluteRotation >= 180)
+			worldAbsoluteRotation -= 360;
 
 		transform.SetParent(pipe.transform, false);
 		transform.localPosition = Vector3.zero;
@@ -182,6 +202,8 @@ public class Pipe : MonoBehaviour
 		transform.Translate(0f, -curveRadius, 0f);
 		transform.SetParent(pipe.transform.parent);
 		transform.localScale = Vector3.one;
+
+		return worldAbsoluteRotation;
 	}
 
 	public void destroyChildren()
@@ -192,6 +214,7 @@ public class Pipe : MonoBehaviour
         }
     }
 
+	public int GetPipeSegmentCount{ get { return pipeSegmentCount; } }
 	public int GetCurveSegmentCount{ get { return curveSegmentCount; } }
 	public float GetCurveAngle { get { return curveAngle; } }
 	public float GetCurveRadius { get { return curveRadius; } }
