@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Dynamic;
+using UnityEngine;
 
 public class Player : MonoBehaviour {
 
@@ -35,7 +36,6 @@ public class Player : MonoBehaviour {
 		}
 
 		pipeSystem.transform.localRotation = Quaternion.Euler(0f, 0f, systemRotation);
-		//Debug.Log(Time.time);
 	}
 
 	private void SetupCurrentPipe () 
@@ -50,4 +50,6 @@ public class Player : MonoBehaviour {
 
 		world.localRotation = Quaternion.Euler(worldRotation, 0f, 0f);
 	}
+
+	public float GetPlayerVelocity { get { return velocity; } }
 }

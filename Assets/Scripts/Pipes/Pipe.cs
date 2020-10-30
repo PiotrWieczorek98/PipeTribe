@@ -45,13 +45,13 @@ public class Pipe : MonoBehaviour
 		mesh.RecalculateNormals();
 	}
 
-	public float GenerateMusicNotes(List<(float, float)> songMusicNotes, float timeWhenPipeEntered,float worldAbsoluteRotation, bool isFirstPipe = false)
+	public float GenerateMusicNotes(List<(float, float)> songMusicNotes, float timeWhenPipeEntered, bool isFirstPipe = false)
     {
 		Player player = GameObject.FindGameObjectWithTag("Player").GetComponent(typeof(Player)) as Player;
 
 		// How long will it take to pass this pipe
 		float arcLength = curveAngle / 360 * (2f * Mathf.PI * curveRadius);
-		timeToPassPipe = arcLength / player.velocity;
+		timeToPassPipe = arcLength / player.GetPlayerVelocity;
 
 		// Since we start the game at the second pipe, do not generate notes for the first one
 		if (!isFirstPipe)
@@ -87,7 +87,7 @@ public class Pipe : MonoBehaviour
 				}
 			}
 		}
-
+		//Debug.Log("When entered: " + timeWhenPipeEntered + " To Pass: " + timeToPassPipe);
 		return timeWhenPipeEntered + timeToPassPipe;
 	}
 
@@ -197,9 +197,11 @@ public class Pipe : MonoBehaviour
 		transform.SetParent(pipe.transform, false);
 		transform.localPosition = Vector3.zero;
 		transform.localRotation = Quaternion.Euler(0f, 0f, -pipe.curveAngle);
+
 		transform.Translate(0f, pipe.curveRadius, 0f);
 		transform.Rotate(relativeRotation, 0f, 0f);
 		transform.Translate(0f, -curveRadius, 0f);
+
 		transform.SetParent(pipe.transform.parent);
 		transform.localScale = Vector3.one;
 

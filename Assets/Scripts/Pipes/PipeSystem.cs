@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
@@ -11,7 +12,7 @@ public class PipeSystem : MonoBehaviour
 
 	Pipe[] pipes;
 
-	List<(float, float)> loadedTimeline;
+	List<(float, float)> musicNotesTimeline;
 	GameSettings gameSettings;
 	float timeWhenPipeEntered = 0;
 	float worldAbsoluteRotation = 0;
@@ -19,6 +20,8 @@ public class PipeSystem : MonoBehaviour
 
 	private void Awake () 
 	{
+		musicNotesTimeline = new List<(float, float)>();
+
 		gameSettings = GameObject.FindGameObjectWithTag("GameManager").GetComponent(typeof(GameSettings)) as GameSettings;
 		LoadRecording(gameSettings.levelName);
 
@@ -32,13 +35,13 @@ public class PipeSystem : MonoBehaviour
 			if (i==0)
             {
 				pipe.GeneratePipe();
-				pipe.GenerateMusicNotes(loadedTimeline, timeWhenPipeEntered, worldAbsoluteRotation ,true);
+				pipe.GenerateMusicNotes(musicNotesTimeline, timeWhenPipeEntered, true);
 			}
 			else 
 			{
 				pipe.GeneratePipe();
 				worldAbsoluteRotation = pipe.AlignWith(pipes[i - 1], worldAbsoluteRotation);
-				timeWhenPipeEntered += pipe.GenerateMusicNotes(loadedTimeline, timeWhenPipeEntered, worldAbsoluteRotation);
+				timeWhenPipeEntered = pipe.GenerateMusicNotes(musicNotesTimeline, timeWhenPipeEntered);
 			}
 		}
 		AlignNextPipeWithOrigin();
@@ -61,7 +64,7 @@ public class PipeSystem : MonoBehaviour
 		worldAbsoluteRotation = pipes[pipes.Length - 1].AlignWith(pipes[pipes.Length - 2], worldAbsoluteRotation);
 		transform.localPosition = new Vector3(0f, -pipes[1].GetCurveRadius);
 		// Generate music notes for new pipe
-		timeWhenPipeEntered += pipes[pipes.Length - 1].GenerateMusicNotes(loadedTimeline, timeWhenPipeEntered, worldAbsoluteRotation);
+		timeWhenPipeEntered = pipes[pipes.Length - 1].GenerateMusicNotes(musicNotesTimeline, timeWhenPipeEntered);
 		return pipes[1];
 	}
 
@@ -113,15 +116,16 @@ public class PipeSystem : MonoBehaviour
 		}
 
 		BinaryFormatter bf = new BinaryFormatter();
-		loadedTimeline = (List<(float, float)>)bf.Deserialize(file);
-
+		List<(float, float)> originalTimeline = (List<(float, float)>)bf.Deserialize(file);
 		file.Close();
 
-		using (TextWriter tw = new StreamWriter(destination + ".txt"))
-		{
-			foreach (var note in loadedTimeline)
-				tw.WriteLine(note);
-		}
+
+		// Add offset;
+		foreach (var note in originalTimeline)
+        {
+			musicNotesTimeline.Add((note.Item1 + gameSettings.GetMusicNotesOffset, note.Item2));
+        }
+
 	}
 
 	public float GetWorldAbsoluteRotation { get { return worldAbsoluteRotation; } }

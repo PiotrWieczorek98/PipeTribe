@@ -40,8 +40,6 @@ public class MusicNote : MonoBehaviour
 
 		rotater.localPosition = new Vector3(0f, pipe.GetCurveRadius);
 		rotater.localRotation = Quaternion.Euler(pipeRotation, 0f, 0f);
-
-		//Debug.Log(transform.root.rotation.x);
 	}
 
 }

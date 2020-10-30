@@ -3,30 +3,57 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ButtonRecorder : MonoBehaviour
 {
-    public KeyCode recoredKey, startKey, stopKey;
+    public KeyCode recoredKey, startKey, stopKey, saveKey;
     public string levelName;
 
     float timeHeld = 0;
     float timeWhenPressed = 0;
+    float timer = 0;
     List<(float, float)> timeline;
 
     bool recordingStarted = false;
     AudioSource musicPlayer;
     public AudioClip levelMusic;
 
+    GameObject canvas;
+    Text UItimer;
+    Component[] texts;
+
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
         musicPlayer = GetComponent(typeof(AudioSource)) as AudioSource;
+        canvas = GameObject.FindGameObjectWithTag("UI");
+        texts = canvas.GetComponentsInChildren(typeof(Text));
+        foreach (Text text in texts)
+        {
+            if (text.name == "Timer")
+            {
+                UItimer = text;
+                break;
+            }
+        }
+
         timeline = new List<(float, float)> { };
+    }
+
+    void Start()
+    {
+        //LoadRecording(levelName);
+        //SaveRecordingToTxt();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (recordingStarted)
+            timer += Time.deltaTime;
+        UItimer.text = timer.ToString();
+
         if (Input.GetKeyDown(startKey) && !recordingStarted)
         {
             recordingStarted = true;
@@ -35,32 +62,37 @@ public class ButtonRecorder : MonoBehaviour
 
         else if (Input.GetKeyDown(stopKey) && recordingStarted)
         {
-            SaveRecording();
             recordingStarted = false;
             musicPlayer.Stop();
+            timer = 0;
         }
+        else if (Input.GetKeyDown(saveKey))
+        {
+            SaveRecordingToDat();
+            SaveRecordingToTxt();
+        }
+
 
         if (recordingStarted)
         {
             if (Input.GetKeyDown(recoredKey))
             {
-                timeWhenPressed = Time.time;
+                timeWhenPressed = timer;
             }
             else if (Input.GetKeyUp(recoredKey))
             {
-                timeHeld = Time.time - timeWhenPressed;
+                timeHeld = timer - timeWhenPressed;
                 if (timeHeld < 0.5)
                     timeHeld = 0;
 
 
                 timeline.Add((timeWhenPressed, timeHeld));
-                //Debug.Log(timeWhenPressed.ToString() + " - " + timeHeld.ToString());
+                Debug.Log(timeWhenPressed + " / " + timeHeld);
             }
         }
-
     }
 
-    void SaveRecording()
+    void SaveRecordingToDat()
     {
         string destination = Application.dataPath + "/levels/" + levelName + ".dat";
         FileStream file;
@@ -81,6 +113,20 @@ public class ButtonRecorder : MonoBehaviour
             Debug.Log(timeline[i].Item1);
         }
     }
+
+    void SaveRecordingToTxt()
+    {
+        string destination = Application.dataPath + "/levels/" + levelName + ".txt";
+        using (TextWriter tw = new StreamWriter(destination))
+        {
+            foreach (var tuple in timeline)
+            {
+                Debug.Log(tuple);
+                tw.WriteLine(tuple.Item1.ToString() + " /  " + tuple.Item2.ToString());
+            }
+        }
+    }
+
     public void LoadRecording(string filename)
     {
         string destination = Application.dataPath + "/levels/" + filename + ".dat";
@@ -94,7 +140,7 @@ public class ButtonRecorder : MonoBehaviour
         }
 
         BinaryFormatter bf = new BinaryFormatter();
-        List<(float, float)> loadedTimeline = (List<(float, float)>)bf.Deserialize(file);
+        timeline = (List<(float, float)>)bf.Deserialize(file);
         file.Close();
     }
 }
