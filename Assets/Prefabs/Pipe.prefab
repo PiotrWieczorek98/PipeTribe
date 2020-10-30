@@ -49,9 +49,9 @@ MonoBehaviour:
   pipeSegmentCount: 6
   ringDistance: 1
   minCurveRadius: 40
-  maxCurveRadius: 60
-  minCurveSegmentCount: 10
-  maxCurveSegmentCount: 40
+  maxCurveRadius: 80
+  minCurveSegmentCount: 30
+  maxCurveSegmentCount: 50
   notePlacer: {fileID: 6566597970239913861, guid: cb906c7a23e7fb14aac9dda40db40ccc, type: 3}
 --- !u!33 &3316070
 MeshFilter:

@@ -19,24 +19,15 @@ public class ButtonRecorder : MonoBehaviour
     AudioSource musicPlayer;
     public AudioClip levelMusic;
 
-    GameObject canvas;
+    UIComponents uIComponents;
     Text UItimer;
-    Component[] texts;
 
     // Start is called before the first frame update
     private void Awake()
     {
         musicPlayer = GetComponent(typeof(AudioSource)) as AudioSource;
-        canvas = GameObject.FindGameObjectWithTag("UI");
-        texts = canvas.GetComponentsInChildren(typeof(Text));
-        foreach (Text text in texts)
-        {
-            if (text.name == "Timer")
-            {
-                UItimer = text;
-                break;
-            }
-        }
+        uIComponents = GameObject.FindGameObjectWithTag("UI").GetComponent(typeof(UIComponents)) as UIComponents;
+        UItimer = uIComponents.GetTimer;
 
         timeline = new List<(float, float)> { };
     }

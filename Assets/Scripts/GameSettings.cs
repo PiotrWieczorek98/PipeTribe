@@ -12,30 +12,21 @@ public class GameSettings : MonoBehaviour
     public float minDeltaTimeToSwitch = 0.5f;
 
     AudioSource audioSource;
-    GameObject canvas;
+    UIComponents uIComponents;
     Text UItimer;
-    Component[] texts;
     void Start()
     {
         audioSource = GetComponent(typeof(AudioSource)) as AudioSource;
         audioSource.PlayOneShot(music);
+
+        uIComponents = GameObject.FindGameObjectWithTag("UI").GetComponent(typeof(UIComponents)) as UIComponents;
+        UItimer = uIComponents.GetTimer;
     }
 
     void Awake()
     {
         QualitySettings.vSyncCount = 0;  // VSync must be disabled
         Application.targetFrameRate = 60;
-
-        canvas = GameObject.FindGameObjectWithTag("UI");
-        texts = canvas.GetComponentsInChildren(typeof(Text));
-        foreach(Text text in texts)
-        {
-            if(text.name == "Timer")
-            {
-                UItimer = text;
-                break;
-            }
-        }
     }
 
     // Update is called once per frame
