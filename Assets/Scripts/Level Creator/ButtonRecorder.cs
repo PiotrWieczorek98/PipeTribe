@@ -27,7 +27,7 @@ public class ButtonRecorder : MonoBehaviour
     {
         musicPlayer = GetComponent(typeof(AudioSource)) as AudioSource;
         uIComponents = GameObject.FindGameObjectWithTag("UI").GetComponent(typeof(UIComponents)) as UIComponents;
-        UItimer = uIComponents.GetTimer;
+        UItimer = uIComponents.timer;
 
         timeline = new List<(float, float)> { };
     }

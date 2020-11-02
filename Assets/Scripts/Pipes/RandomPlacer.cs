@@ -4,7 +4,7 @@ using UnityEngine;
 public class RandomPlacer : MonoBehaviour
 {
 	public MusicNote[] itemPrefabs;
-	GameSettings gameSettings;
+	GameManager gameSettings;
 
 	public void GenerateItems(Pipe pipe, List<(float, float, float)> notesToGenerate)
 	{
@@ -17,8 +17,8 @@ public class RandomPlacer : MonoBehaviour
 			float curveSegment = notesToGenerate[i].Item1;
 
 			// Allow to change segment only if time between notes is big enough - if notes are too close it would break gameplay 
-			gameSettings = GameObject.FindGameObjectWithTag("GameManager").GetComponent(typeof(GameSettings)) as GameSettings;
-			if (i > 0 && notesToGenerate[i].Item3 - notesToGenerate[i - 1].Item3 > gameSettings.GetMinDeltaTimeToSwitch)
+			gameSettings = GameObject.FindGameObjectWithTag("GameManager").GetComponent(typeof(GameManager)) as GameManager;
+			if (i > 0 && notesToGenerate[i].Item3 - notesToGenerate[i - 1].Item3 > gameSettings.minDeltaTimeToSwitch)
             {
 				pipeSegment = Random.Range(0, pipe.pipeSegmentCount);
 			}

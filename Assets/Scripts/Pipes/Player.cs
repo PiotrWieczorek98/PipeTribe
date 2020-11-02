@@ -1,4 +1,6 @@
-﻿using System.Dynamic;
+﻿using System.Collections;
+using System.Dynamic;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -18,19 +20,24 @@ public class Player : MonoBehaviour {
 
 	UIComponents uIComponents;
 	RingManager ringManager;
+	GameManager gameSettings;
 	Text comboCounterUI;
 	float comboCounter = 0;
 
-    void Start () 
+    public void Awake() 
 	{
 		world = pipeSystem.transform.parent;
-		uIComponents = GameObject.FindGameObjectWithTag("UI").GetComponent(typeof(UIComponents)) as UIComponents;
-		ringManager = uIComponents.GetRingManager;
-		comboCounterUI = uIComponents.GetCombo;
-		comboCounterUI.text = "0x";
-
-		currentPipe = pipeSystem.SetupFirstPipe();
+		currentPipe = pipeSystem.SetupPipe(true);
 		SetupCurrentPipe();
+
+	}
+    private void Start()
+    {
+		gameSettings = GameObject.FindGameObjectWithTag("GameManager").GetComponent(typeof(GameManager)) as GameManager;
+		uIComponents = GameObject.FindGameObjectWithTag("UI").GetComponent(typeof(UIComponents)) as UIComponents;
+		ringManager = uIComponents.ringManager;
+		comboCounterUI = uIComponents.combo;
+		comboCounterUI.text = "0x";
 	}
 
 	private void Update () 
@@ -38,10 +45,10 @@ public class Player : MonoBehaviour {
 		float delta = velocity * Time.deltaTime;
 		systemRotation += delta * deltaToRotation;
 
-		if (systemRotation >= currentPipe.GetCurveAngle) 
+		if (systemRotation >= currentPipe.CurveAngle) 
 		{
-			delta = (systemRotation - currentPipe.GetCurveAngle) / deltaToRotation;
-			currentPipe = pipeSystem.SetupNextPipe();
+			delta = (systemRotation - currentPipe.CurveAngle) / deltaToRotation;
+			currentPipe = pipeSystem.SetupPipe(false);
 			SetupCurrentPipe();
 			systemRotation = delta * deltaToRotation;
 		}
@@ -52,7 +59,7 @@ public class Player : MonoBehaviour {
     private void OnTriggerEnter(Collider other)
     {
 		MusicNote noteHit = other.GetComponentInParent(typeof(MusicNote)) as MusicNote;
-		if (noteHit.GetColorOfNote.ringElement == ringManager.GetSelectedElement.ToString("g"))
+		if (noteHit.ColorOfNote.ringElement == ringManager.SelectedRingElement.ToString("g"))
         {
 			comboCounter++;
 		}
@@ -65,8 +72,8 @@ public class Player : MonoBehaviour {
 
 	private void SetupCurrentPipe () 
 	{
-		deltaToRotation = 360f / (2f * Mathf.PI * currentPipe.GetCurveRadius);
-		worldRotation += currentPipe.GetRelativeRotation;
+		deltaToRotation = 360f / (2f * Mathf.PI * currentPipe.CurveRadius);
+		worldRotation += currentPipe.RelativeRotation;
 
 		if (worldRotation < 0f) 
 			worldRotation += 360f;

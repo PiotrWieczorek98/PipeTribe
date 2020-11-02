@@ -43,6 +43,6 @@ public class RingManager : MonoBehaviour
         return null;
     }
 
-    public SelectedElement GetSelectedElement { get { return selectedElement; } }
+    public SelectedElement SelectedRingElement { get { return selectedElement; } }
 
 }

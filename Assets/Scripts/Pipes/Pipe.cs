@@ -216,12 +216,12 @@ public class Pipe : MonoBehaviour
         }
     }
 
-	public int GetPipeSegmentCount{ get { return pipeSegmentCount; } }
-	public int GetCurveSegmentCount{ get { return curveSegmentCount; } }
-	public float GetCurveAngle { get { return curveAngle; } }
-	public float GetCurveRadius { get { return curveRadius; } }
-	public float GetRelativeRotation { get { return relativeRotation; } }
+	public int PipeSegmentCount{ get { return pipeSegmentCount; } }
+	public int CurveSegmentCount{ get { return curveSegmentCount; } }
+	public float CurveAngle { get { return curveAngle; } }
+	public float CurveRadius { get { return curveRadius; } }
+	public float RelativeRotation { get { return relativeRotation; } }
 
-	public float GetTimeToPassPipe { get { return timeToPassPipe; } }
+	public float TimeToPassPipe { get { return timeToPassPipe; } }
 
 }

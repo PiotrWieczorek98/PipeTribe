@@ -1,8 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Data;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PipeSystem : MonoBehaviour 
 {
@@ -13,16 +15,16 @@ public class PipeSystem : MonoBehaviour
 	Pipe[] pipes;
 
 	List<(float, float)> musicNotesTimeline;
-	GameSettings gameSettings;
+	GameManager gameSettings;
 	float timeWhenPipeEntered = 0;
 	float worldAbsoluteRotation = 0;
 
 
-	private void Awake () 
+	public void Awake () 
 	{
 		musicNotesTimeline = new List<(float, float)>();
 
-		gameSettings = GameObject.FindGameObjectWithTag("GameManager").GetComponent(typeof(GameSettings)) as GameSettings;
+		gameSettings = GameObject.FindGameObjectWithTag("GameManager").GetComponent(typeof(GameManager)) as GameManager;
 		LoadRecording(gameSettings.levelName);
 
 		pipes = new Pipe[pipesDisplayedAtTheSameTime];
@@ -47,24 +49,24 @@ public class PipeSystem : MonoBehaviour
 		AlignNextPipeWithOrigin();
 	}
 
-	public Pipe SetupFirstPipe () 
+	public Pipe SetupPipe (bool isFirstPipe) 
 	{
-		transform.localPosition = new Vector3(0f, -pipes[1].GetCurveRadius);
-		return pipes[1];
-	}
+		if(isFirstPipe)
+			transform.localPosition = new Vector3(0f, -pipes[1].CurveRadius);
+        else
+        {
+			ShiftPipes();
+			AlignNextPipeWithOrigin();
 
-	public Pipe SetupNextPipe () 
-	{
-		ShiftPipes();
-		AlignNextPipeWithOrigin();
+			// Regenerate the last pipe to avoid looping pipes
+			pipes[pipes.Length - 1].GeneratePipe();
+			// Align newly generated pipe
+			worldAbsoluteRotation = pipes[pipes.Length - 1].AlignWith(pipes[pipes.Length - 2], worldAbsoluteRotation);
+			transform.localPosition = new Vector3(0f, -pipes[1].CurveRadius);
+			// Generate music notes for new pipe
+			timeWhenPipeEntered = pipes[pipes.Length - 1].GenerateMusicNotes(musicNotesTimeline, timeWhenPipeEntered);
+		}
 
-		// Regenerate the last pipe to avoid looping pipes
-		pipes[pipes.Length - 1].GeneratePipe();
-		// Align newly generated pipe
-		worldAbsoluteRotation = pipes[pipes.Length - 1].AlignWith(pipes[pipes.Length - 2], worldAbsoluteRotation);
-		transform.localPosition = new Vector3(0f, -pipes[1].GetCurveRadius);
-		// Generate music notes for new pipe
-		timeWhenPipeEntered = pipes[pipes.Length - 1].GenerateMusicNotes(musicNotesTimeline, timeWhenPipeEntered);
 		return pipes[1];
 	}
 
@@ -123,7 +125,7 @@ public class PipeSystem : MonoBehaviour
 		// Add offset;
 		foreach (var note in originalTimeline)
         {
-			musicNotesTimeline.Add((note.Item1 + gameSettings.GetMusicNotesOffset, note.Item2));
+			musicNotesTimeline.Add((note.Item1 + gameSettings.MusicNotesOffset, note.Item2));
         }
 
 	}
