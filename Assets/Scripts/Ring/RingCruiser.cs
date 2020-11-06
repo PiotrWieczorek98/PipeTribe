@@ -9,19 +9,20 @@ public class RingCruiser : MonoBehaviour
 
     Vector3 origin;
     Vector3 destination;
-    RingManager parent;
-    int selectedPart = -1;
-    void Start()
+    RingManager ringManager;
+    int selectedElement = -1;
+
+    private void Awake()
     {
-        parent = transform.parent.GetComponent(typeof(RingManager)) as RingManager;
-        origin = destination = parent.transform.position;
+        ringManager = transform.parent.GetComponentInChildren(typeof(RingManager)) as RingManager;
+        origin = destination = ringManager.gameObject.transform.position;
     }
     void Update()
     {
-        if ((int)parent.selectedElement != this.selectedPart)
+        if ((int)ringManager.selectedElement != this.selectedElement)
         {
-            selectedPart = (int)parent.selectedElement;
-            Transform part = parent.GetRingElement(selectedPart);
+            selectedElement = (int)ringManager.selectedElement;
+            Transform part = ringManager.GetRingElement(selectedElement);
             Vector3 center = part.position;
             center.z = 0;
             destination = origin + (center.normalized * circle_radius);

@@ -13,8 +13,19 @@ public class RandomPlacer : MonoBehaviour
 		// Generate notes for this pipe
 		for (int i = 0; i < notesToGenerate.Count; i++)
 		{
-			MusicNote item = Instantiate(itemPrefabs[Random.Range(0, itemPrefabs.Length)]);
+			MusicNote note = Instantiate(itemPrefabs[Random.Range(0, itemPrefabs.Length)]);
 			float curveSegment = notesToGenerate[i].Item1;
+			float noteDuration = notesToGenerate[i].Item2;
+			//if(noteDuration == 0)
+   //         {
+			//	note.noteType = MusicNote.NoteType.Tap;
+   //         }
+   //         else
+   //         {
+			//	note.noteType = MusicNote.NoteType.Hold;
+			//	note.Prolong(noteDuration);
+   //         }
+
 
 			// Allow to change segment only if time between notes is big enough - if notes are too close it would break gameplay 
 			gameSettings = GameObject.FindGameObjectWithTag("GameManager").GetComponent(typeof(GameManager)) as GameManager;
@@ -34,7 +45,7 @@ public class RandomPlacer : MonoBehaviour
 			if (pipeRotation >= 180)
 				pipeRotation -= 360;
 
-			item.Position(pipe, curveSegment, pipeRotation);
+			note.Position(pipe, curveSegment, pipeRotation);
 		}
 	}
 

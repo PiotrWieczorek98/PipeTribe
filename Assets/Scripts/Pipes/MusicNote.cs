@@ -6,12 +6,15 @@ using UnityEngine.XR.WSA.Input;
 
 public class MusicNote : MonoBehaviour
 {
-	Transform rotater;
-	MeshRenderer cube;
+	Transform rotater, scaler;
+	//Component[] cubes;
+	MeshRenderer mesh;
 	Dictionary<int, ColorElement> cubeColors;
 	PipeSystem pipeSystem;
+	public enum NoteType { Tap, Hold };
+	//public NoteType noteType { get; set; }
 
-    public struct ColorElement
+	public struct ColorElement
     {
 		public Color colorValue;
 		public string ringElement;
@@ -27,7 +30,9 @@ public class MusicNote : MonoBehaviour
 	private void Awake()
 	{
 		rotater = transform.GetChild(0);
-		cube = rotater.GetChild(0).GetComponent(typeof(MeshRenderer)) as MeshRenderer;
+		//scaler = rotater.GetChild(1);
+		//cubes = rotater.GetComponentsInChildren(typeof(MeshRenderer));
+		mesh = rotater.GetComponentInChildren(typeof(MeshRenderer)) as MeshRenderer;
 		cubeColors = new Dictionary<int, ColorElement>
 		{
 			{30,new ColorElement(new Color(1.0f, 1f, 0f), "BottomRight") },		// yellow
@@ -42,8 +47,12 @@ public class MusicNote : MonoBehaviour
 	public void Position(Pipe pipe, float curveRotation, float pipeRotation)
 	{
 		colorOfNote = cubeColors[(int)pipeRotation];
-		cube.material.color = colorOfNote.colorValue;
-		cube.material.SetColor("_EmissionColor", colorOfNote.colorValue);
+		//foreach (MeshRenderer mesh in cubes)
+       // {
+			mesh.material.color = colorOfNote.colorValue;
+			mesh.material.SetColor("_EmissionColor", colorOfNote.colorValue);
+		//}
+
 
 		transform.SetParent(pipe.transform, false);
 		transform.localRotation = Quaternion.Euler(0f, 0f, -curveRotation);

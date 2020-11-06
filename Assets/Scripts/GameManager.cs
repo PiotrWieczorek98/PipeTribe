@@ -16,28 +16,29 @@ public class GameManager : MonoBehaviour
     bool finishedLoading = false;
 
     AudioSource audioSource;
-    UIComponents uIComponents;
-    Text UItimer;
+    UIComponents uiComponents;
+    Text uiTimer;
 
     PipeSystem pipeSystem;
     Player player;
+    RingManager ringManager;
 
     void Awake()
     {
         QualitySettings.vSyncCount = 0;  // VSync must be disabled
         Application.targetFrameRate = 60;
 
-        uIComponents = GameObject.FindGameObjectWithTag("UI").GetComponent(typeof(UIComponents)) as UIComponents;
-        UItimer = uIComponents.timer;
+        uiComponents = GameObject.FindGameObjectWithTag("UI").GetComponent(typeof(UIComponents)) as UIComponents;
+        ringManager = GameObject.FindGameObjectWithTag("UI").GetComponentInChildren(typeof(RingManager)) as RingManager;
+        pipeSystem = GameObject.FindGameObjectWithTag("PipeSystemManager").GetComponent(typeof(PipeSystem)) as PipeSystem;
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent(typeof(Player)) as Player;
+        uiTimer = uiComponents.timer;
 
         audioSource = GetComponent(typeof(AudioSource)) as AudioSource;
     }
 
     void Start()
     {
-        pipeSystem = GameObject.FindGameObjectWithTag("PipeSystemManager").GetComponent(typeof(PipeSystem)) as PipeSystem;
-        player = GameObject.FindGameObjectWithTag("Player").GetComponent(typeof(Player)) as Player;
-
         StartCoroutine(Loading(loadingTime));
     }
 
@@ -46,7 +47,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         timeSinceLoaded += Time.deltaTime;
-        UItimer.text = timeSinceLoaded.ToString();
+        uiTimer.text = timeSinceLoaded.ToString();
     }
 
     // This method is required to avoid desync and lag at the beggining of play when entities still load;
@@ -61,6 +62,8 @@ public class GameManager : MonoBehaviour
         timeSinceLoaded = 0;
         finishedLoading = true;
     }
+    public UIComponents UIcomponents { get { return uiComponents; } }
+    public RingManager RingManager { get { return ringManager; } }
 
     public bool FinishedLoading { get { return finishedLoading; } }
     public float TimeSinceLoaded { get { return timeSinceLoaded; } }

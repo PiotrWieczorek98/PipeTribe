@@ -12,22 +12,24 @@ public class ButtonRecorder : MonoBehaviour
 
     float timeHeld = 0;
     float timeWhenPressed = 0;
-    float timer = 0;
     List<(float, float)> timeline;
 
-    bool recordingStarted = false;
-    AudioSource musicPlayer;
-    public AudioClip levelMusic;
+    bool isRecording = false;
+    AudioSource audioSource;
 
     UIComponents uIComponents;
     Text UItimer;
+    TimelineIndicator timelineIndicator;
 
     // Start is called before the first frame update
     private void Awake()
     {
-        musicPlayer = GetComponent(typeof(AudioSource)) as AudioSource;
-        uIComponents = GameObject.FindGameObjectWithTag("UI").GetComponent(typeof(UIComponents)) as UIComponents;
+        audioSource = GetComponent<AudioSource>();
+        uIComponents = GameObject.FindGameObjectWithTag("UI").GetComponent<UIComponents>();
+        timelineIndicator = GetComponentInChildren<TimelineIndicator>();
+
         UItimer = uIComponents.timer;
+        UItimer.text = "0.00 / " + audioSource.clip.length + "sec";
 
         timeline = new List<(float, float)> { };
     }
@@ -41,21 +43,18 @@ public class ButtonRecorder : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (recordingStarted)
-            timer += Time.deltaTime;
-        UItimer.text = timer.ToString();
+        UItimer.text = audioSource.time.ToString("F2") + " / " + audioSource.clip.length + "sec";
 
-        if (Input.GetKeyDown(startKey) && !recordingStarted)
+        if (Input.GetKeyDown(startKey) && !isRecording)
         {
-            recordingStarted = true;
-            musicPlayer.PlayOneShot(levelMusic);
+            isRecording = true;
+            audioSource.Play();
         }
 
-        else if (Input.GetKeyDown(stopKey) && recordingStarted)
+        else if (Input.GetKeyDown(stopKey) && isRecording)
         {
-            recordingStarted = false;
-            musicPlayer.Stop();
-            timer = 0;
+            isRecording = false;
+            audioSource.Pause();
         }
         else if (Input.GetKeyDown(saveKey))
         {
@@ -64,20 +63,21 @@ public class ButtonRecorder : MonoBehaviour
         }
 
 
-        if (recordingStarted)
+        if (isRecording)
         {
             if (Input.GetKeyDown(recoredKey))
             {
-                timeWhenPressed = timer;
+                timeWhenPressed = audioSource.time;
             }
             else if (Input.GetKeyUp(recoredKey))
             {
-                timeHeld = timer - timeWhenPressed;
+                timeHeld = audioSource.time - timeWhenPressed;
                 if (timeHeld < 0.5)
                     timeHeld = 0;
 
 
                 timeline.Add((timeWhenPressed, timeHeld));
+                timelineIndicator.addNoteObject(timeWhenPressed);
                 Debug.Log(timeWhenPressed + " / " + timeHeld);
             }
         }
@@ -134,4 +134,7 @@ public class ButtonRecorder : MonoBehaviour
         timeline = (List<(float, float)>)bf.Deserialize(file);
         file.Close();
     }
+
+    public bool IsRecording { get { return isRecording; } }
+
 }

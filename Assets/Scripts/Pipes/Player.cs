@@ -70,7 +70,12 @@ public class Player : MonoBehaviour {
 		comboCounterUI.text = comboCounter + "x";
 	}
 
-	private void SetupCurrentPipe () 
+    //private void OnTriggerStay(Collider other)
+    //{
+        
+    //}
+
+    private void SetupCurrentPipe () 
 	{
 		deltaToRotation = 360f / (2f * Mathf.PI * currentPipe.CurveRadius);
 		worldRotation += currentPipe.RelativeRotation;
