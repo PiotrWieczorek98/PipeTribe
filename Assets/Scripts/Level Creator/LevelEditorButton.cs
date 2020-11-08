@@ -3,26 +3,38 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
+using UnityEngine.UI;
 
-public class ButtonAction : MonoBehaviour
+public class LevelEditorButton : MonoBehaviour
 {
     TimelineIndicator timelineIndicator;
     List<(float, float)> timelineNoteTuples;
 
     public enum TypeOfButton { Load, Save, ZoomIn, ZoomOut, ResetZoom};
     public TypeOfButton typeOfButton;
+
+    public Sprite defaultSprite;
+    public Sprite clickedSprite;
+    Image buttonImage;
+
     string levelName;
 
     private void Awake()
     {
+        buttonImage = GetComponent<Image>();
+        buttonImage.sprite = defaultSprite;
+
         timelineIndicator = FindObjectOfType<TimelineIndicator>();
-        levelName = transform.GetComponentInParent<UIComponents>().levelName;
+        levelName = FindObjectOfType<LevelEditorManager>().levelName;
         transform.GetComponentInParent<UIComponents>().levelNameText.text = levelName;
     }
 
     private void OnMouseDown()
     {
-        switch(typeOfButton)
+        buttonImage.sprite = clickedSprite;
+
+        float newZoom, zoomCenter;
+        switch (typeOfButton)
         { 
             case TypeOfButton.Save:
                 SaveRecordingToDat(levelName);
@@ -37,8 +49,25 @@ public class ButtonAction : MonoBehaviour
             case TypeOfButton.ResetZoom:
                 timelineIndicator.ZoomTimeline(-1, Screen.width / 2, Screen.width);
                 break;
+            case TypeOfButton.ZoomIn:
+                newZoom = (int)(timelineIndicator.CurrentZoom * 0.75);
+                newZoom = Mathf.Clamp(newZoom, 0, Screen.width);
+                zoomCenter = timelineIndicator.ArrowIndicator.anchoredPosition.x + timelineIndicator.TimelineCanvasRadius;
+                timelineIndicator.ZoomTimeline(1, zoomCenter, newZoom);
+                break;
+            case TypeOfButton.ZoomOut:
+                newZoom = (int)(timelineIndicator.CurrentZoom * 1.25);
+                newZoom = Mathf.Clamp(newZoom, 0, Screen.width);
+                zoomCenter = timelineIndicator.ArrowIndicator.anchoredPosition.x + timelineIndicator.TimelineCanvasRadius;
+
+                timelineIndicator.ZoomTimeline(-1, zoomCenter, newZoom);
+                break;
         }
 
+    }
+    private void OnMouseUp()
+    {
+        buttonImage.sprite = defaultSprite;
     }
 
     // Save list by serialization

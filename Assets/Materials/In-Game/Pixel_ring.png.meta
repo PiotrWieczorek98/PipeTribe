@@ -1,34 +1,61 @@
 fileFormatVersion: 2
-guid: 4545097067655564bbcfde0716f12e1e
+guid: d6f81088856c67a4fb13715e1bc7577e
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 7722324401999876295
-    second: arrows pixel_0
+      213: -2897673294385047972
+    second: Pixel_ring_0
   - first:
-      213: -1170855910538740266
-    second: arrows pixel_1
+      213: 2027993684008586997
+    second: Pixel_ring_1
   - first:
-      213: 6069249355775330370
-    second: arrows pixel_2
+      213: 8885363259819199678
+    second: Pixel_ring_2
   - first:
-      213: 1644507367481663826
-    second: arrows pixel_3
+      213: 3371437677139794371
+    second: Pixel_ring_3
   - first:
-      213: -3983575403383037669
-    second: arrows pixel_4
+      213: 3768487271202590763
+    second: Pixel_ring_4
   - first:
-      213: 2101189461300822400
-    second: arrows pixel_5
+      213: -7359426558419603922
+    second: Pixel_ring_5
   - first:
-      213: -3119939567012244975
-    second: arrows pixel_6
+      213: 212488920629893407
+    second: Pixel_ring_0
   - first:
-      213: 7454243897304303906
-    second: arrows pixel_7
+      213: -4632176284257550654
+    second: Pixel_ring_1
   - first:
-      213: 7478251925222758395
-    second: arrows pixel_8
+      213: 6710392090361281377
+    second: Pixel_ring_2
+  - first:
+      213: -5500039505766891009
+    second: Pixel_ring_3
+  - first:
+      213: 323329066408493661
+    second: Pixel_ring_4
+  - first:
+      213: 2000222294987238454
+    second: Pixel_ring_5
+  - first:
+      213: 7423006804642661886
+    second: Pixel_ring_6
+  - first:
+      213: -6557398565392848744
+    second: Pixel_ring_7
+  - first:
+      213: 8530576836454479212
+    second: Pixel_ring_8
+  - first:
+      213: -2036352158420356425
+    second: Pixel_ring_9
+  - first:
+      213: 8147410949736155049
+    second: Pixel_ring_10
+  - first:
+      213: 5133381855388078886
+    second: Pixel_ring_11
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -116,13 +143,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: arrows pixel_0
+      name: Pixel_ring_0
       rect:
         serializedVersion: 2
-        x: 30
-        y: 404
-        width: 130
-        height: 140
+        x: 25
+        y: 88
+        width: 23
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -130,20 +157,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7c0988501253b2b60800000000000000
-      internalID: 7722324401999876295
+      spriteID: f19d9d82c89e2f200800000000000000
+      internalID: 212488920629893407
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: arrows pixel_1
+      name: Pixel_ring_1
       rect:
         serializedVersion: 2
-        x: 230
-        y: 404
-        width: 140
-        height: 130
+        x: 112
+        y: 88
+        width: 23
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -151,20 +178,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 6ddfb29b0c840cfe0800000000000000
-      internalID: -1170855910538740266
+      spriteID: 2cef6d7363437bfb0800000000000000
+      internalID: -4632176284257550654
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: arrows pixel_2
+      name: Pixel_ring_2
       rect:
         serializedVersion: 2
-        x: 430
-        y: 404
-        width: 140
-        height: 130
+        x: 176
+        y: 104
+        width: 55
+        height: 40
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -172,20 +199,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 248c140022e4a3450800000000000000
-      internalID: 6069249355775330370
+      spriteID: 16b33919d0a102d50800000000000000
+      internalID: 6710392090361281377
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: arrows pixel_3
+      name: Pixel_ring_3
       rect:
         serializedVersion: 2
-        x: 30
-        y: 234
-        width: 140
-        height: 100
+        x: 249
+        y: 104
+        width: 55
+        height: 40
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -193,20 +220,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 251e14ddcb672d610800000000000000
-      internalID: 1644507367481663826
+      spriteID: ff14620c53feba3b0800000000000000
+      internalID: -5500039505766891009
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: arrows pixel_4
+      name: Pixel_ring_4
       rect:
         serializedVersion: 2
-        x: 230
-        y: 214
-        width: 140
-        height: 140
+        x: 328
+        y: 96
+        width: 55
+        height: 40
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -214,20 +241,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b11ee59c64f77b8c0800000000000000
-      internalID: -3983575403383037669
+      spriteID: d5246d4a212bc7400800000000000000
+      internalID: 323329066408493661
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: arrows pixel_5
+      name: Pixel_ring_5
       rect:
         serializedVersion: 2
-        x: 430
-        y: 224
-        width: 140
-        height: 130
+        x: 417
+        y: 96
+        width: 55
+        height: 40
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -235,20 +262,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 08141a6beace82d10800000000000000
-      internalID: 2101189461300822400
+      spriteID: 63ce784649732cb10800000000000000
+      internalID: 2000222294987238454
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: arrows pixel_6
+      name: Pixel_ring_6
       rect:
         serializedVersion: 2
-        x: 30
-        y: 24
-        width: 140
-        height: 140
+        x: 23
+        y: 6
+        width: 27
+        height: 68
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -256,20 +283,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1129c837e7fb3b4d0800000000000000
-      internalID: -3119939567012244975
+      spriteID: ef5880c2c51d30760800000000000000
+      internalID: 7423006804642661886
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: arrows pixel_7
+      name: Pixel_ring_7
       rect:
         serializedVersion: 2
-        x: 230
-        y: 24
-        width: 140
-        height: 140
+        x: 110
+        y: 6
+        width: 27
+        height: 68
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -277,20 +304,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 22942ff845bc27760800000000000000
-      internalID: 7454243897304303906
+      spriteID: 8986a135fb07ff4a0800000000000000
+      internalID: -6557398565392848744
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: arrows pixel_8
+      name: Pixel_ring_8
       rect:
         serializedVersion: 2
-        x: 430
-        y: 24
-        width: 140
-        height: 140
+        x: 174
+        y: 22
+        width: 59
+        height: 44
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -298,8 +325,71 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bf798c7218618c760800000000000000
-      internalID: 7478251925222758395
+      spriteID: c657b029f62b26670800000000000000
+      internalID: 8530576836454479212
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pixel_ring_9
+      rect:
+        serializedVersion: 2
+        x: 247
+        y: 22
+        width: 59
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7b231cf308c6db3e0800000000000000
+      internalID: -2036352158420356425
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pixel_ring_10
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 14
+        width: 58
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a7c62a871b611170800000000000000
+      internalID: 8147410949736155049
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pixel_ring_11
+      rect:
+        serializedVersion: 2
+        x: 415
+        y: 14
+        width: 59
+        height: 44
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 62397d2899f6d3740800000000000000
+      internalID: 5133381855388078886
       vertices: []
       indices: 
       edges: []
@@ -307,7 +397,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 68a41f5d2710aba448cf7a42fa075ae4
+    spriteID: 3e1159dc814062d419c783aff3ece101
     internalID: 0
     vertices: []
     indices: 

@@ -210,5 +210,7 @@ public class TimelineIndicator : MonoBehaviour
     public float TimelineCanvasRadius { get { return timelineCanvasRadius; } }
     public float LeftBorder { get { return leftBorder; } }
     public float RightBorder { get { return rightBorder; } }
+    public float CurrentZoom { get { return currentZoom; } }
+    public RectTransform ArrowIndicator { get { return arrowIndicator; } }
     public List<Transform> NotesObjects { get { return notesObjects; } set { notesObjects = value; } }
 }

@@ -38,6 +38,30 @@ TextureImporter:
   - first:
       213: -4988314699684195213
     second: Pixel buttons_7
+  - first:
+      213: 4006230859116965477
+    second: Pixel buttons_4
+  - first:
+      213: -575470848835272110
+    second: Pixel buttons_5
+  - first:
+      213: -8490032622136396662
+    second: Pixel buttons_6
+  - first:
+      213: 2693708026900332527
+    second: Pixel buttons_7
+  - first:
+      213: -8194616716117002974
+    second: Pixel buttons_8
+  - first:
+      213: 7249023800420002062
+    second: Pixel buttons_9
+  - first:
+      213: 726850627928058433
+    second: Pixel buttons_8
+  - first:
+      213: 3327717968505711621
+    second: Pixel buttons_9
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -102,7 +126,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -114,7 +138,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -129,7 +153,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 32
+        y: 96
         width: 64
         height: 32
       alignment: 0
@@ -150,7 +174,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 64
-        y: 32
+        y: 96
         width: 64
         height: 32
       alignment: 0
@@ -171,7 +195,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 128
-        y: 32
+        y: 96
         width: 64
         height: 32
       alignment: 0
@@ -192,7 +216,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 192
-        y: 32
+        y: 96
         width: 64
         height: 32
       alignment: 0
@@ -213,7 +237,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 0
+        y: 64
         width: 64
         height: 32
       alignment: 0
@@ -223,8 +247,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e08e7b997ae3cb630800000000000000
-      internalID: 3944096263229138958
+      spriteID: 56eefdd8dbdf89730800000000000000
+      internalID: 4006230859116965477
       vertices: []
       indices: 
       edges: []
@@ -234,7 +258,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 64
-        y: 0
+        y: 64
         width: 64
         height: 32
       alignment: 0
@@ -244,8 +268,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f060d464ef9430510800000000000000
-      internalID: 1514135256176592399
+      spriteID: 252c49cdf448308f0800000000000000
+      internalID: -575470848835272110
       vertices: []
       indices: 
       edges: []
@@ -255,7 +279,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 128
-        y: 0
+        y: 64
         width: 64
         height: 32
       alignment: 0
@@ -265,8 +289,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 98ad32e5105660410800000000000000
-      internalID: 1442951787167603337
+      spriteID: a84f412ff485d2a80800000000000000
+      internalID: -8490032622136396662
       vertices: []
       indices: 
       edges: []
@@ -276,7 +300,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 192
-        y: 0
+        y: 64
         width: 64
         height: 32
       alignment: 0
@@ -286,8 +310,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 374d679b532f5cab0800000000000000
-      internalID: -4988314699684195213
+      spriteID: fef3308bd29f16520800000000000000
+      internalID: 2693708026900332527
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pixel buttons_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 14aeb6a8bca461a00800000000000000
+      internalID: 726850627928058433
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Pixel buttons_9
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 32
+        width: 64
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 50ca7718cdd6e2e20800000000000000
+      internalID: 3327717968505711621
       vertices: []
       indices: 
       edges: []

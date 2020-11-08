@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class UIComponents : MonoBehaviour
 {
-    public string levelName;
     public Text levelNameText;
     public Text timer;
     public Text combo;
