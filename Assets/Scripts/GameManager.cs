@@ -32,9 +32,9 @@ public class GameManager : MonoBehaviour
         ringManager = GameObject.FindGameObjectWithTag("UI").GetComponentInChildren(typeof(RingManager)) as RingManager;
         pipeSystem = GameObject.FindGameObjectWithTag("PipeSystemManager").GetComponent(typeof(PipeSystem)) as PipeSystem;
         player = GameObject.FindGameObjectWithTag("Player").GetComponent(typeof(Player)) as Player;
-        uiTimer = uiComponents.timer;
+        uiTimer = uiComponents.Timer;
 
-        audioSource = GetComponent(typeof(AudioSource)) as AudioSource;
+        audioSource = GetComponent<AudioSource>();
     }
 
     void Start()
@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         timeSinceLoaded += Time.deltaTime;
-        uiTimer.text = timeSinceLoaded.ToString();
+        uiTimer.text = timeSinceLoaded.ToString("F2") + " / " + music.length.ToString("F2");
     }
 
     // This method is required to avoid desync and lag at the beggining of play when entities still load;

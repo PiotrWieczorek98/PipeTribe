@@ -26,7 +26,7 @@ public class LevelEditorButton : MonoBehaviour
 
         timelineIndicator = FindObjectOfType<TimelineIndicator>();
         levelName = FindObjectOfType<LevelEditorManager>().levelName;
-        transform.GetComponentInParent<UIComponents>().levelNameText.text = levelName;
+        transform.GetComponentInParent<UIComponents>().LevelNameText.text = levelName;
     }
 
     private void OnMouseDown()

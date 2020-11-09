@@ -10,7 +10,7 @@ public class RingManager : MonoBehaviour
     Dictionary<int, Transform> ringElements;
     //MoveBackground bg;
 
-    void Start()
+    void Awake()
     {
         ringElements = new Dictionary<int, Transform>();
         int childCnt = transform.childCount;
@@ -27,8 +27,8 @@ public class RingManager : MonoBehaviour
     {
         if(selectedElement != SelectedElement.None)
         {
-            RingElementSelector res = ringElements[(int)selectedElement].GetComponent(typeof(RingElementSelector)) as RingElementSelector;
-            res.HighlightPart(false);
+            RingElementSelector ringElement = ringElements[(int)selectedElement].GetComponent<RingElementSelector>();
+            ringElement.SetElementSelection(false);
         }
         selectedElement = (SelectedElement)newSelectedPart;
         //bg.SetDestination(ringElements[(int)selectedElement].position);

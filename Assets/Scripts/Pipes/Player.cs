@@ -21,8 +21,12 @@ public class Player : MonoBehaviour {
 	UIComponents uIComponents;
 	RingManager ringManager;
 	GameManager gameSettings;
+
 	Text comboCounterUI;
+	Text scorePercentageUI;
 	float comboCounter = 0;
+	float scorePercentage = 0;
+	int noteHits = 0, noteCounter = 0, hp = 100;
 
     public void Awake() 
 	{
@@ -35,9 +39,14 @@ public class Player : MonoBehaviour {
     {
 		gameSettings = GameObject.FindGameObjectWithTag("GameManager").GetComponent(typeof(GameManager)) as GameManager;
 		uIComponents = GameObject.FindGameObjectWithTag("UI").GetComponent(typeof(UIComponents)) as UIComponents;
-		ringManager = uIComponents.ringManager;
-		comboCounterUI = uIComponents.combo;
+
+		scorePercentageUI = uIComponents.ScorePercentage;
+		ringManager = uIComponents.RingManager;
+		comboCounterUI = uIComponents.ComboCounter;
+		
 		comboCounterUI.text = "0x";
+		scorePercentageUI.text = "100%";
+		
 	}
 
 	private void Update () 
@@ -61,12 +70,18 @@ public class Player : MonoBehaviour {
 		MusicNote noteHit = other.GetComponentInParent(typeof(MusicNote)) as MusicNote;
 		if (noteHit.ColorOfNote.ringElement == ringManager.SelectedRingElement.ToString("g"))
         {
+			noteHits++;
 			comboCounter++;
 		}
         else
         {
 			comboCounter = 0;
 		}
+
+		noteCounter++;
+		scorePercentage = (float)noteHits * 100 / (float)noteCounter;
+
+		scorePercentageUI.text = scorePercentage.ToString("F2") + "%"; // Two decimal points
 		comboCounterUI.text = comboCounter + "x";
 	}
 

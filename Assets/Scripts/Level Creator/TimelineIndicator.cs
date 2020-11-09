@@ -39,8 +39,8 @@ public class TimelineIndicator : MonoBehaviour
         timelineCanvasRadius = timeline.rect.width / 2;
         updateIndicatorPosition();
 
-        UItimer = uIComponents.timer;
-        UItimer.text = "0.00 / " + audioSource.clip.length + "sec";
+        UItimer = uIComponents.Timer;
+        UItimer.text = "0.0000 / " + audioSource.clip.length + "sec";
 
         notesObjects = new List<Transform>();
     }
@@ -48,7 +48,7 @@ public class TimelineIndicator : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        UItimer.text = audioSource.time.ToString("F2") + " / " + audioSource.clip.length + " sec";
+        UItimer.text = audioSource.time.ToString("F4") + " / " + audioSource.clip.length.ToString("F4") + " sec";
 
         if (audioSource.isPlaying)
             updateIndicatorPosition();

@@ -7,42 +7,51 @@ public class RingElementSelector : MonoBehaviour
     public RingPart ringPart;
     public Sprite normalSprite;
     public Sprite highlitedSprite;
-    SpriteRenderer sr;
+
+    SpriteRenderer spriteRenderer;
     RingManager parent;
+    Vector3 initialPosition;
     bool isSelected = false;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        sr = GetComponent(typeof(SpriteRenderer)) as SpriteRenderer;
-        parent = transform.parent.GetComponent(typeof(RingManager)) as RingManager;
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        parent = transform.parent.GetComponent< RingManager>();
+        initialPosition = transform.localPosition;
     }
 
-    void OnMouseOver()
+    void OnMouseEnter()
     {
         if(!isSelected)
         {
-            HighlightPart(true);
+            SetElementSelection(true);
             parent.ChangeSelectedPart((int)ringPart);
         }
     }
-    //void OnMouseExit()
-    //{
-    //    sr.sprite = normalSprite;
-    //}
-    public void HighlightPart(bool highlight)
+
+    public void SetElementSelection(bool isSelected)
     {
-        if(highlight)
+        Vector3 offsetPosition = transform.localPosition;
+        if (isSelected)
         {
-            sr.sprite = highlitedSprite;
-            isSelected = true;
+            // Move element a little further from center
+            offsetPosition.x *= 1.03f;
+            offsetPosition.y *= 1.06f;
+
+            spriteRenderer.sprite = highlitedSprite;
+            this.isSelected = true;
         }
         else
         {
-            sr.sprite = normalSprite;
-            isSelected = false;
+            // Move element back to original position
+            offsetPosition = initialPosition;
+
+            spriteRenderer.sprite = normalSprite;
+            this.isSelected = false;
         }
 
+        transform.localPosition = offsetPosition;
     }
 
     public int GetRingPart() { return (int)ringPart; }
