@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
     public float MusicNotesOffset;
     // Minimum time between notes to allow change of segment the note is placed on
     public float minDeltaTimeToSwitch;
+    public float healthRegainOnHit;
+    public float healthLossOnFail;
 
     public float loadingTime;
     float timeSinceLoaded = 0;

@@ -24,9 +24,11 @@ public class Player : MonoBehaviour {
 
 	Text comboCounterUI;
 	Text scorePercentageUI;
+	RectTransform healthPointsBarUI;
 	float comboCounter = 0;
 	float scorePercentage = 0;
-	int noteHits = 0, noteCounter = 0, hp = 100;
+	int noteHits = 0, noteCounter;
+	float healthPoints = 100;
 
     public void Awake() 
 	{
@@ -40,6 +42,7 @@ public class Player : MonoBehaviour {
 		gameSettings = GameObject.FindGameObjectWithTag("GameManager").GetComponent(typeof(GameManager)) as GameManager;
 		uIComponents = GameObject.FindGameObjectWithTag("UI").GetComponent(typeof(UIComponents)) as UIComponents;
 
+		healthPointsBarUI = uIComponents.HealthPointsBar;
 		scorePercentageUI = uIComponents.ScorePercentage;
 		ringManager = uIComponents.RingManager;
 		comboCounterUI = uIComponents.ComboCounter;
@@ -67,22 +70,41 @@ public class Player : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
+
 		MusicNote noteHit = other.GetComponentInParent(typeof(MusicNote)) as MusicNote;
+		noteCounter++;
+
 		if (noteHit.ColorOfNote.ringElement == ringManager.SelectedRingElement.ToString("g"))
         {
 			noteHits++;
 			comboCounter++;
+			if(healthPoints < 100)
+            {
+				healthPoints += gameSettings.healthRegainOnHit;
+            }
 		}
         else
         {
 			comboCounter = 0;
+			healthPoints -= gameSettings.healthLossOnFail;
 		}
 
-		noteCounter++;
-		scorePercentage = (float)noteHits * 100 / (float)noteCounter;
+		healthPoints = Mathf.Clamp(healthPoints, 0, 100);
+		// TODO LOSE SCREEN
+		if (healthPoints <= 0)
+			Debug.Log("Game Lost");
+		else if (healthPoints < 20)
+			healthPointsBarUI.GetComponent<Image>().color = Color.red;
+		else if (healthPoints < 40)
+			healthPointsBarUI.GetComponent<Image>().color = Color.yellow;
+		else
+			healthPointsBarUI.GetComponent<Image>().color = Color.white;
 
+		scorePercentage = (float)noteHits * 100 / (float)noteCounter;
 		scorePercentageUI.text = scorePercentage.ToString("F2") + "%"; // Two decimal points
 		comboCounterUI.text = comboCounter + "x";
+		healthPointsBarUI.localScale = new Vector3(1, healthPoints/100, 1);
+
 	}
 
     //private void OnTriggerStay(Collider other)

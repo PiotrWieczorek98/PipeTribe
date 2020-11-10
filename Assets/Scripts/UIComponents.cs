@@ -11,10 +11,12 @@ public class UIComponents : MonoBehaviour
     public Text comboCounter;
     public Text scorePercentage;
     public RingManager ringManager;
+    public RectTransform healthPointsBar;
 
     public Text LevelNameText { get { return levelNameText; } }
     public Text Timer { get { return timer; } }
     public Text ComboCounter { get { return comboCounter; } }
     public Text ScorePercentage { get { return scorePercentage; } }
     public RingManager RingManager { get { return ringManager; } }
+    public RectTransform HealthPointsBar { get { return healthPointsBar; } }
 }
