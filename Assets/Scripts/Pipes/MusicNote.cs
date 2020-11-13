@@ -1,57 +1,56 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Build;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.XR.WSA.Input;
 
 public class MusicNote : MonoBehaviour
 {
-	Transform rotater, scaler;
-	//Component[] cubes;
+	Transform rotater;
 	MeshRenderer mesh;
-	Dictionary<int, ColorElement> cubeColors;
+	Dictionary<int, CubeValues> cubeColors;
 	PipeSystem pipeSystem;
 	public enum NoteType { Tap, Hold };
-	//public NoteType noteType { get; set; }
 
-	public struct ColorElement
+	public struct CubeValues
     {
 		public Color colorValue;
+		public Color emissionValue;
 		public string ringElement;
 
-		public ColorElement(Color colorValue, string ringElement)
+		public CubeValues(Color colorValue, Color emissionValues, string ringElement)
 		{
 			this.colorValue = colorValue;
+			this.emissionValue = emissionValues;
 			this.ringElement = ringElement;
 		}
 	}
-	ColorElement colorOfNote;
+	CubeValues noteColorValues;
 
 	private void Awake()
 	{
 		rotater = transform.GetChild(0);
-		//scaler = rotater.GetChild(1);
-		//cubes = rotater.GetComponentsInChildren(typeof(MeshRenderer));
 		mesh = rotater.GetComponentInChildren(typeof(MeshRenderer)) as MeshRenderer;
-		cubeColors = new Dictionary<int, ColorElement>
+		cubeColors = new Dictionary<int, CubeValues>
 		{
-			{30,new ColorElement(new Color(1.0f, 1f, 0f), "BottomRight") },		// yellow
-			{90,new ColorElement(new Color(0.47f, 0f, 1f), "Right") },			// purple
-			{150,new ColorElement(new Color(1f, 0.4f, 0f), "TopRight") },		// orange
-			{-150,new ColorElement(new Color(0f, 1f, 0f), "TopLeft") },			// green
-			{-90,new ColorElement(new Color(1f, 0f, 0f), "Left") },				// red
-			{-30,new ColorElement(new Color(0f, 0.25f, 1f), "BottomLeft") },	// blue
+			//{30,new CubeValues(new Color(.98f, 1f, 0f), new Color(.5f, .5f, 0f), "BottomRight") },			// yellow
+			//{90,new CubeValues(new Color(.45f, .25f, .55f), new Color(.18f, .05f, .25f), "Right") },		// purple
+			//{150,new CubeValues(new Color(.87f, 0.44f, .15f), new Color(.73f, 0.16f, .02f), "TopRight") },	// orange
+			//{-150,new CubeValues(new Color(.41f, .74f, .18f), new Color(.14f, .5f, .027f), "TopLeft") },	// green
+			//{-90,new CubeValues(new Color(.76f, .14f, .14f), new Color(.53f, .01f, .01f), "Left") },		// red
+			//{-30,new CubeValues(new Color(.38f, 0.60f, 1f), new Color(.12f, 0.32f, 1f), "BottomLeft") },	// blue
+			{30,new CubeValues(new Color(1.0f, 1f, 0f), new Color(.55f, .55f, 0f), "BottomRight") },	// yellow
+			{90,new CubeValues(new Color(0.47f, 0f, 1f), new Color(0.47f, 0f, 1f), "Right") },			// purple
+			{150,new CubeValues(new Color(1f, 0.4f, 0f), new Color(1f, 0.4f, 0f), "TopRight") },		// orange
+			{-150,new CubeValues(new Color(0f, 1f, 0f), new Color(0f, .8f, 0f), "TopLeft") },			// green
+			{-90,new CubeValues(new Color(1f, 0f, 0f), new Color(.44f, 0f, 0f), "Left") },				// red
+			{-30,new CubeValues(new Color(0f, 0.25f, 1f), new Color(0f, 0.25f, 1f), "BottomLeft") },	// blue
 		};
 	}
 
 	public void Position(Pipe pipe, float curveRotation, float pipeRotation)
 	{
-		colorOfNote = cubeColors[(int)pipeRotation];
-		//foreach (MeshRenderer mesh in cubes)
-       // {
-			mesh.material.color = colorOfNote.colorValue;
-			mesh.material.SetColor("_EmissionColor", colorOfNote.colorValue);
-		//}
+		noteColorValues = cubeColors[(int)pipeRotation];
+
+		mesh.material.color = noteColorValues.colorValue;
+		mesh.material.SetColor("_EmissionColor", noteColorValues.emissionValue);
 
 
 		transform.SetParent(pipe.transform, false);
@@ -66,5 +65,5 @@ public class MusicNote : MonoBehaviour
 		rotater.localRotation = Quaternion.Euler(pipeRotation, 0f, 0f);
 	}
 
-	public ColorElement ColorOfNote { get { return colorOfNote; } }
+	public CubeValues ColorOfNote { get { return noteColorValues; } }
 }

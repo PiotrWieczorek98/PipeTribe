@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Dynamic;
-using UnityEditorInternal;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class Player : MonoBehaviour {

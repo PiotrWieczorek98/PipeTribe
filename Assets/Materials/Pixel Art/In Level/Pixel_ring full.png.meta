@@ -173,9 +173,9 @@ TextureImporter:
       name: purple
       rect:
         serializedVersion: 2
-        x: 138
+        x: 137
         y: 48
-        width: 22
+        width: 23
         height: 64
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
