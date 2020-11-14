@@ -1,28 +1,31 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class LogoAnimator : MonoBehaviour
 {
-    public float delayBetweenLetters = 0.2f;
-    float endOfLetterAnimations = 0;
+    public float delayBetweenLetters;
+
     public AnimationClip jumpingTopLetters;
     public AnimationClip jumpingBotLetters;
 
     public AnimationClip spinAnimation;
-    public AnimationClip travelUpAnimation;
+    public AnimationClip zoomInLogoAnimation;
+    public AnimationClip zoomInButtonsAnimation;
 
-    Transform letters, ring;
-    private void Awake()
-    {
-        letters = transform.GetChild(0);
-        ring = transform.GetChild(1);
-    }
+    public Transform letters;
+    public Transform ring;
+    public Transform buttons;
+    public Transform logo;
+    float currentLogoBrightness = 0.3f;
+    float currentButtonsBrightness = 0f;
+    float brightnessIncrease = 0.4f;
 
     // Start is called before the first frame update
     void Start()
     {
-        float delay = 0;
+        float delay = 0.2f;
         for (int i = 0; i < letters.childCount; i++)
         {
             if (i < 3)
@@ -31,20 +34,35 @@ public class LogoAnimator : MonoBehaviour
                 StartCoroutine(delayedLetterAnimation(letters.GetChild(i).GetComponent<Animator>(), jumpingBotLetters.name, delay, i));
             delay += delayBetweenLetters;
         }
-        endOfLetterAnimations = jumpingBotLetters.length + delay;
 
-        //StartCoroutine(delayRingAnimation(ring.GetComponent<Animator>()));
         ring.GetComponent<Animator>().Play(spinAnimation.name);
+        logo.GetComponent<Animator>().Play(zoomInLogoAnimation.name);
+        buttons.GetComponent<Animator>().Play(zoomInButtonsAnimation.name);
     }
 
-    float speed = 0.6f;
     private void Update()
     {
+        if (!logo)
+            return;
 
-        float delta = 1 + speed * Time.deltaTime;
-        transform.localScale = new Vector3(transform.localScale.x * delta, transform.localScale.y * delta, 1);
-        if (transform.localScale.x > 60)
-            Destroy(transform.gameObject);
+        if(currentButtonsBrightness < 1)
+        {
+            currentLogoBrightness += brightnessIncrease * Time.deltaTime;
+            currentButtonsBrightness += brightnessIncrease * Time.deltaTime;
+
+            currentLogoBrightness = Mathf.Clamp(currentLogoBrightness, 0, 1);
+            currentButtonsBrightness = Mathf.Clamp(currentButtonsBrightness, 0, 1);
+        }
+
+        foreach (Transform letter in letters)
+            letter.GetComponent<Image>().color = new Color(currentLogoBrightness, currentLogoBrightness, currentLogoBrightness);
+        foreach (Transform segment in ring)
+            segment.GetComponent<Image>().color = new Color(currentLogoBrightness, currentLogoBrightness, currentLogoBrightness);
+        foreach (Transform button in buttons)
+            button.GetComponent<Image>().color = new Color(currentButtonsBrightness, currentButtonsBrightness, currentButtonsBrightness);
+
+        if (logo.localScale.x > 50)
+            Destroy(logo.gameObject);
 
     }
 
@@ -53,9 +71,5 @@ public class LogoAnimator : MonoBehaviour
         yield return new WaitForSeconds(delay);
         animator.Play(name);
     }
-    //IEnumerator delayRingAnimation(Animator animator)
-    //{
-    //    animator.Play(spinAnimation.name);
-    //    yield return new WaitForSeconds(endOfLetterAnimations);
-    //}
+
 }
