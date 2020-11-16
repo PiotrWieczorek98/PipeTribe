@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviour
 
     public void EndGameScreen(bool failed = false)
     {
-        player.enabled = false;
+        //player.enabled = false;
         if (failed)
         {
             audioSource.PlayOneShot(levelFailed);

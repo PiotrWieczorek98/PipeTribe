@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class RingManager : MonoBehaviour
 {
-    public enum SelectedElement {None = -1, TopRight, Right, BottomRight, BottomLeft, Left, TopLeft };
-    public SelectedElement selectedElement;
+    public RingElementSelector selectedElement;
 
     Dictionary<int, Transform> ringElements;
     //MoveBackground bg;
@@ -20,17 +19,16 @@ public class RingManager : MonoBehaviour
             ringElements.Add(i, childX.transform);
         }
 
+        selectedElement = null;
         //bg = GameObject.FindGameObjectWithTag("Background").GetComponent(typeof(MoveBackground)) as MoveBackground;
     }
 
-    public void ChangeSelectedPart(int newSelectedPart)
+    public void ChangeSelectedPart(RingElementSelector newSelectedPart)
     {
-        if(selectedElement != SelectedElement.None)
-        {
-            RingElementSelector ringElement = ringElements[(int)selectedElement].GetComponent<RingElementSelector>();
-            ringElement.SetElementSelection(false);
-        }
-        selectedElement = (SelectedElement)newSelectedPart;
+        if(selectedElement != null)
+            selectedElement.SetElementSelection(false);
+
+        selectedElement = newSelectedPart;
         //bg.SetDestination(ringElements[(int)selectedElement].position);
     }
 
@@ -43,6 +41,6 @@ public class RingManager : MonoBehaviour
         return null;
     }
 
-    public SelectedElement SelectedRingElement { get { return selectedElement; } }
+    public RingElementSelector SelectedRingElement { get { return selectedElement; } }
 
 }

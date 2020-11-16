@@ -1,23 +1,25 @@
-﻿using UnityEditor;
+﻿using System;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class RingElementSelector : MonoBehaviour
 {
-    public enum RingPart { None = -1, TopRight, Right, BottomRight, BottomLeft, Left, TopLeft};
-    public RingPart ringPart;
+    public enum RingElementEnum { None = -1, TopRight, Right, BottomRight, BottomLeft, Left, TopLeft};
+    public RingElementEnum ringElement;
     public Sprite normalSprite;
     public Sprite highlitedSprite;
 
-    SpriteRenderer spriteRenderer;
-    RingManager parent;
+    Image segmentImage;
+    RingManager ringManager;
     Vector3 initialPosition;
     bool isSelected = false;
 
     // Start is called before the first frame update
     void Awake()
     {
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        parent = transform.parent.GetComponent< RingManager>();
+        segmentImage = GetComponent<Image>();
+        ringManager = transform.parent.GetComponent< RingManager>();
         initialPosition = transform.localPosition;
     }
 
@@ -26,7 +28,7 @@ public class RingElementSelector : MonoBehaviour
         if(!isSelected)
         {
             SetElementSelection(true);
-            parent.ChangeSelectedPart((int)ringPart);
+            ringManager.ChangeSelectedPart(this);
         }
     }
 
@@ -39,7 +41,7 @@ public class RingElementSelector : MonoBehaviour
             offsetPosition.x *= 1.03f;
             offsetPosition.y *= 1.06f;
 
-            spriteRenderer.sprite = highlitedSprite;
+            segmentImage.sprite = highlitedSprite;
             this.isSelected = true;
         }
         else
@@ -47,13 +49,13 @@ public class RingElementSelector : MonoBehaviour
             // Move element back to original position
             offsetPosition = initialPosition;
 
-            spriteRenderer.sprite = normalSprite;
+            segmentImage.sprite = normalSprite;
             this.isSelected = false;
         }
 
         transform.localPosition = offsetPosition;
     }
 
-    public int GetRingPart() { return (int)ringPart; }
+    public string RingElement() { return Enum.GetName(typeof(RingElementEnum), ringElement); }
     public bool IsSelected() { return isSelected; }
 }

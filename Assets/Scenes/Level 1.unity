@@ -1489,6 +1489,7 @@ GameObject:
   - component: {fileID: 1475766600}
   - component: {fileID: 1475766602}
   - component: {fileID: 1475766601}
+  - component: {fileID: 1475766603}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1616,6 +1617,18 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 8, y: 8, z: 0.1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1475766603
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1475766597}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e59b29e270042647802f83a028ce277, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1530948575
 GameObject:
   m_ObjectHideFlags: 0
@@ -2229,6 +2242,10 @@ PrefabInstance:
     - target: {fileID: 1942768792193366826, guid: 2e4e8e42ab49f1f4c943c935336630c3, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3039880593105063599, guid: 2e4e8e42ab49f1f4c943c935336630c3, type: 3}
+      propertyPath: ringElement
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3395399823732079619, guid: 2e4e8e42ab49f1f4c943c935336630c3, type: 3}
       propertyPath: m_Points.m_Paths.Array.data[0].Array.data[3].x

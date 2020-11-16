@@ -32,7 +32,7 @@ RectTransform:
   m_LocalScale: {x: 5, y: 5, z: 1}
   m_Children: []
   m_Father: {fileID: 1942768792193366826}
-  m_RootOrder: 6
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -80,7 +80,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c62e39e439ead84693fbcb32a2fe73a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ringPart: 4
+  ringElement: 4
   normalSprite: {fileID: -1054246194095601859, guid: 14cff96a71eb7fb469d51cb3c50f2faa, type: 3}
   highlitedSprite: {fileID: 1478084361081094867, guid: 14cff96a71eb7fb469d51cb3c50f2faa, type: 3}
 --- !u!222 &2075571342950831432
@@ -153,7 +153,7 @@ RectTransform:
   m_LocalScale: {x: 5, y: 5, z: 1}
   m_Children: []
   m_Father: {fileID: 1942768792193366826}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -201,7 +201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c62e39e439ead84693fbcb32a2fe73a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ringPart: 2
+  ringElement: 2
   normalSprite: {fileID: -1794593917345986411, guid: 14cff96a71eb7fb469d51cb3c50f2faa, type: 3}
   highlitedSprite: {fileID: 7171240321225928993, guid: 14cff96a71eb7fb469d51cb3c50f2faa, type: 3}
 --- !u!222 &8093714046309116216
@@ -274,7 +274,7 @@ RectTransform:
   m_LocalScale: {x: 5, y: 5, z: 1}
   m_Children: []
   m_Father: {fileID: 1942768792193366826}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -322,7 +322,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c62e39e439ead84693fbcb32a2fe73a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ringPart: 1
+  ringElement: 1
   normalSprite: {fileID: -2933792353436491215, guid: 14cff96a71eb7fb469d51cb3c50f2faa, type: 3}
   highlitedSprite: {fileID: 8278882689318377094, guid: 14cff96a71eb7fb469d51cb3c50f2faa, type: 3}
 --- !u!222 &6531381264757234115
@@ -391,14 +391,14 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 1}
   m_LocalScale: {x: 110, y: 110, z: 1}
   m_Children:
-  - {fileID: 1942768791253521099}
-  - {fileID: 1942768791310371334}
   - {fileID: 4468577416638049028}
   - {fileID: 3542098969637839089}
   - {fileID: 1554990545617438967}
   - {fileID: 7022728993598557297}
   - {fileID: 8708675214652911019}
   - {fileID: 3539349849321592814}
+  - {fileID: 1942768791253521099}
+  - {fileID: 1942768791310371334}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -414,7 +414,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9d3ee7cce202544a84f063192e2de52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  selectedElement: -1
+  selectedElement: {fileID: 0}
 --- !u!1 &1942768791253521098
 GameObject:
   m_ObjectHideFlags: 0
@@ -444,7 +444,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1942768792193366826}
-  m_RootOrder: 0
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1942768791253521096
 MonoBehaviour:
@@ -490,7 +490,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1942768792193366826}
-  m_RootOrder: 1
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1942768791310371332
 SpriteRenderer:
@@ -589,7 +589,7 @@ RectTransform:
   m_LocalScale: {x: 5, y: 5, z: 1}
   m_Children: []
   m_Father: {fileID: 1942768792193366826}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -638,7 +638,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c62e39e439ead84693fbcb32a2fe73a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ringPart: 0
+  ringElement: 0
   normalSprite: {fileID: -9110407964780053510, guid: 14cff96a71eb7fb469d51cb3c50f2faa, type: 3}
   highlitedSprite: {fileID: -4864473873022986808, guid: 14cff96a71eb7fb469d51cb3c50f2faa, type: 3}
 --- !u!222 &650445330019882394
@@ -711,7 +711,7 @@ RectTransform:
   m_LocalScale: {x: 5, y: 5, z: 1}
   m_Children: []
   m_Father: {fileID: 1942768792193366826}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -759,7 +759,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c62e39e439ead84693fbcb32a2fe73a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ringPart: 3
+  ringElement: 3
   normalSprite: {fileID: -2440603762019464385, guid: 14cff96a71eb7fb469d51cb3c50f2faa, type: 3}
   highlitedSprite: {fileID: 6711977790819923985, guid: 14cff96a71eb7fb469d51cb3c50f2faa, type: 3}
 --- !u!222 &234327692974214447
@@ -832,7 +832,7 @@ RectTransform:
   m_LocalScale: {x: 5, y: 5, z: 1}
   m_Children: []
   m_Father: {fileID: 1942768792193366826}
-  m_RootOrder: 7
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -881,7 +881,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c62e39e439ead84693fbcb32a2fe73a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ringPart: 5
+  ringElement: 5
   normalSprite: {fileID: -8237307333304105835, guid: 14cff96a71eb7fb469d51cb3c50f2faa, type: 3}
   highlitedSprite: {fileID: -2821197219248961712, guid: 14cff96a71eb7fb469d51cb3c50f2faa, type: 3}
 --- !u!222 &8467314874829243503

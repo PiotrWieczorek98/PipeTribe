@@ -35,10 +35,10 @@ public class PlayerCollision : MonoBehaviour
 
 	private void OnTriggerEnter(Collider other)
 	{
-		MusicNote noteHit = other.GetComponentInParent(typeof(MusicNote)) as MusicNote;
+		MusicNote noteHit = other.GetComponentInParent<MusicNote>();
 		noteCounter++;
 
-		if (noteHit.ColorOfNote.ringElement == ringManager.SelectedRingElement.ToString("g"))
+		if (noteHit.ColorOfNote.ringElement == ringManager.SelectedRingElement.RingElement())
 		{
 			noteHits++;
 			comboCounter++;

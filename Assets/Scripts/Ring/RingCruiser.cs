@@ -10,7 +10,7 @@ public class RingCruiser : MonoBehaviour
     Vector3 origin;
     Vector3 destination;
     RingManager ringManager;
-    int selectedElement = -1;
+    RingElementSelector selectedElement;
 
     private void Awake()
     {
@@ -19,11 +19,9 @@ public class RingCruiser : MonoBehaviour
     }
     void Update()
     {
-        if ((int)ringManager.selectedElement != this.selectedElement)
+        if (ringManager.selectedElement != this.selectedElement)
         {
-            selectedElement = (int)ringManager.selectedElement;
-            Transform part = ringManager.GetRingElement(selectedElement);
-            Vector3 center = part.position;
+            Vector3 center = ringManager.selectedElement.transform.position;
             center.z = 0;
             destination = origin + (center.normalized * circle_radius);
         }
