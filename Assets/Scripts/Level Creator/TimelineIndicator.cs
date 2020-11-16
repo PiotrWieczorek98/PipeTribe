@@ -39,7 +39,7 @@ public class TimelineIndicator : MonoBehaviour
         timelineCanvasRadius = timeline.rect.width / 2;
         updateIndicatorPosition();
 
-        UItimer = uIComponents.Timer;
+        UItimer = uIComponents.Timer.GetChild(0).GetComponent<Text>();
         UItimer.text = "0.0000 / " + audioSource.clip.length + "sec";
 
         notesObjects = new List<Transform>();

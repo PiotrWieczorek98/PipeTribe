@@ -12,7 +12,6 @@ public class LogoAnimator : MonoBehaviour
 
     public AnimationClip spinAnimation;
     public AnimationClip zoomInLogoAnimation;
-    public AnimationClip zoomInButtonsAnimation;
 
     public Transform letters;
     public Transform ring;
