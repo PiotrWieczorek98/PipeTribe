@@ -16,16 +16,15 @@ public class LogoAnimator : MonoBehaviour
 
     public Transform letters;
     public Transform ring;
-    public Transform buttons;
     public Transform logo;
     float currentLogoBrightness = 0.3f;
     float currentButtonsBrightness = 0f;
-    float brightnessIncrease = 0.4f;
+    float brightnessIncrease = 0.2f;
 
     // Start is called before the first frame update
     void Start()
     {
-        float delay = 0.2f;
+        float delay = 1f;
         for (int i = 0; i < letters.childCount; i++)
         {
             if (i < 3)
@@ -37,7 +36,6 @@ public class LogoAnimator : MonoBehaviour
 
         ring.GetComponent<Animator>().Play(spinAnimation.name);
         logo.GetComponent<Animator>().Play(zoomInLogoAnimation.name);
-        buttons.GetComponent<Animator>().Play(zoomInButtonsAnimation.name);
     }
 
     private void Update()
@@ -58,11 +56,6 @@ public class LogoAnimator : MonoBehaviour
             letter.GetComponent<Image>().color = new Color(currentLogoBrightness, currentLogoBrightness, currentLogoBrightness);
         foreach (Transform segment in ring)
             segment.GetComponent<Image>().color = new Color(currentLogoBrightness, currentLogoBrightness, currentLogoBrightness);
-        foreach (Transform button in buttons)
-            button.GetComponent<Image>().color = new Color(currentButtonsBrightness, currentButtonsBrightness, currentButtonsBrightness);
-
-        if (logo.localScale.x > 50)
-            Destroy(logo.gameObject);
 
     }
 
