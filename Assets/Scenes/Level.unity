@@ -547,8 +547,8 @@ Camera:
   m_GameObject: {fileID: 274230894}
   m_Enabled: 1
   serializedVersion: 2
-  m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -1261,7 +1261,7 @@ GameObject:
   - component: {fileID: 621733711}
   - component: {fileID: 621733712}
   m_Layer: 5
-  m_Name: Restart Button
+  m_Name: Retry Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1750,7 +1750,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa3768b30a6e6e2419d7e359bcf001e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeOfButton: 0
+  typeOfButton: 1
   clickSound: {fileID: 8300000, guid: 0c5a51325407f244bb90eb4de66c2987, type: 3}
   defaultSprite: {fileID: -1025273671673455662, guid: df106d865c15ead4fad94b3af878a036, type: 3}
   hoverSprite: {fileID: 6384617997017938364, guid: df106d865c15ead4fad94b3af878a036, type: 3}

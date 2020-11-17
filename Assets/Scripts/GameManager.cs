@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
         // Show on UI
         totalScore.text = playerCollision.TotalPlayerScore.ToString();
         maxCombo.text = playerCollision.MaxComboAchieved.ToString();
-        percentage.text = playerCollision.ScorePercentage.ToString() + "%";
+        percentage.text = playerCollision.ScorePercentage.ToString("F2") + "%";
     }
     public string LevelName { get { return levelName; } }
 }

@@ -23,7 +23,7 @@ public class LogoAnimator : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        float delay = 1f;
+        float delay = 1.5f;
         for (int i = 0; i < letters.childCount; i++)
         {
             if (i < 3)

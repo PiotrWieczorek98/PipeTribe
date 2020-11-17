@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -6,8 +7,6 @@ public class InLevelButton : MonoBehaviour
 {
     public enum TypeOfButton { Restart, Exit };
     public TypeOfButton typeOfButton;
-
-    public AudioClip clickSound;
 
     public Sprite defaultSprite;
     public Sprite hoverSprite;
@@ -27,25 +26,32 @@ public class InLevelButton : MonoBehaviour
     private void OnMouseOver()
     {
         buttonImage.sprite = hoverSprite;
-        GetComponent<AudioSource>().Play();
         if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(actionButton))
         {
+            GetComponent<AudioSource>().Play();
             buttonImage.sprite = clickedSprite;
-            switch (typeOfButton)
-            {
-                case TypeOfButton.Restart:
-                    SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-                    break;
-
-                case TypeOfButton.Exit:
-                    SceneManager.LoadScene(SceneManager.GetSceneAt(0).name);
-                    break;
-            }
+            StartCoroutine(delayAction(1f));
         }
     }
     private void OnMouseExit()
     {
         buttonImage.sprite = defaultSprite;
+    }
+
+    IEnumerator delayAction(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        switch (typeOfButton)
+        {
+            case TypeOfButton.Restart:
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                break;
+
+            case TypeOfButton.Exit:
+                SceneManager.LoadScene(0);
+                break;
+        }
     }
 
 }
