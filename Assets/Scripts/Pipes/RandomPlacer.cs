@@ -28,7 +28,7 @@ public class RandomPlacer : MonoBehaviour
 
 
 			// Allow to change segment only if time between notes is big enough - if notes are too close it would break gameplay 
-			gameSettings = GameObject.FindGameObjectWithTag("GameManager").GetComponent(typeof(GameManager)) as GameManager;
+			gameSettings = FindObjectOfType<GameManager>();
 			if (i > 0 && notesToGenerate[i].Item3 - notesToGenerate[i - 1].Item3 > gameSettings.minDeltaTimeToSwitch)
             {
 				pipeSegment = Random.Range(0, pipe.pipeSegmentCount);

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ButtonRecorder : MonoBehaviour
+public class TapRecorder : MonoBehaviour
 {
     public KeyCode recoredKey, startKey, stopKey;
 

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class TimelineIndicator : MonoBehaviour
 {
-    ButtonRecorder buttonRecorder;
+    TapRecorder buttonRecorder;
     AudioSource audioSource;
     RectTransform timeline, arrowIndicator; //canvasTransform;
     WaveformDrawer waveformDrawer;
@@ -25,7 +25,7 @@ public class TimelineIndicator : MonoBehaviour
 
     private void Awake()
     {
-        buttonRecorder = GameObject.FindGameObjectWithTag("GameManager").GetComponent<ButtonRecorder>();
+        buttonRecorder = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TapRecorder>();
         uIComponents = GameObject.FindGameObjectWithTag("UI").GetComponent<UIComponents>();
 
         audioSource = buttonRecorder.GetComponent<AudioSource>();

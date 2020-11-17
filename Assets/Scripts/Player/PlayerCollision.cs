@@ -12,16 +12,17 @@ public class PlayerCollision : MonoBehaviour
 	Animator animator;
 	Text scorePercentageUI;
 	RectTransform healthPointsBarUI;
-	float comboCounter = 0;
+	int comboCounter = 0, maxComboAchieved = 0;
 	float scorePercentage = 0;
-	int noteHits = 0, noteCounter;
+	int noteHits = 0, noteCounter = 0;
+	int totalPlayerScore = 0, totalPossibleScore = 0;
 	float healthPoints = 100;
 
 	// Start is called before the first frame update
 	void Start()
     {
-		gameManager = GameObject.FindGameObjectWithTag("GameManager").GetComponent(typeof(GameManager)) as GameManager;
-		uIComponents = GameObject.FindGameObjectWithTag("UI").GetComponent(typeof(UIComponents)) as UIComponents;
+		gameManager = FindObjectOfType<GameManager>();
+		uIComponents = FindObjectOfType<UIComponents>();
 
 		healthPointsBarUI = uIComponents.HealthPointsBar;
 		scorePercentageUI = uIComponents.ScorePercentage;
@@ -33,6 +34,7 @@ public class PlayerCollision : MonoBehaviour
 		scorePercentageUI.text = "100%";
 	}
 
+	// When note block hits player collider - where segments are placed
 	private void OnTriggerEnter(Collider other)
 	{
 		MusicNote noteHit = other.GetComponentInParent<MusicNote>();
@@ -42,6 +44,8 @@ public class PlayerCollision : MonoBehaviour
 		{
 			noteHits++;
 			comboCounter++;
+			if (comboCounter > maxComboAchieved)
+				maxComboAchieved = comboCounter;
 
 			animator.SetBool("Jump", true);
 			StartCoroutine(setBoolParameterNextFrame("Jump", false));
@@ -56,7 +60,6 @@ public class PlayerCollision : MonoBehaviour
 		}
 
 		healthPoints = Mathf.Clamp(healthPoints, 0, 100);
-		// TODO LOSE SCREEN
 		if (healthPoints <= 0)
 			gameManager.EndGameScreen(true);
 		else if (healthPoints < 20)
@@ -66,7 +69,13 @@ public class PlayerCollision : MonoBehaviour
 		else
 			healthPointsBarUI.GetComponent<Image>().color = Color.white;
 
-		scorePercentage = (float)noteHits * 100 / (float)noteCounter;
+		// Calculate scores
+		int baseScore = 100;
+		totalPlayerScore += comboCounter * baseScore;
+		totalPossibleScore += noteCounter * baseScore;
+		scorePercentage = (float)totalPlayerScore * 100 / (float)totalPossibleScore;
+
+		// Show on UI
 		scorePercentageUI.text = scorePercentage.ToString("F2") + "%"; // Two decimal points
 		comboCounterUI.text = comboCounter + "x";
 		healthPointsBarUI.localScale = new Vector3(1, healthPoints / 100, 1);
@@ -78,4 +87,9 @@ public class PlayerCollision : MonoBehaviour
         yield return new WaitForEndOfFrame();
         animator.SetBool(parameter, value);
     }
+
+	public int TotalPlayerScore { get { return totalPlayerScore; } }
+	public int MaxComboAchieved { get { return maxComboAchieved; } }
+	public float ScorePercentage { get { return scorePercentage; } }
+
 }

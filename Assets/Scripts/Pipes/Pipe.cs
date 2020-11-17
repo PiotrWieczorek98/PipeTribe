@@ -47,7 +47,7 @@ public class Pipe : MonoBehaviour
 
 	public float GenerateMusicNotes(List<(float, float)> songMusicNotes, float timeWhenPipeEntered, bool isFirstPipe = false)
     {
-		Player player = GameObject.FindGameObjectWithTag("Player").GetComponent(typeof(Player)) as Player;
+		PlayerMovement player = GameObject.FindGameObjectWithTag("Player").GetComponent(typeof(PlayerMovement)) as PlayerMovement;
 
 		// How long will it take to pass this pipe
 		float arcLength = curveAngle / 360 * (2f * Mathf.PI * curveRadius);

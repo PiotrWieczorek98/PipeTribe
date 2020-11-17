@@ -15,17 +15,13 @@ public class PipeSystem : MonoBehaviour
 	Pipe[] pipes;
 
 	List<(float, float)> musicNotesTimeline;
-	GameManager gameSettings;
 	float timeWhenPipeEntered = 0;
 	float worldAbsoluteRotation = 0;
 
 
 	public void Awake () 
 	{
-		musicNotesTimeline = new List<(float, float)>();
-
-		gameSettings = GameObject.FindGameObjectWithTag("GameManager").GetComponent(typeof(GameManager)) as GameManager;
-		LoadRecording(gameSettings.levelName);
+		musicNotesTimeline = FindObjectOfType<LevelDataLoader>().LoadRecording();
 
 		pipes = new Pipe[pipesDisplayedAtTheSameTime];
 		for (int i = 0; i < pipes.Length; i++) 
@@ -103,31 +99,6 @@ public class PipeSystem : MonoBehaviour
 				pipes[i].transform.SetParent(transform);
 			}
 		}
-	}
-
-	public void LoadRecording(string filename)
-	{
-		string destination = Application.dataPath + "/levels/" + filename + ".dat";
-		FileStream file;
-
-		if (File.Exists(destination)) file = File.OpenRead(destination);
-		else
-		{
-			Debug.LogError(destination + " - File not found");
-			return;
-		}
-
-		BinaryFormatter bf = new BinaryFormatter();
-		List<(float, float)> originalTimeline = (List<(float, float)>)bf.Deserialize(file);
-		file.Close();
-
-
-		// Add offset;
-		foreach (var note in originalTimeline)
-        {
-			musicNotesTimeline.Add((note.Item1 + gameSettings.MusicNotesOffset, note.Item2));
-        }
-
 	}
 
 	public float GetWorldAbsoluteRotation { get { return worldAbsoluteRotation; } }

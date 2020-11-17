@@ -16,11 +16,14 @@ public class RingCruiser : MonoBehaviour
     {
         ringManager = transform.parent.GetComponentInChildren(typeof(RingManager)) as RingManager;
         origin = destination = ringManager.gameObject.transform.position;
+        selectedElement = ringManager.selectedElement;
     }
     void Update()
     {
-        if (ringManager.selectedElement != this.selectedElement)
+        if (ringManager.selectedElement != selectedElement)
         {
+            selectedElement = ringManager.selectedElement;
+
             Vector3 center = ringManager.selectedElement.transform.position;
             center.z = 0;
             destination = origin + (center.normalized * circle_radius);
