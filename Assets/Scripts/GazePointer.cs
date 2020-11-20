@@ -1,15 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using EyeTribe.ClientSdk;
 using EyeTribe.ClientSdk.Data;
 using System.Runtime.InteropServices;
-using System.Drawing;
 
 public class GazePointer : MonoBehaviour
 {
     public Texture2D cursorTexture;
     public bool cursorVisible = true;
+    public bool useEyeTracker = true;
     GazePoint gaze;
     Point2D coords;
 
@@ -67,8 +65,11 @@ public class GazePointer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        coords = gaze.GetGazePoint();
-        if(coords.X  != 0 && coords.Y != 0 && Application.isFocused)
-            SetCursorPos((int)coords.X, (int)coords.Y);//Call this when you want to set the mouse position
+        if (useEyeTracker)
+        {
+            coords = gaze.GetGazePoint();
+            if (coords.X != 0 && coords.Y != 0 && Application.isFocused && !Input.GetKey(KeyCode.LeftAlt))
+                SetCursorPos((int)coords.X, (int)coords.Y);//Call this when you want to set the mouse position
+        }
     }
 }

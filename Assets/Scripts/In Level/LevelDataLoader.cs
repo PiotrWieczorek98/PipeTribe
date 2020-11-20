@@ -12,7 +12,7 @@ public class LevelDataLoader : MonoBehaviour
     public List<(float, float)> LoadRecording()
 	{
 		musicNotesTimeline = new List<(float, float)>();
-		GameManager gameManager = FindObjectOfType<GameManager>();
+		InLevelManager gameManager = FindObjectOfType<InLevelManager>();
 		string filename = gameManager.LevelName;
 		string destination = Application.dataPath + "/levels/" + filename + ".dat";
 

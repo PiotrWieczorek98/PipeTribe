@@ -9,40 +9,39 @@ public class TimelineIndicator : MonoBehaviour
     AudioSource audioSource;
     RectTransform timeline, arrowIndicator; //canvasTransform;
     WaveformDrawer waveformDrawer;
-    UIComponents uIComponents;
     Text UItimer;
+    KeyCode actionKey;
 
     public float zoomSpeed;
     public float smoothSpeed;
-    float currentZoom, minZoom, maxZoom;
-    float leftBorder;
-    float rightBorder;
-
-    float timelineCanvasRadius;
-
+    float minZoom, maxZoom;
     public Transform notePrefab;
-    List<Transform> notesObjects;
 
     private void Awake()
     {
-        buttonRecorder = GameObject.FindGameObjectWithTag("GameManager").GetComponent<TapRecorder>();
-        uIComponents = GameObject.FindGameObjectWithTag("UI").GetComponent<UIComponents>();
+        buttonRecorder = FindObjectOfType<TapRecorder>();
 
         audioSource = buttonRecorder.GetComponent<AudioSource>();
         timeline = transform.GetComponent<RectTransform>();
         arrowIndicator = transform.GetChild(0).GetComponent<RectTransform>();
         waveformDrawer = GetComponent<WaveformDrawer>();
-        
-        currentZoom = Screen.width;
-        leftBorder = minZoom = 0f;
-        rightBorder = maxZoom = Screen.width;
-        timelineCanvasRadius = timeline.rect.width / 2;
+        UItimer = FindObjectOfType<UIComponents>().Timer.GetComponent<Text>();
+
+        UItimer.text = "0.0000 / " + audioSource.clip.length + "sec";
+        CurrentZoom = Screen.width;
+        LeftBorder = minZoom = 0f;
+        RightBorder = maxZoom = Screen.width;
+        TimelineCanvasRadius = timeline.rect.width / 2;
         updateIndicatorPosition();
 
-        UItimer = uIComponents.Timer.GetChild(0).GetComponent<Text>();
-        UItimer.text = "0.0000 / " + audioSource.clip.length + "sec";
 
-        notesObjects = new List<Transform>();
+
+        NotesObjects = new List<Transform>();
+    }
+
+    private void Start()
+    {
+        actionKey = FindObjectOfType<GameSettings>().GetKeyBind(GameSettings.KeyMap.Action1);
     }
 
     // Update is called once per frame
@@ -58,10 +57,10 @@ public class TimelineIndicator : MonoBehaviour
     {
         // Update indicator position
         float newPosition = Remap(audioSource.time, 0, audioSource.clip.length, 0, Screen.width);
-        if (newPosition >= leftBorder && newPosition <= rightBorder)
+        if (newPosition >= LeftBorder && newPosition <= RightBorder)
         {
             arrowIndicator.gameObject.SetActive(true);
-            newPosition = Remap(newPosition, leftBorder, rightBorder, -timelineCanvasRadius, timelineCanvasRadius);
+            newPosition = Remap(newPosition, LeftBorder, RightBorder, -TimelineCanvasRadius, TimelineCanvasRadius);
 
             arrowIndicator.anchoredPosition = new Vector2(newPosition, arrowIndicator.anchoredPosition.y);
         }
@@ -87,13 +86,13 @@ public class TimelineIndicator : MonoBehaviour
         noteTimelineIndicator.Timestamp = timestamp;
         noteTimelineIndicator.TimeHeld = timeHeld;
 
-        notesObjects.Add(newNoteObject);
+        NotesObjects.Add(newNoteObject);
         updateSingleNotePosition(newNoteObject);
     }
 
     public void updateAllNotesPosition()
     {
-        foreach (var note in notesObjects)
+        foreach (var note in NotesObjects)
         {
             updateSingleNotePosition(note);
         }
@@ -104,9 +103,9 @@ public class TimelineIndicator : MonoBehaviour
 
             float position = noteObject.GetComponent<NoteTimelineIndicator>().TimelinePosition;
 
-            if (position > leftBorder && position < rightBorder)
+            if (position > LeftBorder && position < RightBorder)
             {
-                position = Remap(position, leftBorder, rightBorder, -timelineCanvasRadius, timelineCanvasRadius);
+                position = Remap(position, LeftBorder, RightBorder, -TimelineCanvasRadius, TimelineCanvasRadius);
                 RectTransform rectTransform = noteObject.GetComponent<RectTransform>();
                 rectTransform.anchoredPosition = new Vector2(position, rectTransform.anchoredPosition.y);
                 noteObject.gameObject.SetActive(true);
@@ -117,12 +116,12 @@ public class TimelineIndicator : MonoBehaviour
             }
     }
 
-    private void OnMouseDown()
+    private void OnMouseDragOrButtonDown()
     {
         // Set indicator and audio player to clicked position
         float mousePos = Input.mousePosition.x;
         // Remap to include zoom level to zoom
-        mousePos = Remap(mousePos, 0, Screen.width, leftBorder, rightBorder);
+        mousePos = Remap(mousePos, 0, Screen.width, LeftBorder, RightBorder);
         // Remap to audio time
         mousePos = Remap(mousePos, 0, Screen.width, 0, audioSource.clip.length);
 
@@ -130,64 +129,68 @@ public class TimelineIndicator : MonoBehaviour
         updateIndicatorPosition();
     }
 
-    // Zoom on scroll
     private void OnMouseOver()
     {
+        // Zoom on scroll
         float zoomDirection = Input.GetAxis("Mouse ScrollWheel");
         if (zoomDirection != 0.0f)
         {
-            float zoomCenter = Remap(Input.mousePosition.x, 0, Screen.width, leftBorder, rightBorder);
+            float zoomCenter = Remap(Input.mousePosition.x, 0, Screen.width, LeftBorder, RightBorder);
 
-            float newZoom = currentZoom;
+            float newZoom = CurrentZoom;
             newZoom -= zoomDirection * zoomSpeed;
             newZoom = Mathf.Clamp(newZoom, minZoom, maxZoom);
-            newZoom = Mathf.MoveTowards(currentZoom, newZoom, smoothSpeed * Time.deltaTime);
+            newZoom = Mathf.MoveTowards(CurrentZoom, newZoom, smoothSpeed * Time.deltaTime);
 
             ZoomTimeline(zoomDirection, zoomCenter, newZoom);
         }
+
+        // Update indicator on mouse or button down
+        if (Input.GetKey(KeyCode.Mouse0) || Input.GetKey(actionKey))
+            OnMouseDragOrButtonDown();
     }
 
     // Zoom in and out the time line
     public void ZoomTimeline(float zoomDirection, float zoomCenter, float newZoom)
     {
-        float oldLeftBorder = leftBorder;
-        float oldRightBorder = rightBorder;
-        leftBorder = zoomCenter - newZoom / 2;
-        rightBorder = zoomCenter + newZoom / 2;
+        float oldLeftBorder = LeftBorder;
+        float oldRightBorder = RightBorder;
+        LeftBorder = zoomCenter - newZoom / 2;
+        RightBorder = zoomCenter + newZoom / 2;
 
         if (zoomDirection > 0)
         {
-            if (leftBorder < oldLeftBorder)
+            if (LeftBorder < oldLeftBorder)
             {
-                rightBorder += oldLeftBorder - leftBorder;
-                leftBorder = oldLeftBorder;
+                RightBorder += oldLeftBorder - LeftBorder;
+                LeftBorder = oldLeftBorder;
             }
-            if (rightBorder > oldRightBorder)
+            if (RightBorder > oldRightBorder)
             {
-                leftBorder -= rightBorder - oldRightBorder;
-                rightBorder = oldRightBorder;
+                LeftBorder -= RightBorder - oldRightBorder;
+                RightBorder = oldRightBorder;
             }
         }
         else
         {
-            if (leftBorder < 0)
+            if (LeftBorder < 0)
             {
-                rightBorder += oldLeftBorder - leftBorder;
-                leftBorder = 0;
+                RightBorder += oldLeftBorder - LeftBorder;
+                LeftBorder = 0;
             }
-            if (rightBorder > Screen.width)
+            if (RightBorder > Screen.width)
             {
-                leftBorder -= rightBorder - oldRightBorder;
-                rightBorder = Screen.width;
+                LeftBorder -= RightBorder - oldRightBorder;
+                RightBorder = Screen.width;
             }
         }
 
-        leftBorder = Mathf.Clamp(leftBorder, 0, Screen.width);
-        rightBorder = Mathf.Clamp(rightBorder, 0, Screen.width);
-        currentZoom = rightBorder - leftBorder;
-        Texture2D zoomedTexture = waveformDrawer.CreateWaveformSpectrumTexture((int)leftBorder, (int)rightBorder);
+        LeftBorder = Mathf.Clamp(LeftBorder, 0, Screen.width);
+        RightBorder = Mathf.Clamp(RightBorder, 0, Screen.width);
+        CurrentZoom = RightBorder - LeftBorder;
+        Texture2D zoomedTexture = waveformDrawer.CreateWaveformSpectrumTexture((int)LeftBorder, (int)RightBorder);
         waveformDrawer.OverrideSprite(zoomedTexture);
-        currentZoom = newZoom;
+        CurrentZoom = newZoom;
 
         updateAllNotesPosition();
         updateIndicatorPosition();
@@ -195,11 +198,11 @@ public class TimelineIndicator : MonoBehaviour
 
     public void DestroyAllNoteObjects()
     {
-        foreach(Transform noteObject in notesObjects)
+        foreach(Transform noteObject in NotesObjects)
         {
             GameObject.Destroy(noteObject.gameObject);
         }
-        notesObjects.Clear();
+        NotesObjects.Clear();
     }
 
     public static float Remap(float value, float from1, float to1, float from2, float to2)
@@ -207,10 +210,10 @@ public class TimelineIndicator : MonoBehaviour
         return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
     }
 
-    public float TimelineCanvasRadius { get { return timelineCanvasRadius; } }
-    public float LeftBorder { get { return leftBorder; } }
-    public float RightBorder { get { return rightBorder; } }
-    public float CurrentZoom { get { return currentZoom; } }
+    public float TimelineCanvasRadius { get; private set; }
+    public float LeftBorder { get; private set; }
+    public float RightBorder { get; private set; }
+    public float CurrentZoom { get; private set; }
     public RectTransform ArrowIndicator { get { return arrowIndicator; } }
-    public List<Transform> NotesObjects { get { return notesObjects; } set { notesObjects = value; } }
+    public List<Transform> NotesObjects { get; set; }
 }

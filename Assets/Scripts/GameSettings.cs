@@ -4,19 +4,23 @@ using UnityEngine;
 
 public class GameSettings : MonoBehaviour
 {
-    public enum KeyMap { Action};
-
-    Dictionary<KeyMap, KeyCode> keyBindings;
+    public enum KeyMap { Action1, Action2, Start, Stop};
 
     private void Awake()
     {
-        keyBindings = new Dictionary<KeyMap, KeyCode>();
-        keyBindings.Add(KeyMap.Action, KeyCode.Space);
+        QualitySettings.vSyncCount = 0;  // VSync must be disabled
+        Application.targetFrameRate = 60;
+
+        KeyBindings = new Dictionary<KeyMap, KeyCode>();
+        KeyBindings.Add(KeyMap.Action1, KeyCode.Space);
+        KeyBindings.Add(KeyMap.Action2, KeyCode.C);
+        KeyBindings.Add(KeyMap.Start, KeyCode.P);
+        KeyBindings.Add(KeyMap.Stop, KeyCode.S);
     }
 
     public KeyCode GetKeyBind(KeyMap bind)
     {
-        return keyBindings[bind];
+        return KeyBindings[bind];
     }
-    public Dictionary<KeyMap, KeyCode> KeyBindings { get { return keyBindings; } }
+    public Dictionary<KeyMap, KeyCode> KeyBindings { get; private set; }
 }

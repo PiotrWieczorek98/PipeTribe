@@ -13,23 +13,27 @@ public class InLevelButton : MonoBehaviour
     public Sprite clickedSprite;
     Image buttonImage;
 
-    string levelName;
     KeyCode actionButton;
 
     private void Awake()
     {
         buttonImage = GetComponent<Image>();
         buttonImage.sprite = defaultSprite;
-        actionButton = FindObjectOfType<GameSettings>().GetKeyBind(GameSettings.KeyMap.Action);
+    }
+    private void Start()
+    {
+        actionButton = FindObjectOfType<GameSettings>().GetKeyBind(GameSettings.KeyMap.Action1);
     }
 
     private void OnMouseOver()
     {
-        buttonImage.sprite = hoverSprite;
+        if (buttonImage.sprite == defaultSprite)
+            buttonImage.sprite = hoverSprite;
+
         if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(actionButton))
         {
-            GetComponent<AudioSource>().Play();
             buttonImage.sprite = clickedSprite;
+            GetComponent<AudioSource>().Play();
             StartCoroutine(delayAction(1f));
         }
     }
@@ -41,6 +45,7 @@ public class InLevelButton : MonoBehaviour
     IEnumerator delayAction(float delay)
     {
         yield return new WaitForSeconds(delay);
+        buttonImage.sprite = defaultSprite;
 
         switch (typeOfButton)
         {

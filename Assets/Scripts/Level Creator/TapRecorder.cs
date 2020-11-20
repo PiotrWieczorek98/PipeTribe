@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 public class TapRecorder : MonoBehaviour
 {
-    public KeyCode recoredKey, startKey, stopKey;
+    KeyCode actionKey;
+    KeyCode startKey;
+    KeyCode stopKey;
 
     float timeHeld = 0;
     float timeWhenPressed = 0;
@@ -20,6 +18,14 @@ public class TapRecorder : MonoBehaviour
     {
         audioSource = GetComponent<AudioSource>();
         timelineIndicator = GetComponentInChildren<TimelineIndicator>();
+    }
+
+    private void Start()
+    {
+        GameSettings gameSettings = FindObjectOfType<GameSettings>();
+        actionKey = gameSettings.GetKeyBind(GameSettings.KeyMap.Action2);
+        startKey = gameSettings.GetKeyBind(GameSettings.KeyMap.Start);
+        stopKey = gameSettings.GetKeyBind(GameSettings.KeyMap.Stop);
     }
 
     // Update is called once per frame
@@ -39,11 +45,11 @@ public class TapRecorder : MonoBehaviour
         }
 
 
-        if (Input.GetKeyDown(recoredKey))
+        if (Input.GetKeyDown(actionKey))
         {
             timeWhenPressed = audioSource.time;
         }
-        else if (Input.GetKeyUp(recoredKey))
+        else if (Input.GetKeyUp(actionKey))
         {
             timeHeld = audioSource.time - timeWhenPressed;
             if (timeHeld < 0.5)
@@ -53,6 +59,4 @@ public class TapRecorder : MonoBehaviour
             Debug.Log(timeWhenPressed + " / " + timeHeld);
         }
     }
-
-    public bool IsRecording { get { return isRecording; } }
 }

@@ -1,17 +1,17 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MenuButton : MonoBehaviour
 {
-    public enum TypeOfButton { Play, Settings, Exit };
+    public enum TypeOfButton { Play, Settings, Exit, LevelEditor };
     public TypeOfButton typeOfButton;
     public Sprite defaultSprite;
     public Sprite hoverSprite;
 
     Image buttonImage;
-    KeyCode actionButton;
+    KeyCode actionKey;
 
     string levelName;
 
@@ -19,13 +19,17 @@ public class MenuButton : MonoBehaviour
     {
         buttonImage = GetComponent<Image>();
         buttonImage.sprite = defaultSprite;
-        actionButton = FindObjectOfType<GameSettings>().GetKeyBind(GameSettings.KeyMap.Action);
+    }
+
+    private void Start()
+    {
+        actionKey = FindObjectOfType<GameSettings>().GetKeyBind(GameSettings.KeyMap.Action1);
     }
 
     private void OnMouseOver()
     {
         buttonImage.sprite = hoverSprite;
-        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(actionButton))
+        if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(actionKey))
         {
             GetComponent<AudioSource>().Play();
             StartCoroutine(delayAction(1f));
@@ -35,6 +39,7 @@ public class MenuButton : MonoBehaviour
     }
     IEnumerator delayAction(float delay)
     {
+        FindObjectOfType<MenuAnimator>().PlayLoadingAnimation();
         yield return new WaitForSeconds(delay);
 
         switch (typeOfButton)
@@ -47,7 +52,10 @@ public class MenuButton : MonoBehaviour
 
                 break;
             case TypeOfButton.Exit:
-
+                Application.Quit();
+                break;
+            case TypeOfButton.LevelEditor:
+                SceneManager.LoadScene(2);
                 break;
         }
     }

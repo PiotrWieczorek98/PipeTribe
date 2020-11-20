@@ -38,6 +38,12 @@ TextureImporter:
   - first:
       213: -271903387883583024
     second: Ring Buttons_5
+  - first:
+      213: 552687443369415773
+    second: Ring Buttons_6
+  - first:
+      213: -7156905044191951330
+    second: Ring Buttons_7
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -128,10 +134,10 @@ TextureImporter:
       name: Ring Buttons_0
       rect:
         serializedVersion: 2
-        x: 19
-        y: 121
-        width: 57
-        height: 42
+        x: 21
+        y: 286
+        width: 55
+        height: 40
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -149,10 +155,10 @@ TextureImporter:
       name: Ring Buttons_1
       rect:
         serializedVersion: 2
-        x: 102
-        y: 122
-        width: 55
-        height: 40
+        x: 3
+        y: 214
+        width: 23
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -170,10 +176,10 @@ TextureImporter:
       name: Ring Buttons_2
       rect:
         serializedVersion: 2
-        x: 1
-        y: 49
-        width: 25
-        height: 66
+        x: 138
+        y: 214
+        width: 23
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -191,10 +197,10 @@ TextureImporter:
       name: Ring Buttons_3
       rect:
         serializedVersion: 2
-        x: 84
-        y: 50
-        width: 23
-        height: 64
+        x: 21
+        y: 166
+        width: 55
+        height: 40
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -212,8 +218,8 @@ TextureImporter:
       name: Ring Buttons_4
       rect:
         serializedVersion: 2
-        x: 19
-        y: 1
+        x: 20
+        y: 121
         width: 57
         height: 42
       alignment: 0
@@ -233,10 +239,10 @@ TextureImporter:
       name: Ring Buttons_5
       rect:
         serializedVersion: 2
-        x: 102
-        y: 2
-        width: 55
-        height: 40
+        x: 2
+        y: 49
+        width: 25
+        height: 66
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -246,6 +252,48 @@ TextureImporter:
       bones: []
       spriteID: 0d949ff2f410a3cf0800000000000000
       internalID: -271903387883583024
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ring Buttons_6
+      rect:
+        serializedVersion: 2
+        x: 137
+        y: 49
+        width: 25
+        height: 66
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d545add2d4a8ba700800000000000000
+      internalID: 552687443369415773
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ring Buttons_7
+      rect:
+        serializedVersion: 2
+        x: 20
+        y: 1
+        width: 57
+        height: 42
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e16ccbdf7c09dac90800000000000000
+      internalID: -7156905044191951330
       vertices: []
       indices: 
       edges: []
