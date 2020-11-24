@@ -12,9 +12,9 @@ public class LevelDataLoader : MonoBehaviour
     public List<(float, float)> LoadRecording()
 	{
 		musicNotesTimeline = new List<(float, float)>();
-		InLevelManager gameManager = FindObjectOfType<InLevelManager>();
-		string filename = gameManager.LevelName;
-		string destination = Application.dataPath + "/levels/" + filename + ".dat";
+
+		string filename = FindObjectOfType<InLevelManager>().MusicName;
+		string destination = FindObjectOfType<GameSettings>().LevelDir + "/" + filename + "/" + filename + ".dat";
 
 		// Open file
 		FileStream file;
@@ -33,8 +33,9 @@ public class LevelDataLoader : MonoBehaviour
 
 
 		// Add offset to each note - user preferences
+		float offset = FindObjectOfType<GameSettings>().MusicNotesOffset;
 		foreach (var note in originalTimeline)
-			musicNotesTimeline.Add((note.Item1 + gameManager.MusicNotesOffset, note.Item2));
+			musicNotesTimeline.Add((note.Item1 + offset, note.Item2));
 
 		return musicNotesTimeline;
 	}

@@ -13,6 +13,7 @@ public class MenuAnimator : MonoBehaviour
     public AnimationClip spinAnimation;
     public AnimationClip zoomInLogoAnimation;
     public AnimationClip loadingAnimation;
+    public AnimationClip beatAnimation;
 
     public Transform letters;
     public Transform ring;
@@ -20,6 +21,8 @@ public class MenuAnimator : MonoBehaviour
     float currentLogoBrightness = 0.3f;
     float currentButtonsBrightness = 0f;
     float brightnessIncrease = 0.2f;
+
+    Animator generalAnimator;
 
     // Start is called before the first frame update
     void Start()
@@ -36,6 +39,8 @@ public class MenuAnimator : MonoBehaviour
 
         ring.GetComponent<Animator>().Play(spinAnimation.name);
         logo.GetComponent<Animator>().Play(zoomInLogoAnimation.name);
+
+        generalAnimator = transform.GetComponentInChildren<Animator>();
     }
 
     private void Update()
@@ -61,7 +66,12 @@ public class MenuAnimator : MonoBehaviour
 
     public void PlayLoadingAnimation()
     {
-        transform.GetComponentInChildren<Animator>().Play(loadingAnimation.name);
+        generalAnimator.Play(loadingAnimation.name);
+    }
+
+    public void PlayBeatAnimation()
+    {
+        generalAnimator.Play(beatAnimation.name);
     }
 
     IEnumerator delayedLetterAnimation(Animator animator, string name, float delay)

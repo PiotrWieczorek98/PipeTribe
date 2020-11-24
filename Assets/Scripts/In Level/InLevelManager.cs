@@ -4,7 +4,8 @@ using UnityEngine.UI;
 
 public class InLevelManager : MonoBehaviour
 {
-    public string levelName;
+    public string MusicName { get; private set; }
+    public string MusicDir { get; private set; }
     public AudioClip music;
     public AudioClip levelComplete;
     public AudioClip levelFailed;
@@ -107,5 +108,4 @@ public class InLevelManager : MonoBehaviour
         maxCombo.text = playerCollision.MaxComboAchieved.ToString();
         percentage.text = playerCollision.ScorePercentage.ToString("F2") + "%";
     }
-    public string LevelName { get { return levelName; } }
 }

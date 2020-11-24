@@ -481,7 +481,7 @@ RectTransform:
   m_GameObject: {fileID: 210749377}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 4, y: 4, z: 1}
+  m_LocalScale: {x: 7, y: 7, z: 1}
   m_Children:
   - {fileID: 222685903}
   m_Father: {fileID: 841642108}
@@ -699,7 +699,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9e486031e5556545a38229cd878f912, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeOfButton: 0
+  typeOfButton: 1
   defaultSprite: {fileID: 2484629392755263411, guid: ce4189dd4a5270a4382e54158bcf4a8a, type: 3}
   hoverSprite: {fileID: 3768214698707583347, guid: ce4189dd4a5270a4382e54158bcf4a8a, type: 3}
 --- !u!61 &276918697
@@ -1290,7 +1290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9e486031e5556545a38229cd878f912, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeOfButton: 0
+  typeOfButton: 2
   defaultSprite: {fileID: -7957495459503021440, guid: ce4189dd4a5270a4382e54158bcf4a8a, type: 3}
   hoverSprite: {fileID: -7156905044191951330, guid: ce4189dd4a5270a4382e54158bcf4a8a, type: 3}
 --- !u!61 &617324088
@@ -1632,7 +1632,7 @@ RectTransform:
   m_GameObject: {fileID: 841642107}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.15, y: 0.15, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 1}
   m_Children:
   - {fileID: 1010593962}
   - {fileID: 107405157}
@@ -1765,10 +1765,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -1836,6 +1836,7 @@ MonoBehaviour:
   spinAnimation: {fileID: 7400000, guid: cc9be861c98a920448873b10e4acae65, type: 2}
   zoomInLogoAnimation: {fileID: 7400000, guid: e0ea4a8f80b318f4188ffab63963800e, type: 2}
   loadingAnimation: {fileID: 7400000, guid: 44f6413836379504bb13f59f872eec25, type: 2}
+  beatAnimation: {fileID: 7400000, guid: 8a234be639bffee4ca4469e705a0fcdf, type: 2}
   letters: {fileID: 1010593962}
   ring: {fileID: 107405157}
   logo: {fileID: 841642108}
@@ -2891,6 +2892,7 @@ GameObject:
   - component: {fileID: 2127894440}
   - component: {fileID: 2127894442}
   - component: {fileID: 2127894443}
+  - component: {fileID: 2127894444}
   m_Layer: 0
   m_Name: MenuManager
   m_TagString: Untagged
@@ -3032,3 +3034,17 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2127894444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2127894439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c761fad611923e4483ea2f608576ea6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectorType: 0
+  sampleSize: 1024

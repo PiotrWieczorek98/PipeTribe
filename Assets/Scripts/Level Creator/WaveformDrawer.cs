@@ -9,9 +9,10 @@ public class WaveformDrawer : MonoBehaviour
     public Color backgroundColor = Color.blue;
 
     public Image timeline;
-    public AudioClip audioClip, monoAudioClip;
+    public AudioClip monoAudioClip;
 
     RectTransform timelineTransform;
+    TimelineIndicator timelineIndicator;
 
     public Texture2D CreateWaveformSpectrumTexture(int leftBorder, int rightBorder)
     {
@@ -59,12 +60,13 @@ public class WaveformDrawer : MonoBehaviour
         return timelineTexture;
     }
 
-    public AudioClip CloneAudioClipToMono(AudioClip sourceAudioClip)
+    public AudioClip CloneAudioClipToMono()
     {
-        AudioClip monoAudioClip = AudioClip.Create(sourceAudioClip.name + "Mono", sourceAudioClip.samples, 1, sourceAudioClip.frequency, false);
-        float[] stereoVersion = new float[sourceAudioClip.samples * sourceAudioClip.channels];
-        float[] monoVersion = new float[sourceAudioClip.samples];
-        sourceAudioClip.GetData(stereoVersion, 0);
+        AudioClip source = FindObjectOfType<LevelCreatorManager>().MusicSource.clip;
+        AudioClip monoAudioClip = AudioClip.Create(source.name + "Mono", source.samples, 1, source.frequency, false);
+        float[] stereoVersion = new float[source.samples * source.channels];
+        float[] monoVersion = new float[source.samples];
+        source.GetData(stereoVersion, 0);
 
         for (int i = 0, j = 0; i < stereoVersion.Length; i += 2, j++)
         {
@@ -76,11 +78,18 @@ public class WaveformDrawer : MonoBehaviour
     }
 
 
-    void Awake()
+    public void InitializeTimelineSettings()
     {
-        timelineTransform = timeline.GetComponent(typeof(RectTransform)) as RectTransform;
+        timelineTransform = timeline.GetComponent<RectTransform>();
+        timelineIndicator = timeline.GetComponent<TimelineIndicator>();
 
-        monoAudioClip = CloneAudioClipToMono(audioClip);
+        timelineIndicator.enabled = true;
+        timelineIndicator.InitializeTimeline();
+    }
+
+    public void DrawTimeline()
+    {
+        monoAudioClip = CloneAudioClipToMono();
         Texture2D texture = CreateWaveformSpectrumTexture(0, Screen.width);
         timeline.overrideSprite = Sprite.Create(texture, new Rect(0f, 0f, texture.width, texture.height), new Vector2(0.5f, 0.5f));
     }

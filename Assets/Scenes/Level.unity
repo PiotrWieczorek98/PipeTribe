@@ -1459,7 +1459,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   typeOfButton: 0
-  clickSound: {fileID: 8300000, guid: 0c5a51325407f244bb90eb4de66c2987, type: 3}
   defaultSprite: {fileID: 7732144980333974611, guid: df106d865c15ead4fad94b3af878a036, type: 3}
   hoverSprite: {fileID: -5999149782405380096, guid: df106d865c15ead4fad94b3af878a036, type: 3}
   clickedSprite: {fileID: 3210599436326271835, guid: df106d865c15ead4fad94b3af878a036, type: 3}
@@ -1751,7 +1750,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   typeOfButton: 1
-  clickSound: {fileID: 8300000, guid: 0c5a51325407f244bb90eb4de66c2987, type: 3}
   defaultSprite: {fileID: -1025273671673455662, guid: df106d865c15ead4fad94b3af878a036, type: 3}
   hoverSprite: {fileID: 6384617997017938364, guid: df106d865c15ead4fad94b3af878a036, type: 3}
   clickedSprite: {fileID: 6245140483005036869, guid: df106d865c15ead4fad94b3af878a036, type: 3}
@@ -3075,7 +3073,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2047907234}
   - component: {fileID: 2047907235}
-  - component: {fileID: 2047907233}
   - component: {fileID: 2047907237}
   - component: {fileID: 2047907236}
   m_Layer: 0
@@ -3085,28 +3082,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2047907233
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2047907232}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e62cb9126884fa4d99e0eeaf7cf129c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  levelName: Undercover Martyn
-  music: {fileID: 8300000, guid: 28ae16af4cc71174787551a415cd64e4, type: 3}
-  levelComplete: {fileID: 8300000, guid: 2aada7ab2795ecd4e92778094304351a, type: 3}
-  levelFailed: {fileID: 8300000, guid: d9de7f0435886b34eac7fb6f40911b08, type: 3}
-  MusicNotesOffset: 0
-  minDeltaTimeToSwitch: 0.3
-  healthRegainOnHit: 2
-  healthLossOnFail: 10
-  loadingTime: 0.5
-  endGamePanel: {fileID: 1449138811}
 --- !u!4 &2047907234
 Transform:
   m_ObjectHideFlags: 0

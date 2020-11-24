@@ -5,43 +5,49 @@ using UnityEngine.UI;
 
 public class TimelineIndicator : MonoBehaviour
 {
-    TapRecorder buttonRecorder;
+    public float TimelineCanvasRadius { get; private set; }
+    public float LeftBorder { get; private set; }
+    public float RightBorder { get; private set; }
+    public float CurrentZoom { get; private set; }
+    public RectTransform ArrowIndicator { get { return arrowIndicator; } }
+    public List<Transform> NotesObjects { get; set; }
+    public List<(Transform, float)> BarObjects { get; private set; }
+
+
     AudioSource audioSource;
-    RectTransform timeline, arrowIndicator; //canvasTransform;
+    RectTransform timelineRectTransform;
     WaveformDrawer waveformDrawer;
-    Text UItimer;
     KeyCode actionKey;
+
+    public Transform notePrefab;
+    public Transform barPrefab;
+
+    public Text UItimer;
+    public RectTransform arrowIndicator;
 
     public float zoomSpeed;
     public float smoothSpeed;
     float minZoom, maxZoom;
-    public Transform notePrefab;
 
-    private void Awake()
+    public void InitializeTimeline()
     {
-        buttonRecorder = FindObjectOfType<TapRecorder>();
-
-        audioSource = buttonRecorder.GetComponent<AudioSource>();
-        timeline = transform.GetComponent<RectTransform>();
-        arrowIndicator = transform.GetChild(0).GetComponent<RectTransform>();
-        waveformDrawer = GetComponent<WaveformDrawer>();
-        UItimer = FindObjectOfType<UIComponents>().Timer.GetComponent<Text>();
-
-        UItimer.text = "0.0000 / " + audioSource.clip.length + "sec";
-        CurrentZoom = Screen.width;
-        LeftBorder = minZoom = 0f;
-        RightBorder = maxZoom = Screen.width;
-        TimelineCanvasRadius = timeline.rect.width / 2;
-        updateIndicatorPosition();
-
-
-
-        NotesObjects = new List<Transform>();
-    }
-
-    private void Start()
-    {
+        LevelCreatorManager levelCreatorManager = FindObjectOfType<LevelCreatorManager>();
         actionKey = FindObjectOfType<GameSettings>().GetKeyBind(GameSettings.KeyMap.Action1);
+
+        audioSource = levelCreatorManager.MusicSource;
+        timelineRectTransform = transform.GetComponent<RectTransform>();
+        waveformDrawer = GetComponent<WaveformDrawer>();
+
+        LeftBorder = minZoom = 0f;
+        CurrentZoom = RightBorder = maxZoom = Screen.width;
+        TimelineCanvasRadius = timelineRectTransform.rect.width / 2;
+
+        GetComponent<Collider2D>().enabled = true;
+        NotesObjects = new List<Transform>();
+        BarObjects = new List<(Transform, float)>();
+
+        updateIndicatorPosition();
+        SetBeatIndicators(levelCreatorManager.BeatsTotal, levelCreatorManager.OffsetValue);
     }
 
     // Update is called once per frame
@@ -51,6 +57,27 @@ public class TimelineIndicator : MonoBehaviour
 
         if (audioSource.isPlaying)
             updateIndicatorPosition();
+    }
+
+    private void OnMouseOver()
+    {
+        // Zoom on scroll
+        float zoomDirection = Input.GetAxis("Mouse ScrollWheel");
+        if (zoomDirection != 0.0f)
+        {
+            float zoomCenter = Remap(Input.mousePosition.x, 0, Screen.width, LeftBorder, RightBorder);
+
+            float newZoom = CurrentZoom;
+            newZoom -= zoomDirection * zoomSpeed;
+            newZoom = Mathf.Clamp(newZoom, minZoom, maxZoom);
+            newZoom = Mathf.MoveTowards(CurrentZoom, newZoom, smoothSpeed * Time.deltaTime);
+
+            ZoomTimeline(zoomDirection, zoomCenter, newZoom);
+        }
+
+        // Update indicator on mouse or button down
+        if (Input.GetKey(KeyCode.Mouse0) || Input.GetKey(actionKey))
+            ChangeCurrentAudioClipTime(Input.mousePosition.x);
     }
 
     void updateIndicatorPosition()
@@ -116,10 +143,8 @@ public class TimelineIndicator : MonoBehaviour
             }
     }
 
-    private void OnMouseDragOrButtonDown()
+    public void ChangeCurrentAudioClipTime(float mousePos)
     {
-        // Set indicator and audio player to clicked position
-        float mousePos = Input.mousePosition.x;
         // Remap to include zoom level to zoom
         mousePos = Remap(mousePos, 0, Screen.width, LeftBorder, RightBorder);
         // Remap to audio time
@@ -127,27 +152,6 @@ public class TimelineIndicator : MonoBehaviour
 
         audioSource.time = mousePos;
         updateIndicatorPosition();
-    }
-
-    private void OnMouseOver()
-    {
-        // Zoom on scroll
-        float zoomDirection = Input.GetAxis("Mouse ScrollWheel");
-        if (zoomDirection != 0.0f)
-        {
-            float zoomCenter = Remap(Input.mousePosition.x, 0, Screen.width, LeftBorder, RightBorder);
-
-            float newZoom = CurrentZoom;
-            newZoom -= zoomDirection * zoomSpeed;
-            newZoom = Mathf.Clamp(newZoom, minZoom, maxZoom);
-            newZoom = Mathf.MoveTowards(CurrentZoom, newZoom, smoothSpeed * Time.deltaTime);
-
-            ZoomTimeline(zoomDirection, zoomCenter, newZoom);
-        }
-
-        // Update indicator on mouse or button down
-        if (Input.GetKey(KeyCode.Mouse0) || Input.GetKey(actionKey))
-            OnMouseDragOrButtonDown();
     }
 
     // Zoom in and out the time line
@@ -193,16 +197,68 @@ public class TimelineIndicator : MonoBehaviour
         CurrentZoom = newZoom;
 
         updateAllNotesPosition();
+        updateAllBarsPosition();
         updateIndicatorPosition();
+    }
+
+    public void SetBeatIndicators(float totalBeats, float offset)
+    {
+        DestroyAllBarObjects();
+
+        float delta = Screen.width / totalBeats;
+        float position = offset;
+        for(int i = 0; i < totalBeats; i++)
+        {
+            Transform newBar = Instantiate(barPrefab, transform);
+            BarObjects.Add((newBar, position));
+
+            position += delta;
+        }
+        updateAllBarsPosition();
+    }
+
+    void updateAllBarsPosition()
+    {
+        foreach((Transform, float) bar in BarObjects)
+        {
+            Transform barObject = bar.Item1;
+            float position = bar.Item2;
+            if (position > LeftBorder && position < RightBorder)
+            {
+                position = Remap(position, LeftBorder, RightBorder, -TimelineCanvasRadius, TimelineCanvasRadius);
+                RectTransform rectTransform = barObject.GetComponent<RectTransform>();
+                rectTransform.anchoredPosition = new Vector2(position, rectTransform.anchoredPosition.y);
+                barObject.gameObject.SetActive(true);
+            }
+            else
+            {
+                barObject.gameObject.SetActive(false);
+            }
+        }
     }
 
     public void DestroyAllNoteObjects()
     {
+        if (NotesObjects == null)
+            return;
+
         foreach(Transform noteObject in NotesObjects)
         {
-            GameObject.Destroy(noteObject.gameObject);
+            Destroy(noteObject.gameObject);
         }
         NotesObjects.Clear();
+    }
+
+    public void DestroyAllBarObjects()
+    {
+        if (BarObjects == null)
+            return;
+
+        foreach ((Transform, float) barObject in BarObjects)
+        {
+            Destroy(barObject.Item1.gameObject);
+        }
+        BarObjects.Clear();
     }
 
     public static float Remap(float value, float from1, float to1, float from2, float to2)
@@ -210,10 +266,4 @@ public class TimelineIndicator : MonoBehaviour
         return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
     }
 
-    public float TimelineCanvasRadius { get; private set; }
-    public float LeftBorder { get; private set; }
-    public float RightBorder { get; private set; }
-    public float CurrentZoom { get; private set; }
-    public RectTransform ArrowIndicator { get { return arrowIndicator; } }
-    public List<Transform> NotesObjects { get; set; }
 }

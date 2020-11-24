@@ -16,6 +16,8 @@ public class GameSettings : MonoBehaviour
         KeyBindings.Add(KeyMap.Action2, KeyCode.C);
         KeyBindings.Add(KeyMap.Start, KeyCode.P);
         KeyBindings.Add(KeyMap.Stop, KeyCode.S);
+
+        LevelDir = Application.streamingAssetsPath + "/levels";
     }
 
     public KeyCode GetKeyBind(KeyMap bind)
@@ -23,4 +25,6 @@ public class GameSettings : MonoBehaviour
         return KeyBindings[bind];
     }
     public Dictionary<KeyMap, KeyCode> KeyBindings { get; private set; }
+    public string LevelDir { get; private set; }
+    public float MusicNotesOffset { get; private set; } = 0;
 }
