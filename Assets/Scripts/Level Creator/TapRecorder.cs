@@ -2,7 +2,7 @@
 
 public class TapRecorder : MonoBehaviour
 {
-    KeyCode actionKey;
+    KeyCode tapKey;
     KeyCode startKey;
     KeyCode stopKey;
 
@@ -17,13 +17,13 @@ public class TapRecorder : MonoBehaviour
     private void Awake()
     {
         audioSource = GetComponent<AudioSource>();
-        timelineIndicator = GetComponentInChildren<TimelineIndicator>();
+        timelineIndicator = FindObjectOfType<TimelineIndicator>();
     }
 
     private void Start()
     {
         GameSettings gameSettings = FindObjectOfType<GameSettings>();
-        actionKey = gameSettings.GetKeyBind(GameSettings.KeyMap.Action2);
+        tapKey = gameSettings.GetKeyBind(GameSettings.KeyMap.Tap);
         startKey = gameSettings.GetKeyBind(GameSettings.KeyMap.Start);
         stopKey = gameSettings.GetKeyBind(GameSettings.KeyMap.Stop);
     }
@@ -45,11 +45,11 @@ public class TapRecorder : MonoBehaviour
         }
 
 
-        if (Input.GetKeyDown(actionKey))
+        if (Input.GetKeyDown(tapKey))
         {
             timeWhenPressed = audioSource.time;
         }
-        else if (Input.GetKeyUp(actionKey))
+        else if (Input.GetKeyUp(tapKey))
         {
             timeHeld = audioSource.time - timeWhenPressed;
             if (timeHeld < 0.5)

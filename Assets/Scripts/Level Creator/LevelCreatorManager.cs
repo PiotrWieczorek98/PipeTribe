@@ -41,4 +41,11 @@ public class LevelCreatorManager : MonoBehaviour
         }
     }
 
+    public void SetBmpOffset(float bpmValue, float offsetValue)
+    {
+        BPMValue = bpmValue;
+        OffsetValue = offsetValue;
+        FindObjectOfType<InputValues>().UpdateFieldValues();
+    }
+
 }

@@ -2787,7 +2787,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1512801271}
         m_TargetAssemblyTypeName: InputValues, Assembly-CSharp
-        m_MethodName: updateValue
+        m_MethodName: UpdateManagerValues
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2857,7 +2857,7 @@ MonoBehaviour:
   valueType: 0
   levelNameInputField: {fileID: 1512801268}
   offsetInputField: {fileID: 1741122592}
-  bpmText: {fileID: 1683345622}
+  bpmInputField: {fileID: 1683345622}
 --- !u!1 &1550066462
 GameObject:
   m_ObjectHideFlags: 0
@@ -3504,7 +3504,7 @@ MonoBehaviour:
   valueType: 2
   levelNameInputField: {fileID: 1512801268}
   offsetInputField: {fileID: 1683345622}
-  bpmText: {fileID: 1683345622}
+  bpmInputField: {fileID: 1683345622}
 --- !u!114 &1683345622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3563,7 +3563,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1683345621}
         m_TargetAssemblyTypeName: InputValues, Assembly-CSharp
-        m_MethodName: updateValue
+        m_MethodName: UpdateManagerValues
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3753,7 +3753,7 @@ MonoBehaviour:
   valueType: 1
   levelNameInputField: {fileID: 1512801268}
   offsetInputField: {fileID: 1741122592}
-  bpmText: {fileID: 1683345622}
+  bpmInputField: {fileID: 1683345622}
 --- !u!114 &1741122592
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3812,7 +3812,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1741122591}
         m_TargetAssemblyTypeName: InputValues, Assembly-CSharp
-        m_MethodName: updateValue
+        m_MethodName: UpdateManagerValues
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

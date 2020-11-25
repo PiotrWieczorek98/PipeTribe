@@ -44,7 +44,7 @@ public class LevelCreatorButton : MonoBehaviour
 
             string levelName = levelCreatorManager.MusicName;
             if (levelName == null || levelName == "")
-                levelName = "Untitled";
+                return;
             else
                 levelName = levelName.ToLower();
             
@@ -116,7 +116,8 @@ public class LevelCreatorButton : MonoBehaviour
         timelineIndicator.SetBeatIndicators(levelCreatorManager.BeatsTotal, levelCreatorManager.OffsetValue);
 
         // load data if such exist
-        List<(float, float)> noteTuples = levelDataPasser.LoadRecording(levelName);
+        //List<(float, float)> noteTuples = levelDataPasser.LoadRecordingFromDat(levelName);
+        List<(float, float)> noteTuples = levelDataPasser.LoadRecordingFromTxt(levelName);
         if (noteTuples == null)
             yield break;
         foreach ((float, float) noteTuple in noteTuples)

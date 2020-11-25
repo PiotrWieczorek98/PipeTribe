@@ -11,7 +11,7 @@ public class InputValues : MonoBehaviour
 
     public InputField levelNameInputField;
     public InputField offsetInputField;
-    public InputField bpmText;
+    public InputField bpmInputField;
 
     LevelCreatorManager levelCreatorManager;
 
@@ -20,7 +20,7 @@ public class InputValues : MonoBehaviour
         levelCreatorManager = FindObjectOfType<LevelCreatorManager>();
     }
 
-    public void updateValue()
+    public void UpdateManagerValues()
     {
         switch (valueType) 
         {
@@ -43,7 +43,7 @@ public class InputValues : MonoBehaviour
             case ValueType.BPMValue:
                 try
                 {
-                    levelCreatorManager.BPMValue = float.Parse(bpmText.text, CultureInfo.InvariantCulture);
+                    levelCreatorManager.BPMValue = float.Parse(bpmInputField.text, CultureInfo.InvariantCulture);
                 }
                 catch
                 {
@@ -60,8 +60,12 @@ public class InputValues : MonoBehaviour
 
                 break;
         }
+    }
 
-
+    public void UpdateFieldValues()
+    {
+        offsetInputField.text = levelCreatorManager.OffsetValue.ToString();
+        bpmInputField.text = levelCreatorManager.BPMValue.ToString();
     }
 
 }

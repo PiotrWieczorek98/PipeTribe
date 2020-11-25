@@ -29,6 +29,11 @@ public class LevelDataPasser : MonoBehaviour
             return null;
         }
 
+        // Add info about offset and bpm first
+        LevelCreatorManager levelCreatorManager = FindObjectOfType<LevelCreatorManager>();
+        timelineNoteTuples.Add((levelCreatorManager.BPMValue, levelCreatorManager.OffsetValue));
+
+        // Pass notes data
         foreach (Transform noteObject in notesObjects)
         {
             NoteTimelineIndicator noteTimelineIndicator = noteObject.GetComponent<NoteTimelineIndicator>();
@@ -48,18 +53,23 @@ public class LevelDataPasser : MonoBehaviour
 
     public void SaveRecordingToTxt(string filename, List<Transform> notesObjects)
     {
-        string destination = FindObjectOfType<GameSettings>().LevelDir + "/" + filename + "/" + filename + ".dat";
+        string destination = FindObjectOfType<GameSettings>().LevelDir + "/" + filename + "/" + filename + ".txt";
         using (TextWriter tw = new StreamWriter(destination))
         {
+            // Add info about offset and bpm first
+            LevelCreatorManager levelCreatorManager = FindObjectOfType<LevelCreatorManager>();
+            tw.WriteLine(levelCreatorManager.BPMValue.ToString() + " /  " + levelCreatorManager.OffsetValue.ToString());
+
             foreach (Transform noteObject in notesObjects)
             {
                 NoteTimelineIndicator noteTimelineIndicator = noteObject.GetComponent<NoteTimelineIndicator>();
-                Debug.Log((noteTimelineIndicator.Timestamp, noteTimelineIndicator.TimeHeld));
                 tw.WriteLine(noteTimelineIndicator.Timestamp.ToString() + " /  " + noteTimelineIndicator.TimeHeld.ToString());
+
+                Debug.Log((noteTimelineIndicator.Timestamp, noteTimelineIndicator.TimeHeld));
             }
         }
     }
-    public List<(float, float)> LoadRecording(string filename)
+    public List<(float, float)> LoadRecordingFromDat(string filename)
     {
         string destination = FindObjectOfType<GameSettings>().LevelDir + "/" + filename + "/" + filename + ".dat";
         FileStream file;
@@ -74,7 +84,37 @@ public class LevelDataPasser : MonoBehaviour
         BinaryFormatter bf = new BinaryFormatter();
         List<(float, float)> timelineNoteTuples = (List<(float, float)>)bf.Deserialize(file);
 
-        file.Close();
+        // Read bmp and offset
+        (float, float) bpmOffset = timelineNoteTuples[0];
+        timelineNoteTuples.RemoveAt(0);
+        LevelCreatorManager levelCreatorManager = FindObjectOfType<LevelCreatorManager>();
+        levelCreatorManager.SetBmpOffset(bpmOffset.Item1, bpmOffset.Item2);
+
+        return timelineNoteTuples;
+    }
+
+    public List<(float, float)> LoadRecordingFromTxt(string filename)
+    {
+        string destination = FindObjectOfType<GameSettings>().LevelDir + "/" + filename + "/" + filename + ".txt";
+        List<(float, float)> timelineNoteTuples = new List<(float, float)>();
+
+        using (TextReader tr = new StreamReader(destination))
+        {
+            string line;
+            while ((line = tr.ReadLine()) != null)
+            {
+                line = line.Trim();
+                string[] words = line.Split('/');
+                timelineNoteTuples.Add((float.Parse(words[0]), float.Parse(words[1])));
+            }
+        }
+
+        // Read bmp and offset
+        (float, float) bpmOffset = timelineNoteTuples[0];
+        timelineNoteTuples.RemoveAt(0);
+        LevelCreatorManager levelCreatorManager = FindObjectOfType<LevelCreatorManager>();
+        levelCreatorManager.SetBmpOffset(bpmOffset.Item1, bpmOffset.Item2);
+
         return timelineNoteTuples;
     }
 }

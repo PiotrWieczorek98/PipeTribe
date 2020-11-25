@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameSettings : MonoBehaviour
 {
-    public enum KeyMap { Action1, Action2, Start, Stop};
+    public enum KeyMap { Action1, Action2, Start, Stop, Tap};
 
     private void Awake()
     {
@@ -14,6 +14,7 @@ public class GameSettings : MonoBehaviour
         KeyBindings = new Dictionary<KeyMap, KeyCode>();
         KeyBindings.Add(KeyMap.Action1, KeyCode.Space);
         KeyBindings.Add(KeyMap.Action2, KeyCode.C);
+        KeyBindings.Add(KeyMap.Tap, KeyCode.B);
         KeyBindings.Add(KeyMap.Start, KeyCode.P);
         KeyBindings.Add(KeyMap.Stop, KeyCode.S);
 
