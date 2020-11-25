@@ -22,7 +22,11 @@ public class MenuAnimator : MonoBehaviour
     float currentButtonsBrightness = 0f;
     float brightnessIncrease = 0.2f;
 
-    Animator generalAnimator;
+    public Animator generalAnimator;
+    public Animator letterAnimator;
+
+    AudioSource musicSource;
+    float currentTime = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -40,7 +44,7 @@ public class MenuAnimator : MonoBehaviour
         ring.GetComponent<Animator>().Play(spinAnimation.name);
         logo.GetComponent<Animator>().Play(zoomInLogoAnimation.name);
 
-        generalAnimator = transform.GetComponentInChildren<Animator>();
+        musicSource = FindObjectOfType<MenuManager>().MusicSource;
     }
 
     private void Update()
@@ -69,9 +73,15 @@ public class MenuAnimator : MonoBehaviour
         generalAnimator.Play(loadingAnimation.name);
     }
 
-    public void PlayBeatAnimation()
+    public IEnumerator PlayBeatAnimation(float delay)
     {
-        generalAnimator.Play(beatAnimation.name);
+        while(currentTime < musicSource.clip.length)
+        {
+            letterAnimator.Play(beatAnimation.name);
+            currentTime = musicSource.time;
+            yield return new WaitForSeconds(delay);
+        }
+
     }
 
     IEnumerator delayedLetterAnimation(Animator animator, string name, float delay)

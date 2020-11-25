@@ -84,12 +84,6 @@ public class LevelDataPasser : MonoBehaviour
         BinaryFormatter bf = new BinaryFormatter();
         List<(float, float)> timelineNoteTuples = (List<(float, float)>)bf.Deserialize(file);
 
-        // Read bmp and offset
-        (float, float) bpmOffset = timelineNoteTuples[0];
-        timelineNoteTuples.RemoveAt(0);
-        LevelCreatorManager levelCreatorManager = FindObjectOfType<LevelCreatorManager>();
-        levelCreatorManager.SetBmpOffset(bpmOffset.Item1, bpmOffset.Item2);
-
         return timelineNoteTuples;
     }
 
@@ -108,12 +102,6 @@ public class LevelDataPasser : MonoBehaviour
                 timelineNoteTuples.Add((float.Parse(words[0]), float.Parse(words[1])));
             }
         }
-
-        // Read bmp and offset
-        (float, float) bpmOffset = timelineNoteTuples[0];
-        timelineNoteTuples.RemoveAt(0);
-        LevelCreatorManager levelCreatorManager = FindObjectOfType<LevelCreatorManager>();
-        levelCreatorManager.SetBmpOffset(bpmOffset.Item1, bpmOffset.Item2);
 
         return timelineNoteTuples;
     }

@@ -116,8 +116,11 @@ public class LevelCreatorButton : MonoBehaviour
         timelineIndicator.SetBeatIndicators(levelCreatorManager.BeatsTotal, levelCreatorManager.OffsetValue);
 
         // load data if such exist
-        //List<(float, float)> noteTuples = levelDataPasser.LoadRecordingFromDat(levelName);
-        List<(float, float)> noteTuples = levelDataPasser.LoadRecordingFromTxt(levelName);
+        List<(float, float)> noteTuples = levelDataPasser.LoadRecordingFromDat(levelName);
+        (float, float) bmpAndOffset = noteTuples[0];
+        noteTuples.RemoveAt(0);
+        levelCreatorManager.SetBmpOffset(bmpAndOffset.Item1, bmpAndOffset.Item2);
+
         if (noteTuples == null)
             yield break;
         foreach ((float, float) noteTuple in noteTuples)

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -7,44 +8,69 @@ public class MenuManager : MonoBehaviour
 {
     public string MusicName { get; private set;}
     public string MusicDir { get; private set; }
+    public float BpmValue { get; private set; }
+    public float OffsetValue { get; private set; }
+
+    public AudioSource MusicSource { get; private set;} 
 
     private void Awake()
     {
-        // Find all music in user's level directory
-        string musicPath = FindObjectOfType<GameSettings>().LevelDir;
-        string[] musicFiles = Directory.GetFiles(musicPath, "*.mp3", SearchOption.AllDirectories);
-        // Random index
-        int index = Random.Range(0, musicFiles.Length);
-        MusicName = Path.GetFileName(musicFiles[index]);
-        MusicDir = musicFiles[index];
-        // Play randomly chosen music
-        StartCoroutine(LoadMp3File("file://" + MusicDir));
+        MusicSource = GetComponent<AudioSource>();
     }
 
-    // Create Audio Clip from mp3 file
-    IEnumerator LoadMp3File(string uri)
+    private void Start()
     {
-        UnityWebRequest www = UnityWebRequest.Get(uri);
-        yield return www.SendWebRequest();
+        // Find all music in user's level directory
+        string musicPath = FindObjectOfType<GameSettings>().LevelDir;
+        string[] musicFiles = Directory.GetFiles(musicPath, "*.ogg", SearchOption.AllDirectories);
 
-        if (www.isNetworkError || www.isHttpError)
+        // Return if no music was found
+        if (musicFiles.Length == 0)
+            return;
+
+        // Random index
+        //int index = Random.Range(0, musicFiles.Length - 1);
+        int index = 1;
+        MusicName = Path.GetFileName(musicFiles[index]);
+        MusicName = MusicName.Replace(".ogg", "");
+        MusicDir = musicFiles[index];
+
+        // Play randomly chosen music
+        StartCoroutine(PlayMusic());
+
+        // Load meta data
+        LevelDataPasser levelDataPasser = GetComponent<LevelDataPasser>();
+        List<(float, float)> metaDataList = levelDataPasser.LoadRecordingFromDat(MusicName);
+        BpmValue = metaDataList[0].Item1;
+        OffsetValue = metaDataList[0].Item2;
+
+    }
+
+    public IEnumerator PlayMusic()
+    {
+        yield return StartCoroutine(LoadMp3File(MusicName));
+        MusicSource.Play();
+
+        // Start logo beating
+        float delay = 1 / (BpmValue / 60);
+        MenuAnimator menuAnimator = FindObjectOfType<MenuAnimator>();
+        yield return new WaitForSeconds(menuAnimator.zoomInLogoAnimation.length + OffsetValue);
+        StartCoroutine(menuAnimator.PlayBeatAnimation(delay));
+    }
+
+    // Create Audio Clip from ogg file
+    public IEnumerator LoadMp3File(string fileName)
+    {
+        string uri = "file://" + FindObjectOfType<GameSettings>().LevelDir + "/" + fileName + "/" + fileName + ".ogg";
+
+        using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(uri, AudioType.OGGVORBIS))
         {
-            Debug.Log(www.error);
-            yield return null;
+            yield return www.SendWebRequest();
+
+            if (www.result == UnityWebRequest.Result.ConnectionError)
+                Debug.Log(www.error);
+            else
+                MusicSource.clip = DownloadHandlerAudioClip.GetContent(www);
         }
-
-        // Retrieve results as binary data
-        byte[] results = www.downloadHandler.data;
-        MemoryStream memStream = new MemoryStream(results);
-        NLayer.MpegFile mpgFile = new NLayer.MpegFile(memStream);
-        float[] samples = new float[mpgFile.Length];
-        mpgFile.ReadSamples(samples, 0, (int)mpgFile.Length);
-
-        AudioClip backgroundMusic = AudioClip.Create("foo", samples.Length, mpgFile.Channels, mpgFile.SampleRate, false);
-        backgroundMusic.SetData(samples, 0);
-
-        AudioSource audioSource = GetComponent<AudioSource>();
-        audioSource.clip = backgroundMusic;
-        audioSource.Play();
     }
 }
