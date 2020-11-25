@@ -833,7 +833,7 @@ BoxCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 517775449}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
@@ -1370,6 +1370,7 @@ GameObject:
   - component: {fileID: 934495211}
   - component: {fileID: 934495210}
   - component: {fileID: 934495212}
+  - component: {fileID: 934495213}
   m_Layer: 0
   m_Name: Level Creator Manager
   m_TagString: GameManager
@@ -1535,6 +1536,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 896592cca63de5f40837d855fac262dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &934495213
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 934495206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74a0d38f1399fca4597c9460222d88b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cursorTexture: {fileID: 2800000, guid: 2b3ab50b5836e954192ee0f07fc3bff9, type: 3}
+  cursorVisible: 1
+  useEyeTracker: 1
 --- !u!1 &1090513253
 GameObject:
   m_ObjectHideFlags: 0

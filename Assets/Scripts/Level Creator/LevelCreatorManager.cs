@@ -22,6 +22,7 @@ public class LevelCreatorManager : MonoBehaviour
     public IEnumerator LoadMp3File(string fileName)
     {
         MusicLoaded = false;
+
         string uri = "file://" + FindObjectOfType<GameSettings>().LevelDir + "/" + fileName + "/" + fileName + ".ogg";
 
         using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(uri, AudioType.OGGVORBIS))
@@ -34,8 +35,8 @@ public class LevelCreatorManager : MonoBehaviour
             }
             else
             {
-                MusicSource.clip = DownloadHandlerAudioClip.GetContent(www);
                 MusicLoaded = true;
+                MusicSource.clip = DownloadHandlerAudioClip.GetContent(www);
             }
         }
     }

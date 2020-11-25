@@ -25,7 +25,15 @@ public class InputValues : MonoBehaviour
         switch (valueType) 
         {
             case ValueType.OffsetValue:
-                levelCreatorManager.OffsetValue = float.Parse(offsetInputField.text, CultureInfo.InvariantCulture);
+                try
+                {
+                    levelCreatorManager.OffsetValue = float.Parse(offsetInputField.text, CultureInfo.InvariantCulture);
+                }
+                catch
+                {
+                    levelCreatorManager.OffsetValue = 0;
+                }
+                
                 if (levelCreatorManager.MusicSource.clip != null)
                     FindObjectOfType<TimelineIndicator>().SetBeatIndicators(levelCreatorManager.BeatsTotal, levelCreatorManager.OffsetValue);
                 break;
@@ -33,8 +41,14 @@ public class InputValues : MonoBehaviour
                 levelCreatorManager.MusicName = levelNameInputField.text;
                 break;
             case ValueType.BPMValue:
-                levelCreatorManager.BPMValue = float.Parse(bpmText.text, CultureInfo.InvariantCulture);
-
+                try
+                {
+                    levelCreatorManager.BPMValue = float.Parse(bpmText.text, CultureInfo.InvariantCulture);
+                }
+                catch
+                {
+                    levelCreatorManager.BPMValue = 0;
+                }
 
                 if (levelCreatorManager.MusicSource.clip != null)
                 {

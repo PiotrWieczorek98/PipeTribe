@@ -11,13 +11,14 @@ public class LevelCreatorButton : MonoBehaviour
 
     public enum TypeOfButton { Load, Save, ZoomIn, ZoomOut, ResetZoom, Exit };
     public TypeOfButton typeOfButton;
-
     public Sprite defaultSprite, clickedSprite, hoverSprite;
     Image buttonImage;
 
     KeyCode actionKey;
+    LevelCreatorManager levelCreatorManager;
     private void Awake()
     {
+        levelCreatorManager = FindObjectOfType<LevelCreatorManager>();
         buttonImage = GetComponent<Image>();
         buttonImage.sprite = defaultSprite;
 
@@ -41,8 +42,8 @@ public class LevelCreatorButton : MonoBehaviour
             GetComponent<AudioSource>().Play();
             StartCoroutine(ClickedButtonAnimation());
 
-            string levelName = FindObjectOfType<LevelCreatorManager>().MusicName;
-            if (levelName.Length == 0)
+            string levelName = levelCreatorManager.MusicName;
+            if (levelName == null || levelName == "")
                 levelName = "Untitled";
             else
                 levelName = levelName.ToLower();
@@ -50,20 +51,26 @@ public class LevelCreatorButton : MonoBehaviour
             switch (typeOfButton)
             {
                 case TypeOfButton.Save:
-                    levelDataPasser.SaveRecordingToDat(levelName, timelineIndicator.NotesObjects);
-                    levelDataPasser.SaveRecordingToTxt(levelName, timelineIndicator.NotesObjects);
+                    if (levelCreatorManager.MusicLoaded)
+                    {
+                        levelDataPasser.SaveRecordingToDat(levelName, timelineIndicator.NotesObjects);
+                        levelDataPasser.SaveRecordingToTxt(levelName, timelineIndicator.NotesObjects);
+                    }
                     break;
                 case TypeOfButton.Load:
                     StartCoroutine(LoadMusic(levelName));
                     break;
                 case TypeOfButton.ResetZoom:
-                    timelineIndicator.ZoomTimeline(-1, Screen.width / 2, Screen.width);
+                    if (levelCreatorManager.MusicLoaded)
+                        timelineIndicator.ZoomTimeline(-1, Screen.width / 2, Screen.width);
                     break;
                 case TypeOfButton.ZoomIn:
-                    ZoomIn();
+                    if (levelCreatorManager.MusicLoaded)
+                        ZoomIn();
                     break;
                 case TypeOfButton.ZoomOut:
-                    ZoomOut();
+                    if (levelCreatorManager.MusicLoaded)
+                        ZoomOut();
                     break;
                 case TypeOfButton.Exit:
                     SceneManager.LoadScene(0);
@@ -81,14 +88,16 @@ public class LevelCreatorButton : MonoBehaviour
 
     IEnumerator LoadMusic(string levelName)
     {
-        LevelCreatorManager levelCreatorManager = FindObjectOfType<LevelCreatorManager>();
         WaveformDrawer waveformDrawer = FindObjectOfType<WaveformDrawer>();
 
         // Load music requires coroutine
         StartCoroutine(levelCreatorManager.LoadMp3File(levelName));
         // Wait for music to load
         if (!levelCreatorManager.MusicLoaded)
-            yield return 0; 
+            yield return new WaitForSeconds(.1f);
+        // Check if error occured
+        if (levelCreatorManager.MusicSource.clip == null)
+            yield break;
 
         // Clear timeline if music is loaded not for the first time
         if (timelineIndicator.enabled)
@@ -102,6 +111,9 @@ public class LevelCreatorButton : MonoBehaviour
 
         // Draw timeline
         waveformDrawer.DrawTimeline();
+
+        // Set bpm bars
+        timelineIndicator.SetBeatIndicators(levelCreatorManager.BeatsTotal, levelCreatorManager.OffsetValue);
 
         // load data if such exist
         List<(float, float)> noteTuples = levelDataPasser.LoadRecording(levelName);
