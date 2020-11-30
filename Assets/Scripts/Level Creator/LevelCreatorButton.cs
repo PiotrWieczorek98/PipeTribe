@@ -28,7 +28,12 @@ public class LevelCreatorButton : MonoBehaviour
 
     private void Start()
     {
-        actionKey = FindObjectOfType<GameSettings>().GetKeyBind(GameSettings.KeyMap.Action1);
+        actionKey = FindObjectOfType<GameSettings>().GetBindedKey(GameSettings.KeyMap.Action1);
+    }
+
+    private void OnMouseExit()
+    {
+        buttonImage.sprite = defaultSprite;
     }
 
     private void OnMouseOver()
@@ -146,11 +151,5 @@ public class LevelCreatorButton : MonoBehaviour
 
         timelineIndicator.ZoomTimeline(1, zoomCenter, newZoom);
     }
-
-    private void OnMouseExit()
-    {
-        buttonImage.sprite = defaultSprite;
-    }
-
 
 }

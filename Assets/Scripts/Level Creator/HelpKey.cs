@@ -8,6 +8,6 @@ public class HelpKey : MonoBehaviour
     public GameSettings.KeyMap helpKey;
     void Start()
     {
-        GetComponent<Text>().text = FindObjectOfType<GameSettings>().GetKeyBind(helpKey).ToString();
+        GetComponent<Text>().text = FindObjectOfType<GameSettings>().GetBindedKey(helpKey).ToString();
     }
 }

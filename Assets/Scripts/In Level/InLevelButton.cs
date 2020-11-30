@@ -22,7 +22,7 @@ public class InLevelButton : MonoBehaviour
     }
     private void Start()
     {
-        actionButton = FindObjectOfType<GameSettings>().GetKeyBind(GameSettings.KeyMap.Action1);
+        actionButton = FindObjectOfType<GameSettings>().GetBindedKey(GameSettings.KeyMap.Action1);
     }
 
     private void OnMouseOver()

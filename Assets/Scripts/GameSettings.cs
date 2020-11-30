@@ -1,29 +1,54 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class GameSettings : MonoBehaviour
 {
     public enum KeyMap { Action1, Action2, Start, Stop, Tap};
+    public AudioMixer audioMixer;
 
     private void Awake()
     {
         QualitySettings.vSyncCount = 0;  // VSync must be disabled
         Application.targetFrameRate = 60;
 
-        KeyBindings = new Dictionary<KeyMap, KeyCode>();
-        KeyBindings.Add(KeyMap.Action1, KeyCode.Space);
-        KeyBindings.Add(KeyMap.Action2, KeyCode.C);
-        KeyBindings.Add(KeyMap.Tap, KeyCode.B);
-        KeyBindings.Add(KeyMap.Start, KeyCode.P);
-        KeyBindings.Add(KeyMap.Stop, KeyCode.S);
+        // Key bindings
+        KeyBindings = new Dictionary<KeyMap, KeyCode>()
+        { 
+            {KeyMap.Action1,    KeyCode.Space},
+            {KeyMap.Action2,    KeyCode.C },
+            {KeyMap.Tap,        KeyCode.B },
+            {KeyMap.Start,      KeyCode.P },
+            {KeyMap.Stop,       KeyCode.S }
+        };
 
         LevelDir = Application.streamingAssetsPath + "/levels";
     }
 
-    public KeyCode GetKeyBind(KeyMap bind)
+    public KeyCode GetBindedKey(KeyMap keyType)
     {
-        return KeyBindings[bind];
+        return KeyBindings[keyType];
+    }
+
+    public void ChangeKey(KeyMap keyType, KeyCode newKey)
+    {
+        KeyBindings.Remove(keyType);
+        KeyBindings.Add(keyType, newKey);
+    }
+
+    public void ChangeMasterVolume(float value)
+    {
+        audioMixer.SetFloat("MasterVolume", value);
+    }
+    public void ChangeMusicVolume(float value)
+    {
+        audioMixer.SetFloat("MusicVolume", value);
+    }
+    public void ChangeEffectsVolume(float value)
+    {
+        audioMixer.SetFloat("EffectsVolume", value);
     }
     public Dictionary<KeyMap, KeyCode> KeyBindings { get; private set; }
     public string LevelDir { get; private set; }

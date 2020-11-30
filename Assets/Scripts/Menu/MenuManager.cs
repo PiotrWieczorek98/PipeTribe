@@ -11,7 +11,9 @@ public class MenuManager : MonoBehaviour
     public float BpmValue { get; private set; }
     public float OffsetValue { get; private set; }
 
-    public AudioSource MusicSource { get; private set;} 
+    public AudioSource MusicSource { get; private set;}
+    public GameObject settings;
+    public GameObject menu;
 
     private void Awake()
     {
@@ -54,7 +56,7 @@ public class MenuManager : MonoBehaviour
         // Start logo beating
         float delay = 1 / (BpmValue / 60);
         MenuAnimator menuAnimator = FindObjectOfType<MenuAnimator>();
-        yield return new WaitForSeconds(menuAnimator.zoomInLogoAnimation.length + OffsetValue);
+        yield return new WaitForSeconds(OffsetValue);
         StartCoroutine(menuAnimator.PlayBeatAnimation(delay));
     }
 
@@ -73,4 +75,7 @@ public class MenuManager : MonoBehaviour
                 MusicSource.clip = DownloadHandlerAudioClip.GetContent(www);
         }
     }
+
+    public GameObject Menu { get { return menu; } }
+    public GameObject Settings { get { return settings; } }
 }

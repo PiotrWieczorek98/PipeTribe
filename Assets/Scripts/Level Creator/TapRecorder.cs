@@ -23,9 +23,9 @@ public class TapRecorder : MonoBehaviour
     private void Start()
     {
         GameSettings gameSettings = FindObjectOfType<GameSettings>();
-        tapKey = gameSettings.GetKeyBind(GameSettings.KeyMap.Tap);
-        startKey = gameSettings.GetKeyBind(GameSettings.KeyMap.Start);
-        stopKey = gameSettings.GetKeyBind(GameSettings.KeyMap.Stop);
+        tapKey = gameSettings.GetBindedKey(GameSettings.KeyMap.Tap);
+        startKey = gameSettings.GetBindedKey(GameSettings.KeyMap.Start);
+        stopKey = gameSettings.GetBindedKey(GameSettings.KeyMap.Stop);
     }
 
     // Update is called once per frame

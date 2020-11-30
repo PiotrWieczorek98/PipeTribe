@@ -44,6 +44,18 @@ TextureImporter:
   - first:
       213: -7156905044191951330
     second: Ring Buttons_7
+  - first:
+      213: 2090679125256492389
+    second: Ring Buttons_6
+  - first:
+      213: -1105983889740772321
+    second: Ring Buttons_7
+  - first:
+      213: -3452724112345188883
+    second: Ring Buttons_8
+  - first:
+      213: -6239556505461846742
+    second: Ring Buttons_9
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -131,118 +143,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Ring Buttons_0
-      rect:
-        serializedVersion: 2
-        x: 21
-        y: 286
-        width: 55
-        height: 40
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f76adfa886f206270800000000000000
-      internalID: 8241639444142990975
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ring Buttons_1
-      rect:
-        serializedVersion: 2
-        x: 3
-        y: 214
-        width: 23
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 23fcd7a4cd1d7eee0800000000000000
-      internalID: -1231785228989771982
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ring Buttons_2
-      rect:
-        serializedVersion: 2
-        x: 138
-        y: 214
-        width: 23
-        height: 64
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 0f2a74de9de4953d0800000000000000
-      internalID: -3217453760883744016
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ring Buttons_3
-      rect:
-        serializedVersion: 2
-        x: 21
-        y: 166
-        width: 55
-        height: 40
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e5e6a9a014e2abcf0800000000000000
-      internalID: -235825173597884834
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Ring Buttons_4
-      rect:
-        serializedVersion: 2
-        x: 20
-        y: 121
-        width: 57
-        height: 42
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: e52ed06ec9a7f4f80800000000000000
-      internalID: -8120136788832558498
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
       name: Ring Buttons_5
       rect:
         serializedVersion: 2
-        x: 2
-        y: 49
-        width: 25
-        height: 66
+        x: 0
+        y: 1
+        width: 42
+        height: 57
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -257,13 +164,13 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Ring Buttons_6
+      name: Ring Buttons_0
       rect:
         serializedVersion: 2
-        x: 137
-        y: 49
-        width: 25
-        height: 66
+        x: 0
+        y: 71
+        width: 42
+        height: 57
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -271,8 +178,113 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d545add2d4a8ba700800000000000000
-      internalID: 552687443369415773
+      spriteID: 3b70ca1c44d2b7220800000000000000
+      internalID: 2484629392755263411
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ring Buttons_1
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 103
+        width: 66
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 50b5193f6b1fed930800000000000000
+      internalID: 4170036073064389381
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ring Buttons_2
+      rect:
+        serializedVersion: 2
+        x: 140
+        y: 103
+        width: 66
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e06cbd2c4833a25d0800000000000000
+      internalID: -3086597949311171058
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ring Buttons_3
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 71
+        width: 42
+        height: 57
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 082e98a4a0c419190800000000000000
+      internalID: -7957495459503021440
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ring Buttons_4
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 103
+        width: 67
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3710fd9bd436b4430800000000000000
+      internalID: 3768214698707583347
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ring Buttons_6
+      rect:
+        serializedVersion: 2
+        x: 70
+        y: 33
+        width: 66
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 565dc386695930d10800000000000000
+      internalID: 2090679125256492389
       vertices: []
       indices: 
       edges: []
@@ -281,10 +293,10 @@ TextureImporter:
       name: Ring Buttons_7
       rect:
         serializedVersion: 2
-        x: 20
-        y: 1
-        width: 57
-        height: 42
+        x: 140
+        y: 33
+        width: 66
+        height: 25
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -292,8 +304,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e16ccbdf7c09dac90800000000000000
-      internalID: -7156905044191951330
+      spriteID: f1c42b41381c6a0f0800000000000000
+      internalID: -1105983889740772321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ring Buttons_8
+      rect:
+        serializedVersion: 2
+        x: 210
+        y: 1
+        width: 42
+        height: 57
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de53d3096b57510d0800000000000000
+      internalID: -3452724112345188883
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ring Buttons_9
+      rect:
+        serializedVersion: 2
+        x: 280
+        y: 33
+        width: 67
+        height: 25
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a2d08f7ba64a869a0800000000000000
+      internalID: -6239556505461846742
       vertices: []
       indices: 
       edges: []

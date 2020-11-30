@@ -23,8 +23,8 @@ public class NoteTimelineIndicator : MonoBehaviour
         audioSource = FindObjectOfType<LevelCreatorManager>().MusicSource;
 
         GameSettings gameSettings = FindObjectOfType<GameSettings>();
-        action1 = gameSettings.GetKeyBind(GameSettings.KeyMap.Action1);
-        action2 = gameSettings.GetKeyBind(GameSettings.KeyMap.Action2);
+        action1 = gameSettings.GetBindedKey(GameSettings.KeyMap.Action1);
+        action2 = gameSettings.GetBindedKey(GameSettings.KeyMap.Action2);
     }
 
     void OnMouseDrag()
