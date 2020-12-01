@@ -28,7 +28,7 @@ public class LevelCreatorButton : MonoBehaviour
 
     private void Start()
     {
-        actionKey = FindObjectOfType<GameSettings>().GetBindedKey(GameSettings.KeyMap.Action1);
+        actionKey = FindObjectOfType<GameSettings>().GetBindedKey(GameSettings.KeyType.Action1);
     }
 
     private void OnMouseExit()

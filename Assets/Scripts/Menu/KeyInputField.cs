@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class KeyInputField : MonoBehaviour
 {
-    public GameSettings.KeyMap keyType;
+    public GameSettings.KeyType keyType;
     public Sprite defaultSprite;
     public Sprite clickedSprite;
     public Sprite hoverSprite;
@@ -27,7 +27,7 @@ public class KeyInputField : MonoBehaviour
 
     private void Start()
     {
-        action1 = gameSettings.GetBindedKey(GameSettings.KeyMap.Action1);
+        action1 = gameSettings.GetBindedKey(GameSettings.KeyType.Action1);
         text.text = gameSettings.GetBindedKey(keyType).ToString();
 
     }
@@ -82,12 +82,12 @@ public class KeyInputField : MonoBehaviour
         if (keyPressed.type == EventType.KeyDown)
         {
             KeyCode newKey = keyPressed.keyCode;
-            gameSettings.ChangeKey(keyType, newKey);
+            gameSettings.SetKey(keyType, newKey);
 
             // Update if changed action key
-            if (keyType == GameSettings.KeyMap.Action1)
+            if (keyType == GameSettings.KeyType.Action1)
             {
-                action1 = gameSettings.GetBindedKey(GameSettings.KeyMap.Action1);
+                action1 = gameSettings.GetBindedKey(GameSettings.KeyType.Action1);
                 actionKeyUpdated = true;
             }
 

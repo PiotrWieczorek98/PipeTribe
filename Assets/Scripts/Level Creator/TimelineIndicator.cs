@@ -32,7 +32,7 @@ public class TimelineIndicator : MonoBehaviour
     public void InitializeTimeline()
     {
         LevelCreatorManager levelCreatorManager = FindObjectOfType<LevelCreatorManager>();
-        actionKey = FindObjectOfType<GameSettings>().GetBindedKey(GameSettings.KeyMap.Action1);
+        actionKey = FindObjectOfType<GameSettings>().GetBindedKey(GameSettings.KeyType.Action1);
 
         audioSource = levelCreatorManager.MusicSource;
         timelineRectTransform = transform.GetComponent<RectTransform>();

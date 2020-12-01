@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class HelpKey : MonoBehaviour
 {
-    public GameSettings.KeyMap helpKey;
+    public GameSettings.KeyType helpKey;
     void Start()
     {
         GetComponent<Text>().text = FindObjectOfType<GameSettings>().GetBindedKey(helpKey).ToString();
