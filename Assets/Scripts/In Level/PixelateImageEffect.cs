@@ -6,11 +6,11 @@ using UnityEngine;
 [ExecuteInEditMode]
 public class PixelateImageEffect : MonoBehaviour
 {
-    public Material effectMaterial;
+	public Material effectMaterial;
 
-   
-    void OnRednerImage(RenderTexture src, RenderTexture dst)
-    {
-        Graphics.Blit(src, dst, effectMaterial);
-    }
+
+	void OnRednerImage(RenderTexture src, RenderTexture dst)
+	{
+		Graphics.Blit(src, dst, effectMaterial);
+	}
 }

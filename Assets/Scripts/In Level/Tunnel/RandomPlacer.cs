@@ -17,24 +17,24 @@ public class RandomPlacer : MonoBehaviour
 			float curveSegment = notesToGenerate[i].Item1;
 			float noteDuration = notesToGenerate[i].Item2;
 			//if(noteDuration == 0)
-   //         {
+			//         {
 			//	note.noteType = MusicNote.NoteType.Tap;
-   //         }
-   //         else
-   //         {
+			//         }
+			//         else
+			//         {
 			//	note.noteType = MusicNote.NoteType.Hold;
 			//	note.Prolong(noteDuration);
-   //         }
+			//         }
 
 
 			// Allow to change segment only if time between notes is big enough - if notes are too close it would break gameplay 
 			gameSettings = FindObjectOfType<InLevelManager>();
 			if (i > 0 && notesToGenerate[i].Item3 - notesToGenerate[i - 1].Item3 > gameSettings.minDeltaTimeToSwitch)
-            {
+			{
 				pipeSegment = Random.Range(0, pipe.pipeSegmentCount);
 			}
 			// Rotation of music note in a pipe
-			float pipeRotation =(pipeSegment + 0.5f) * 360f / pipe.pipeSegmentCount;
+			float pipeRotation = (pipeSegment + 0.5f) * 360f / pipe.pipeSegmentCount;
 			// Restriction to limit rotation in <-180, 180)
 			if (pipeRotation > 360)
 			{

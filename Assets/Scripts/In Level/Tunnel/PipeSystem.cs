@@ -6,7 +6,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PipeSystem : MonoBehaviour 
+public class PipeSystem : MonoBehaviour
 {
 
 	public Pipe pipePrefab;
@@ -19,23 +19,23 @@ public class PipeSystem : MonoBehaviour
 	float worldAbsoluteRotation = 0;
 
 
-	public void Awake () 
+	public void Awake()
 	{
 		musicNotesTimeline = FindObjectOfType<LevelDataLoader>().LoadRecording();
 
 		pipes = new Pipe[pipesDisplayedAtTheSameTime];
-		for (int i = 0; i < pipes.Length; i++) 
+		for (int i = 0; i < pipes.Length; i++)
 		{
 			Pipe pipe = pipes[i] = Instantiate<Pipe>(pipePrefab);
 			pipe.transform.SetParent(transform, false);
 
 			// Since we start the game at the second pipe, do not generate notes for the first one
-			if (i==0)
-            {
+			if (i == 0)
+			{
 				pipe.GeneratePipe();
 				pipe.GenerateMusicNotes(musicNotesTimeline, timeWhenPipeEntered, true);
 			}
-			else 
+			else
 			{
 				pipe.GeneratePipe();
 				worldAbsoluteRotation = pipe.AlignWith(pipes[i - 1], worldAbsoluteRotation);
@@ -45,12 +45,12 @@ public class PipeSystem : MonoBehaviour
 		AlignNextPipeWithOrigin();
 	}
 
-	public Pipe SetupPipe (bool isFirstPipe) 
+	public Pipe SetupPipe(bool isFirstPipe)
 	{
-		if(isFirstPipe)
+		if (isFirstPipe)
 			transform.localPosition = new Vector3(0f, -pipes[1].CurveRadius);
-        else
-        {
+		else
+		{
 			ShiftPipes();
 			AlignNextPipeWithOrigin();
 
@@ -66,36 +66,38 @@ public class PipeSystem : MonoBehaviour
 		return pipes[1];
 	}
 
-	private void ShiftPipes () 
+	private void ShiftPipes()
 	{
 		// Destroy notes from pipe that disappears
 		pipes[0].destroyChildren();
 		// Shift pipes
 		Pipe temp = pipes[0];
-		for (int i = 1; i < pipes.Length; i++) 
+		for (int i = 1; i < pipes.Length; i++)
 		{
 			pipes[i - 1] = pipes[i];
 		}
 		pipes[pipes.Length - 1] = temp;
 	}
 
-	private void AlignNextPipeWithOrigin () 
+	private void AlignNextPipeWithOrigin()
 	{
 		Transform transformToAlign = pipes[1].transform;
-		for (int i = 0; i < pipes.Length; i++) 
+		for (int i = 0; i < pipes.Length; i++)
 		{
-			if (i != 1) 
+			if (i != 1)
 			{
 				pipes[i].transform.SetParent(transformToAlign);
 			}
 		}
-		
+
 		transformToAlign.localPosition = Vector3.zero;
 		transformToAlign.localRotation = Quaternion.identity;
 
 
-		for (int i = 0; i < pipes.Length; i++) {
-			if (i != 1) {
+		for (int i = 0; i < pipes.Length; i++)
+		{
+			if (i != 1)
+			{
 				pipes[i].transform.SetParent(transform);
 			}
 		}

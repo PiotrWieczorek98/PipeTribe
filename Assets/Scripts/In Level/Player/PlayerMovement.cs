@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class PlayerMovement : MonoBehaviour 
+public class PlayerMovement : MonoBehaviour
 {
 
 	public PipeSystem pipeSystem;
@@ -15,19 +15,19 @@ public class PlayerMovement : MonoBehaviour
 
 	Transform world;
 
-    public void Awake() 
+	public void Awake()
 	{
 		world = pipeSystem.transform.parent;
 		currentPipe = pipeSystem.SetupPipe(true);
 		SetupCurrentPipe();
 	}
 
-	private void Update () 
+	private void Update()
 	{
 		float delta = velocity * Time.deltaTime;
 		systemRotation += delta * deltaToRotation;
 
-		if (systemRotation >= currentPipe.CurveAngle) 
+		if (systemRotation >= currentPipe.CurveAngle)
 		{
 			delta = (systemRotation - currentPipe.CurveAngle) / deltaToRotation;
 			currentPipe = pipeSystem.SetupPipe(false);
@@ -38,14 +38,14 @@ public class PlayerMovement : MonoBehaviour
 		pipeSystem.transform.localRotation = Quaternion.Euler(0f, 0f, systemRotation);
 	}
 
-    private void SetupCurrentPipe () 
+	private void SetupCurrentPipe()
 	{
 		deltaToRotation = 360f / (2f * Mathf.PI * currentPipe.CurveRadius);
 		worldRotation += currentPipe.RelativeRotation;
 
-		if (worldRotation < 0f) 
+		if (worldRotation < 0f)
 			worldRotation += 360f;
-		else if (worldRotation >= 360f) 
+		else if (worldRotation >= 360f)
 			worldRotation -= 360f;
 
 		world.localRotation = Quaternion.Euler(worldRotation, 0f, 0f);

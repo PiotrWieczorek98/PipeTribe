@@ -9,7 +9,7 @@ public class LevelDataLoader : MonoBehaviour
 	List<(float, float)> musicNotesTimeline;
 
 	// Loads data about note objects - amount and time they appear
-    public List<(float, float)> LoadRecording()
+	public List<(float, float)> LoadRecording()
 	{
 		musicNotesTimeline = new List<(float, float)>();
 
@@ -18,7 +18,7 @@ public class LevelDataLoader : MonoBehaviour
 
 		// Open file
 		FileStream file;
-		if (File.Exists(destination)) 
+		if (File.Exists(destination))
 			file = File.OpenRead(destination);
 		else
 		{

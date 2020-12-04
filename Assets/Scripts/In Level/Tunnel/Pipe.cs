@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class Pipe : MonoBehaviour 
+public class Pipe : MonoBehaviour
 {
 
 	public float pipeRadius;
@@ -11,20 +11,20 @@ public class Pipe : MonoBehaviour
 
 	public float minCurveRadius, maxCurveRadius;
 	public int minCurveSegmentCount, maxCurveSegmentCount;
-    Mesh mesh;
+	Mesh mesh;
 	Vector3[] vertices;
 	Vector2[] uv;
 	int[] triangles;
-    public RandomPlacer notePlacer;
+	public RandomPlacer notePlacer;
 
-	private void Awake () 
+	private void Awake()
 	{
 		GetComponent<MeshFilter>().mesh = mesh = new Mesh();
 		mesh.name = "Pipe";
 	}
 
 
-	public void GeneratePipe() 
+	public void GeneratePipe()
 	{
 		CurveRadius = Random.Range(minCurveRadius, maxCurveRadius);
 		CurveSegmentCount = Random.Range(minCurveSegmentCount, maxCurveSegmentCount + 1);
@@ -36,7 +36,7 @@ public class Pipe : MonoBehaviour
 	}
 
 	public float GenerateMusicNotes(List<(float, float)> songMusicNotes, float timeWhenPipeEntered, bool isFirstPipe = false)
-    {
+	{
 		PlayerMovement player = GameObject.FindGameObjectWithTag("Player").GetComponent(typeof(PlayerMovement)) as PlayerMovement;
 
 		// How long will it take to pass this pipe
@@ -86,7 +86,7 @@ public class Pipe : MonoBehaviour
 		return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
 	}
 
-	private void SetVertices () 
+	private void SetVertices()
 	{
 		vertices = new Vector3[pipeSegmentCount * CurveSegmentCount * 4];
 
@@ -101,7 +101,8 @@ public class Pipe : MonoBehaviour
 		mesh.vertices = vertices;
 	}
 
-	private void CreateFirstQuadRing (float u) {
+	private void CreateFirstQuadRing(float u)
+	{
 		float vStep = (2f * Mathf.PI) / pipeSegmentCount;
 
 		Vector3 vertexA = GetPointOnTorus(0f, 0f);
@@ -115,7 +116,8 @@ public class Pipe : MonoBehaviour
 		}
 	}
 
-	private void CreateQuadRing (float u, int i) {
+	private void CreateQuadRing(float u, int i)
+	{
 		float vStep = (2f * Mathf.PI) / pipeSegmentCount;
 		int ringOffset = pipeSegmentCount * 4;
 
@@ -129,9 +131,10 @@ public class Pipe : MonoBehaviour
 		}
 	}
 
-	private void SetUV () {
+	private void SetUV()
+	{
 		uv = new Vector2[vertices.Length];
-		for (int i = 0; i < vertices.Length; i+= 4)
+		for (int i = 0; i < vertices.Length; i += 4)
 		{
 			uv[i] = Vector2.zero;
 			uv[i + 1] = Vector2.right;
@@ -141,9 +144,10 @@ public class Pipe : MonoBehaviour
 		mesh.uv = uv;
 	}
 
-	private void SetTriangles () {
+	private void SetTriangles()
+	{
 		triangles = new int[pipeSegmentCount * CurveSegmentCount * 6];
-		for (int t = 0, i = 0; t < triangles.Length; t += 6, i += 4) 
+		for (int t = 0, i = 0; t < triangles.Length; t += 6, i += 4)
 		{
 			triangles[t] = i;
 			triangles[t + 1] = triangles[t + 4] = i + 2;
@@ -153,7 +157,7 @@ public class Pipe : MonoBehaviour
 		mesh.triangles = triangles;
 	}
 
-	private Vector3 GetPointOnTorus (float u, float v) 
+	private Vector3 GetPointOnTorus(float u, float v)
 	{
 		Vector3 p;
 		float r = (CurveRadius + pipeRadius * Mathf.Cos(v));
@@ -163,18 +167,18 @@ public class Pipe : MonoBehaviour
 		return p;
 	}
 
-	public float AlignWith (Pipe pipe, float worldAbsoluteRotation) 
+	public float AlignWith(Pipe pipe, float worldAbsoluteRotation)
 	{
 		// Random rotation for a new pipe restricted by segment count to allign perfectly
 		RelativeRotation = Random.Range(0, CurveSegmentCount) * 360f / pipeSegmentCount;
 
 		// Futher restrictions to limit rotation in <-180, 180)
-		if(RelativeRotation > 360)
-        {
+		if (RelativeRotation > 360)
+		{
 			int tmp = (int)(RelativeRotation / 360f);
 			tmp *= 360;
 			RelativeRotation -= tmp;
-        }
+		}
 		if (RelativeRotation >= 180)
 			RelativeRotation -= 360;
 
@@ -199,19 +203,19 @@ public class Pipe : MonoBehaviour
 	}
 
 	public void destroyChildren()
-    {
+	{
 		foreach (Transform child in transform)
-        {
+		{
 			GameObject.Destroy(child.gameObject);
-        }
-    }
+		}
+	}
 
-	public int PipeSegmentCount{ get { return pipeSegmentCount; } }
-    public int CurveSegmentCount { get; private set; }
-    public float CurveAngle { get; private set; }
-    public float CurveRadius { get; private set; }
-    public float RelativeRotation { get; private set; }
+	public int PipeSegmentCount { get { return pipeSegmentCount; } }
+	public int CurveSegmentCount { get; private set; }
+	public float CurveAngle { get; private set; }
+	public float CurveRadius { get; private set; }
+	public float RelativeRotation { get; private set; }
 
-    public float TimeToPassPipe { get; private set; } = 0;
+	public float TimeToPassPipe { get; private set; } = 0;
 
 }

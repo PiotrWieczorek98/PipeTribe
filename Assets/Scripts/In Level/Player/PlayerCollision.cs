@@ -14,13 +14,13 @@ public class PlayerCollision : MonoBehaviour
 	RectTransform healthPointsBarUI;
 
 	int comboCounter = 0;
-    int noteCounter = 0;
+	int noteCounter = 0;
 	int totalPossibleScore = 0;
 	float healthPoints = 100;
 
 	// Start is called before the first frame update
 	void Start()
-    {
+	{
 		gameManager = FindObjectOfType<InLevelManager>();
 		uIComponents = FindObjectOfType<UIComponents>();
 
@@ -82,13 +82,13 @@ public class PlayerCollision : MonoBehaviour
 	}
 
 	IEnumerator setBoolParameterNextFrame(string parameter, bool value)
-    {
-        yield return new WaitForEndOfFrame();
-        animator.SetBool(parameter, value);
-    }
+	{
+		yield return new WaitForEndOfFrame();
+		animator.SetBool(parameter, value);
+	}
 
-    public int TotalPlayerScore { get; private set; } = 0;
-    public int MaxComboAchieved { get; private set; } = 0;
-    public float ScorePercentage { get; private set; } = 0;
+	public int TotalPlayerScore { get; private set; } = 0;
+	public int MaxComboAchieved { get; private set; } = 0;
+	public float ScorePercentage { get; private set; } = 0;
 
 }

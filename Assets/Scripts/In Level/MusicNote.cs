@@ -10,7 +10,7 @@ public class MusicNote : MonoBehaviour
 	public enum NoteType { Tap, Hold };
 
 	public struct CubeValues
-    {
+	{
 		public Color colorValue;
 		public Color emissionValue;
 		public string ringElement;

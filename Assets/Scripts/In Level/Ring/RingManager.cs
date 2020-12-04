@@ -4,43 +4,43 @@ using UnityEngine;
 
 public class RingManager : MonoBehaviour
 {
-    public RingElementSelector selectedElement;
+	public RingElementSelector selectedElement;
 
-    Dictionary<int, Transform> ringElements;
-    //MoveBackground bg;
+	Dictionary<int, Transform> ringElements;
+	//MoveBackground bg;
 
-    void Awake()
-    {
-        ringElements = new Dictionary<int, Transform>();
-        int childCnt = transform.childCount;
-        for (int i = 0; i < childCnt - 2; i++)
-        {
-            Transform childX = transform.GetChild(i);
-            ringElements.Add(i, childX.transform);
-        }
+	void Awake()
+	{
+		ringElements = new Dictionary<int, Transform>();
+		int childCnt = transform.childCount;
+		for (int i = 0; i < childCnt - 2; i++)
+		{
+			Transform childX = transform.GetChild(i);
+			ringElements.Add(i, childX.transform);
+		}
 
-        selectedElement = null;
-        //bg = GameObject.FindGameObjectWithTag("Background").GetComponent(typeof(MoveBackground)) as MoveBackground;
-    }
+		selectedElement = null;
+		//bg = GameObject.FindGameObjectWithTag("Background").GetComponent(typeof(MoveBackground)) as MoveBackground;
+	}
 
-    public void ChangeSelectedPart(RingElementSelector newSelectedPart)
-    {
-        if(selectedElement != null)
-            selectedElement.SetElementSelection(false);
+	public void ChangeSelectedPart(RingElementSelector newSelectedPart)
+	{
+		if (selectedElement != null)
+			selectedElement.SetElementSelection(false);
 
-        selectedElement = newSelectedPart;
-        //bg.SetDestination(ringElements[(int)selectedElement].position);
-    }
+		selectedElement = newSelectedPart;
+		//bg.SetDestination(ringElements[(int)selectedElement].position);
+	}
 
-    public Dictionary<int, Transform> GetRingElements() { return ringElements; }
-    public Transform GetRingElement(int i) 
-    {
-        if (i < ringElements.Count)
-            return ringElements[i];
-        
-        return null;
-    }
+	public Dictionary<int, Transform> GetRingElements() { return ringElements; }
+	public Transform GetRingElement(int i)
+	{
+		if (i < ringElements.Count)
+			return ringElements[i];
 
-    public RingElementSelector SelectedRingElement { get { return selectedElement; } }
+		return null;
+	}
+
+	public RingElementSelector SelectedRingElement { get { return selectedElement; } }
 
 }
