@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class MenuButton : MonoBehaviour
 {
-	public enum TypeOfButton { Play, Settings, Exit, LevelEditor, Back };
+	public enum TypeOfButton { LevelBrowser, Settings, Exit, LevelEditor, Back };
 	public TypeOfButton typeOfButton;
 
 	public Sprite defaultSprite;
@@ -43,26 +43,32 @@ public class MenuButton : MonoBehaviour
 			GetComponent<AudioSource>().Play();
 			StartCoroutine(buttonAction(1f));
 		}
-
-
 	}
+
 	IEnumerator buttonAction(float delay)
 	{
 		MenuAnimator menuAnimator = FindObjectOfType<MenuAnimator>();
 		MenuManager menuManager = FindObjectOfType<MenuManager>();
 		switch (typeOfButton)
 		{
-			case TypeOfButton.Play:
-				menuAnimator.PlayAnimation(menuAnimator.logo.GetComponent<Animator>(), menuAnimator.loading);
-				yield return new WaitForSeconds(delay);
+			case TypeOfButton.LevelBrowser:
+				//menuAnimator.PlayAnimation(menuAnimator.logo.GetComponent<Animator>(), menuAnimator.loading);
+				//yield return new WaitForSeconds(delay);
+				StartCoroutine(Transition(menuManager.mainMenu.transform, menuManager.levelBrowser.transform));
+				menuManager.CurrentWindow = MenuManager.Windows.LevelBrowser;
 				break;
 
 			case TypeOfButton.Settings:
-				StartCoroutine(Transition(menuManager.menu.transform, menuManager.settings.transform));
+				StartCoroutine(Transition(menuManager.mainMenu.transform, menuManager.settings.transform));
+				menuManager.CurrentWindow = MenuManager.Windows.Settings;
 				break;
 
 			case TypeOfButton.Back:
-				StartCoroutine(Transition(menuManager.settings.transform, menuManager.menu.transform));
+				if (menuManager.CurrentWindow == MenuManager.Windows.Settings)
+					StartCoroutine(Transition(menuManager.settings.transform, menuManager.mainMenu.transform));
+				else if (menuManager.CurrentWindow == MenuManager.Windows.LevelBrowser)
+					StartCoroutine(Transition(menuManager.levelBrowser.transform, menuManager.mainMenu.transform));
+				menuManager.CurrentWindow = MenuManager.Windows.MainMenu;
 				break;
 
 			case TypeOfButton.LevelEditor:
@@ -76,7 +82,7 @@ public class MenuButton : MonoBehaviour
 #if UNITY_EDITOR
 				UnityEditor.EditorApplication.isPlaying = false;
 #else
-                                    Application.Quit();
+				Application.Quit();
 #endif
 				break;
 		}

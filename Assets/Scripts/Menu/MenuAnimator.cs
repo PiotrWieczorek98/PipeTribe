@@ -1,7 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class MenuAnimator : MonoBehaviour
 {
@@ -18,9 +16,6 @@ public class MenuAnimator : MonoBehaviour
 	public Transform letters;
 	public Transform logo;
 	public Transform settings;
-	float currentLogoBrightness = 0.3f;
-	float currentButtonsBrightness = 0f;
-	float brightnessIncrease = 0.2f;
 
 	AudioSource musicSource;
 	float currentTime = 0;

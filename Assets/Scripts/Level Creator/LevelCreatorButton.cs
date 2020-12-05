@@ -58,8 +58,9 @@ public class LevelCreatorButton : MonoBehaviour
 				case TypeOfButton.Save:
 					if (levelCreatorManager.MusicLoaded)
 					{
-						levelDataPasser.SaveRecordingToDat(levelName, timelineIndicator.NotesObjects);
-						levelDataPasser.SaveRecordingToTxt(levelName, timelineIndicator.NotesObjects);
+						string destination = CrossSceneData.LevelDir + "/" + levelName + "/" + levelName;
+						levelDataPasser.SaveRecordingToDat(destination, timelineIndicator.NotesObjects);
+						levelDataPasser.SaveRecordingToTxt(destination, timelineIndicator.NotesObjects);
 					}
 					break;
 				case TypeOfButton.Load:
@@ -121,7 +122,8 @@ public class LevelCreatorButton : MonoBehaviour
 		timelineIndicator.SetBeatIndicators(levelCreatorManager.BeatsTotal, levelCreatorManager.OffsetValue);
 
 		// load data if such exist
-		List<(float, float)> noteTuples = levelDataPasser.LoadRecordingFromDat(levelName);
+		string fileLocation = CrossSceneData.LevelDir + "/" + levelName + "/" + levelName;
+		List<(float, float)> noteTuples = levelDataPasser.LoadLevelDataFromDat(fileLocation);
 		(float, float) bmpAndOffset = noteTuples[0];
 		noteTuples.RemoveAt(0);
 		levelCreatorManager.SetBmpOffset(bmpAndOffset.Item1, bmpAndOffset.Item2);

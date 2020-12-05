@@ -2,13 +2,13 @@
 <GameSettings>
   <Volume>
     <Master>-40</Master>
-    <Music>-33.726</Music>
+    <Music>0</Music>
     <Effects>-6</Effects>
   </Volume>
   <KeyBinds>
     <Action1>Space</Action1>
     <Action2>C</Action2>
-    <Start>B</Start>
+    <Start>S</Start>
     <Stop>P</Stop>
     <Tap>T</Tap>
   </KeyBinds>

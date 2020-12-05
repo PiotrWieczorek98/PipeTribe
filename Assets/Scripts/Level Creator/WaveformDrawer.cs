@@ -25,8 +25,8 @@ public class WaveformDrawer : MonoBehaviour
 		monoAudioClip.GetData(samples, 0);
 
 		List<float> samplesList = new List<float>(samples);
-		leftBorder = (int)Remap(leftBorder, 0, Screen.width, 0, samplesList.Count);
-		rightBorder = (int)Remap(rightBorder, 0, Screen.width, 0, samplesList.Count);
+		leftBorder = (int)CrossSceneData.Remap(leftBorder, 0, Screen.width, 0, samplesList.Count);
+		rightBorder = (int)CrossSceneData.Remap(rightBorder, 0, Screen.width, 0, samplesList.Count);
 		samplesList.RemoveRange(rightBorder, samplesList.Count - rightBorder);
 		samplesList.RemoveRange(0, leftBorder);
 
@@ -97,10 +97,5 @@ public class WaveformDrawer : MonoBehaviour
 	public void OverrideSprite(Texture2D texture)
 	{
 		timeline.overrideSprite = Sprite.Create(texture, new Rect(0f, 0f, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-	}
-
-	public static float Remap(float value, float from1, float to1, float from2, float to2)
-	{
-		return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
 	}
 }

@@ -65,7 +65,7 @@ public class TimelineIndicator : MonoBehaviour
 		float zoomDirection = Input.GetAxis("Mouse ScrollWheel");
 		if (zoomDirection != 0.0f)
 		{
-			float zoomCenter = Remap(Input.mousePosition.x, 0, Screen.width, LeftBorder, RightBorder);
+			float zoomCenter = CrossSceneData.Remap(Input.mousePosition.x, 0, Screen.width, LeftBorder, RightBorder);
 
 			float newZoom = CurrentZoom;
 			newZoom -= zoomDirection * zoomSpeed;
@@ -83,11 +83,11 @@ public class TimelineIndicator : MonoBehaviour
 	void updateIndicatorPosition()
 	{
 		// Update indicator position
-		float newPosition = Remap(audioSource.time, 0, audioSource.clip.length, 0, Screen.width);
+		float newPosition = CrossSceneData.Remap(audioSource.time, 0, audioSource.clip.length, 0, Screen.width);
 		if (newPosition >= LeftBorder && newPosition <= RightBorder)
 		{
 			arrowIndicator.gameObject.SetActive(true);
-			newPosition = Remap(newPosition, LeftBorder, RightBorder, -TimelineCanvasRadius, TimelineCanvasRadius);
+			newPosition = CrossSceneData.Remap(newPosition, LeftBorder, RightBorder, -TimelineCanvasRadius, TimelineCanvasRadius);
 
 			arrowIndicator.anchoredPosition = new Vector2(newPosition, arrowIndicator.anchoredPosition.y);
 		}
@@ -106,7 +106,7 @@ public class TimelineIndicator : MonoBehaviour
 	{
 		Transform newNoteObject = Instantiate(notePrefab, transform);
 
-		float timelinePosition = Remap(timestamp, 0, audioSource.clip.length, 0, Screen.width);
+		float timelinePosition = CrossSceneData.Remap(timestamp, 0, audioSource.clip.length, 0, Screen.width);
 
 		NoteTimelineIndicator noteTimelineIndicator = newNoteObject.GetComponent<NoteTimelineIndicator>();
 		noteTimelineIndicator.TimelinePosition = timelinePosition;
@@ -132,7 +132,7 @@ public class TimelineIndicator : MonoBehaviour
 
 		if (position > LeftBorder && position < RightBorder)
 		{
-			position = Remap(position, LeftBorder, RightBorder, -TimelineCanvasRadius, TimelineCanvasRadius);
+			position = CrossSceneData.Remap(position, LeftBorder, RightBorder, -TimelineCanvasRadius, TimelineCanvasRadius);
 			RectTransform rectTransform = noteObject.GetComponent<RectTransform>();
 			rectTransform.anchoredPosition = new Vector2(position, rectTransform.anchoredPosition.y);
 			noteObject.gameObject.SetActive(true);
@@ -146,9 +146,9 @@ public class TimelineIndicator : MonoBehaviour
 	public void ChangeCurrentAudioClipTime(float mousePos)
 	{
 		// Remap to include zoom level to zoom
-		mousePos = Remap(mousePos, 0, Screen.width, LeftBorder, RightBorder);
+		mousePos = CrossSceneData.Remap(mousePos, 0, Screen.width, LeftBorder, RightBorder);
 		// Remap to audio time
-		mousePos = Remap(mousePos, 0, Screen.width, 0, audioSource.clip.length);
+		mousePos = CrossSceneData.Remap(mousePos, 0, Screen.width, 0, audioSource.clip.length);
 
 		audioSource.time = mousePos;
 		updateIndicatorPosition();
@@ -225,7 +225,7 @@ public class TimelineIndicator : MonoBehaviour
 			float position = bar.Item2;
 			if (position > LeftBorder && position < RightBorder)
 			{
-				position = Remap(position, LeftBorder, RightBorder, -TimelineCanvasRadius, TimelineCanvasRadius);
+				position = CrossSceneData.Remap(position, LeftBorder, RightBorder, -TimelineCanvasRadius, TimelineCanvasRadius);
 				RectTransform rectTransform = barObject.GetComponent<RectTransform>();
 				rectTransform.anchoredPosition = new Vector2(position, rectTransform.anchoredPosition.y);
 				barObject.gameObject.SetActive(true);
@@ -260,10 +260,4 @@ public class TimelineIndicator : MonoBehaviour
 		}
 		BarObjects.Clear();
 	}
-
-	public static float Remap(float value, float from1, float to1, float from2, float to2)
-	{
-		return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
-	}
-
 }

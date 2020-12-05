@@ -23,7 +23,7 @@ public class LevelCreatorManager : MonoBehaviour
 	{
 		MusicLoaded = false;
 
-		string uri = "file://" + FindObjectOfType<GameSettings>().LevelDir + "/" + fileName + "/" + fileName + ".ogg";
+		string uri = "file://" + CrossSceneData.LevelDir + "/" + fileName + "/" + fileName + ".ogg";
 
 		using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(uri, AudioType.OGGVORBIS))
 		{

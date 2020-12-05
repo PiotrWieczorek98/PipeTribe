@@ -7,17 +7,17 @@ using UnityEngine.UI;
 public class LevelDataPasser : MonoBehaviour
 {
 	// Save list by serialization
-	public List<(float, float)> SaveRecordingToDat(string filename, List<Transform> notesObjects)
+	public List<(float, float)> SaveRecordingToDat(string fileLoc, List<Transform> notesObjects)
 	{
-		string destination = FindObjectOfType<GameSettings>().LevelDir + "/" + filename + "/" + filename + ".dat";
+		fileLoc += ".dat";
 		FileStream file;
 
 		Directory.CreateDirectory(Application.dataPath + "/levels/");
 
-		if (File.Exists(destination))
-			file = File.OpenWrite(destination);
+		if (File.Exists(fileLoc))
+			file = File.OpenWrite(fileLoc);
 		else
-			file = File.Create(destination);
+			file = File.Create(fileLoc);
 
 		BinaryFormatter bf = new BinaryFormatter();
 
@@ -51,10 +51,10 @@ public class LevelDataPasser : MonoBehaviour
 		return timelineNoteTuples;
 	}
 
-	public void SaveRecordingToTxt(string filename, List<Transform> notesObjects)
+	public void SaveRecordingToTxt(string fileLoc, List<Transform> notesObjects)
 	{
-		string destination = FindObjectOfType<GameSettings>().LevelDir + "/" + filename + "/" + filename + ".txt";
-		using (TextWriter tw = new StreamWriter(destination))
+		fileLoc += ".txt";
+		using (TextWriter tw = new StreamWriter(fileLoc))
 		{
 			// Add info about offset and bpm first
 			LevelCreatorManager levelCreatorManager = FindObjectOfType<LevelCreatorManager>();
@@ -69,40 +69,58 @@ public class LevelDataPasser : MonoBehaviour
 			}
 		}
 	}
-	public List<(float, float)> LoadRecordingFromDat(string filename)
+
+	public List<(float, float)> LoadLevelDataFromDat(string fileLoc, bool addOffset = false)
 	{
-		string destination = FindObjectOfType<GameSettings>().LevelDir + "/" + filename + "/" + filename + ".dat";
+		fileLoc += ".dat";
 		FileStream file;
 
-		if (File.Exists(destination)) file = File.OpenRead(destination);
+		if (File.Exists(fileLoc))
+		{
+			file = File.OpenRead(fileLoc);
+		}
 		else
 		{
-			Debug.Log(destination + " - File not found");
+			Debug.Log(fileLoc + " - File not found");
 			return null;
 		}
 
 		BinaryFormatter bf = new BinaryFormatter();
-		List<(float, float)> timelineNoteTuples = (List<(float, float)>)bf.Deserialize(file);
+		List<(float, float)> tupleList = (List<(float, float)>)bf.Deserialize(file);
 
-		return timelineNoteTuples;
+		if (addOffset)
+		{
+			// Add offset to each note - user preferences
+			float offset = FindObjectOfType<GameSettings>().MusicNotesOffset;
+			List<(float, float)> tupleListOffset = new List<(float, float)>();
+			foreach (var note in tupleList)
+			{
+				tupleListOffset.Add((note.Item1 + offset, note.Item2));
+			}
+			// Set reference
+			tupleList.Clear();
+			tupleList = tupleListOffset;
+		}
+
+		return tupleList;
 	}
 
-	public List<(float, float)> LoadRecordingFromTxt(string filename)
+	public List<(float, float)> LoadLevelDataFromTxt(string fileLoc)
 	{
-		string destination = FindObjectOfType<GameSettings>().LevelDir + "/" + filename + "/" + filename + ".txt";
-		List<(float, float)> timelineNoteTuples = new List<(float, float)>();
+		fileLoc += ".txt";
+		List<(float, float)> tupleList = new List<(float, float)>();
 
-		using (TextReader tr = new StreamReader(destination))
+		using (TextReader tr = new StreamReader(fileLoc))
 		{
 			string line;
 			while ((line = tr.ReadLine()) != null)
 			{
 				line = line.Trim();
 				string[] words = line.Split('/');
-				timelineNoteTuples.Add((float.Parse(words[0]), float.Parse(words[1])));
+				tupleList.Add((float.Parse(words[0]), float.Parse(words[1])));
 			}
 		}
 
-		return timelineNoteTuples;
+		return tupleList;
 	}
 }

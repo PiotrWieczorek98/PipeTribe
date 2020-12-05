@@ -21,7 +21,8 @@ public class PipeSystem : MonoBehaviour
 
 	public void Awake()
 	{
-		musicNotesTimeline = FindObjectOfType<LevelDataLoader>().LoadRecording();
+		string destination = CrossSceneData.LevelDir + "/" + CrossSceneData.SelectedLevelName + "/" + CrossSceneData.SelectedLevelName;
+		musicNotesTimeline = FindObjectOfType<LevelDataPasser>().LoadLevelDataFromDat(destination, true);
 
 		pipes = new Pipe[pipesDisplayedAtTheSameTime];
 		for (int i = 0; i < pipes.Length; i++)

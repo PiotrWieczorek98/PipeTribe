@@ -54,7 +54,7 @@ public class Pipe : MonoBehaviour
 				{
 					noteAppearTime -= timeWhenPipeEntered;
 
-					float noteAppearSegment = Remap(noteAppearTime, 0, TimeToPassPipe, 0, CurveAngle);
+					float noteAppearSegment = CrossSceneData.Remap(noteAppearTime, 0, TimeToPassPipe, 0, CurveAngle);
 					(float, float, float) tmp = (noteAppearSegment, songMusicNotes[i].Item2, songMusicNotes[i].Item1);
 
 					notesForThisPipe.Add(tmp);
@@ -79,11 +79,6 @@ public class Pipe : MonoBehaviour
 		}
 		//Debug.Log("When entered: " + timeWhenPipeEntered + " To Pass: " + timeToPassPipe);
 		return timeWhenPipeEntered + TimeToPassPipe;
-	}
-
-	public static float Remap(float value, float from1, float to1, float from2, float to2)
-	{
-		return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
 	}
 
 	private void SetVertices()

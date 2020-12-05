@@ -3,6 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
+/// <summary>
+/// Class required to pass informations between scenes
+/// </summary>
+public static class CrossSceneData
+{
+	public static string SelectedLevelName { get; set; }
+	public static string LevelDir { get; private set; } = Application.streamingAssetsPath + "/levels";
+	public static string ScoresDir { get; private set; } = Application.streamingAssetsPath + "/scores";
+	public static float Remap(float value, float from1, float to1, float from2, float to2)
+	{
+		return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
+	}
+}
+
 public class GameSettings : MonoBehaviour
 {
 	public enum VolumeType { MasterVolume, MusicVolume, EffectsVolume }
@@ -11,7 +25,6 @@ public class GameSettings : MonoBehaviour
 
 	public Dictionary<KeyType, KeyCode> KeyBindings { get; private set; }
 	public Dictionary<VolumeType, float> VolumeLevels { get; private set; }
-	public string LevelDir { get; private set; }
 	public float MusicNotesOffset { get; private set; } = 0;
 
 	private void Awake()
@@ -19,7 +32,6 @@ public class GameSettings : MonoBehaviour
 		QualitySettings.vSyncCount = 0;  // VSync must be disabled
 		Application.targetFrameRate = 60;
 
-		LevelDir = Application.streamingAssetsPath + "/levels";
 		LoadSettings();
 		SaveSettings();
 	}
@@ -43,8 +55,15 @@ public class GameSettings : MonoBehaviour
 	public void SetVolume(VolumeSlider volumeSlider)
 	{
 		audioMixer.SetFloat(volumeSlider.volumeType.ToString(), volumeSlider.volume);
-		VolumeLevels.Remove(volumeSlider.volumeType);
-		VolumeLevels.Add(volumeSlider.volumeType, volumeSlider.volume);
+		try
+		{
+			VolumeLevels.Remove(volumeSlider.volumeType);
+			VolumeLevels.Add(volumeSlider.volumeType, volumeSlider.volume);
+		}
+		catch (UnityException e)
+		{
+			Debug.LogError(e.Message);
+		}
 
 		// Save changes
 		SaveSettings();
@@ -130,4 +149,12 @@ public class GameSettings : MonoBehaviour
 
 		xmlTree.Save(fileLoc);
 	}
+
+	/// colors: 
+	/// red		0.760 0.145 0.145	0.760f, 0.145f, 0.145f
+	/// green	0.415 0.745 0.184	0.415f, 0.745f, 0.184f
+	/// orange	0.874 0.443 0.145	0.874f, 0.443f, 0.145f
+	/// purple	0.462 0.254 0.541	0.462f, 0.254f, 0.541f
+	/// yellow	0.984 0.949 0.207	0.984f, 0.949f, 0.207f
+	/// blue	0.388 0.607 0.996	0.388f, 0.607f, 0.996f
 }

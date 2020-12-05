@@ -30,8 +30,8 @@ public class NoteTimelineIndicator : MonoBehaviour
 	void OnMouseDrag()
 	{
 		TimelinePosition = Input.mousePosition.x - deltaX;
-		TimelinePosition = Remap(TimelinePosition, 0, Screen.width, timelineIndicator.LeftBorder, timelineIndicator.RightBorder);
-		Timestamp = Remap(TimelinePosition, 0, Screen.width, 0, audioSource.clip.length);
+		TimelinePosition = CrossSceneData.Remap(TimelinePosition, 0, Screen.width, timelineIndicator.LeftBorder, timelineIndicator.RightBorder);
+		Timestamp = CrossSceneData.Remap(TimelinePosition, 0, Screen.width, 0, audioSource.clip.length);
 
 		timelineIndicator.updateSingleNotePosition(transform);
 	}
@@ -41,7 +41,7 @@ public class NoteTimelineIndicator : MonoBehaviour
 		// Anchor position on action1 key
 		if (Input.GetKeyDown(action1))
 		{
-			mouseAnchoredPosition = Remap(Input.mousePosition.x, 0, Screen.width,
+			mouseAnchoredPosition = CrossSceneData.Remap(Input.mousePosition.x, 0, Screen.width,
 				-timelineIndicator.TimelineCanvasRadius, timelineIndicator.TimelineCanvasRadius);
 
 			deltaX = mouseAnchoredPosition - rectTransform.anchoredPosition.x;
@@ -51,10 +51,5 @@ public class NoteTimelineIndicator : MonoBehaviour
 		{
 			Destroy(transform.gameObject);
 		}
-	}
-
-	public static float Remap(float value, float from1, float to1, float from2, float to2)
-	{
-		return (value - from1) / (to1 - from1) * (to2 - from2) + from2;
 	}
 }

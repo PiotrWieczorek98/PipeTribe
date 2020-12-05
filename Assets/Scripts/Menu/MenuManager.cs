@@ -2,29 +2,31 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
-using UnityEngine.Networking;
 
 public class MenuManager : MonoBehaviour
 {
+	public enum Windows { MainMenu, Settings, LevelBrowser }
+	public Windows CurrentWindow { get; set; }
 	public string MusicName { get; private set; }
 	public string MusicDir { get; private set; }
 	public float BpmValue { get; private set; }
 	public float OffsetValue { get; private set; }
-
 	public AudioSource MusicSource { get; private set; }
+
 	public GameObject settings;
-	public GameObject menu;
+	public GameObject mainMenu;
+	public GameObject levelBrowser;
 
 	private void Awake()
 	{
 		MusicSource = GetComponent<AudioSource>();
+		CurrentWindow = Windows.MainMenu;
 	}
 
 	private void Start()
 	{
 		// Find all music in user's level directory
-		string musicPath = FindObjectOfType<GameSettings>().LevelDir;
-		string[] musicFiles = Directory.GetFiles(musicPath, "*.ogg", SearchOption.AllDirectories);
+		string[] musicFiles = Directory.GetFiles(CrossSceneData.LevelDir, "*.ogg", SearchOption.AllDirectories);
 
 		// Return if no music was found
 		if (musicFiles.Length == 0)
@@ -38,44 +40,28 @@ public class MenuManager : MonoBehaviour
 		MusicDir = musicFiles[index];
 
 		// Play randomly chosen music
-		StartCoroutine(PlayMusic());
+		string uri = "file://" + CrossSceneData.LevelDir + "/" + MusicName + "/" + MusicName + ".ogg";
+		StartCoroutine(GetComponent<MusicLoader>().PlayMusic(MusicSource, uri));
 
 		// Load meta data
 		LevelDataPasser levelDataPasser = GetComponent<LevelDataPasser>();
-		List<(float, float)> metaDataList = levelDataPasser.LoadRecordingFromDat(MusicName);
+		string fileLocation = CrossSceneData.LevelDir + "/" + MusicName + "/" + MusicName;
+		List<(float, float)> metaDataList = levelDataPasser.LoadLevelDataFromDat(fileLocation);
 		BpmValue = metaDataList[0].Item1;
 		OffsetValue = metaDataList[0].Item2;
 
+		// Make logo beat to music
+		StartCoroutine(OffsetBeatAnimation());
 	}
 
-	public IEnumerator PlayMusic()
+	public IEnumerator OffsetBeatAnimation()
 	{
-		yield return StartCoroutine(LoadMp3File(MusicName));
-		MusicSource.Play();
-
-		// Start logo beating
 		float delay = 1 / (BpmValue / 60);
 		MenuAnimator menuAnimator = FindObjectOfType<MenuAnimator>();
 		yield return new WaitForSeconds(OffsetValue);
 		StartCoroutine(menuAnimator.PlayBeatAnimation(delay));
 	}
 
-	// Create Audio Clip from ogg file
-	public IEnumerator LoadMp3File(string fileName)
-	{
-		string uri = "file://" + FindObjectOfType<GameSettings>().LevelDir + "/" + fileName + "/" + fileName + ".ogg";
-
-		using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(uri, AudioType.OGGVORBIS))
-		{
-			yield return www.SendWebRequest();
-
-			if (www.result == UnityWebRequest.Result.ConnectionError)
-				Debug.Log(www.error);
-			else
-				MusicSource.clip = DownloadHandlerAudioClip.GetContent(www);
-		}
-	}
-
-	public GameObject Menu { get { return menu; } }
+	public GameObject Menu { get { return mainMenu; } }
 	public GameObject Settings { get { return settings; } }
 }

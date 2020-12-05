@@ -12,7 +12,7 @@ public class BeatEffects : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
 	{
-		string filePath = Application.streamingAssetsPath + FindObjectOfType<GameSettings>().LevelDir + "/";
+		string filePath = Application.streamingAssetsPath + CrossSceneData.LevelDir + "/";
 		filePath += FindObjectOfType<MenuManager>().MusicName;
 	}
 
