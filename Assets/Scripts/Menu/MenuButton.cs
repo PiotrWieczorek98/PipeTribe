@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class MenuButton : MonoBehaviour
 {
-	public enum TypeOfButton { LevelBrowser, Settings, Exit, LevelEditor, Back };
+	public enum TypeOfButton { LevelBrowser, Settings, Exit, LevelEditor, Back, Up, Down, Play };
 	public TypeOfButton typeOfButton;
 
 	public Sprite defaultSprite;
@@ -52,8 +52,6 @@ public class MenuButton : MonoBehaviour
 		switch (typeOfButton)
 		{
 			case TypeOfButton.LevelBrowser:
-				//menuAnimator.PlayAnimation(menuAnimator.logo.GetComponent<Animator>(), menuAnimator.loading);
-				//yield return new WaitForSeconds(delay);
 				StartCoroutine(Transition(menuManager.mainMenu.transform, menuManager.levelBrowser.transform));
 				menuManager.CurrentWindow = MenuManager.Windows.LevelBrowser;
 				break;
@@ -65,9 +63,9 @@ public class MenuButton : MonoBehaviour
 
 			case TypeOfButton.Back:
 				if (menuManager.CurrentWindow == MenuManager.Windows.Settings)
-					StartCoroutine(Transition(menuManager.settings.transform, menuManager.mainMenu.transform));
+					StartCoroutine(Transition(menuManager.settings.transform, menuManager.mainMenu.transform, true));
 				else if (menuManager.CurrentWindow == MenuManager.Windows.LevelBrowser)
-					StartCoroutine(Transition(menuManager.levelBrowser.transform, menuManager.mainMenu.transform));
+					StartCoroutine(Transition(menuManager.levelBrowser.transform, menuManager.mainMenu.transform, true));
 				menuManager.CurrentWindow = MenuManager.Windows.MainMenu;
 				break;
 
@@ -75,6 +73,20 @@ public class MenuButton : MonoBehaviour
 				menuAnimator.PlayAnimation(menuAnimator.logo.GetComponent<Animator>(), menuAnimator.loading);
 				yield return new WaitForSeconds(delay);
 				SceneManager.LoadScene(2);
+				break;
+
+			case TypeOfButton.Up:
+				FindObjectOfType<LevelBrowser>().MoveUp();
+				break;
+
+			case TypeOfButton.Down:
+				FindObjectOfType<LevelBrowser>().MoveDown();
+				break;
+
+			case TypeOfButton.Play:
+				menuAnimator.PlayAnimation(menuAnimator.levelBrowser.GetComponent<Animator>(), menuAnimator.loading);
+				yield return new WaitForSeconds(delay);
+				SceneManager.LoadScene(1);
 				break;
 
 			case TypeOfButton.Exit:
@@ -88,11 +100,11 @@ public class MenuButton : MonoBehaviour
 		}
 	}
 
-	IEnumerator Transition(Transform currentlyActive, Transform newActive)
+	IEnumerator Transition(Transform currentlyActive, Transform newActive, bool reverse = false)
 	{
 		MenuAnimator menuAnimator = FindObjectOfType<MenuAnimator>();
 		// Set draw order
-		currentlyActive.SetAsLastSibling();
+		//currentlyActive.SetAsLastSibling();
 		// Activate appearing appear
 		newActive.gameObject.SetActive(true);
 		// Disable buttons for transition time
@@ -102,8 +114,17 @@ public class MenuButton : MonoBehaviour
 			button.SetActive(false);
 
 		// Play transition animations
-		menuAnimator.PlayAnimation(currentlyActive.GetComponent<Animator>(), menuAnimator.zoomOut);
-		menuAnimator.PlayAnimation(newActive.GetComponent<Animator>(), menuAnimator.zoomIn);
+		if (reverse)
+		{
+			menuAnimator.PlayAnimation(newActive.GetComponent<Animator>(), menuAnimator.zoomOutReverse);
+			menuAnimator.PlayAnimation(currentlyActive.GetComponent<Animator>(), menuAnimator.zoomInReverse);
+		}
+		else
+		{
+			menuAnimator.PlayAnimation(currentlyActive.GetComponent<Animator>(), menuAnimator.zoomOut);
+			menuAnimator.PlayAnimation(newActive.GetComponent<Animator>(), menuAnimator.zoomIn);
+		}
+
 		yield return new WaitForSeconds(menuAnimator.zoomIn.length);
 
 		// Disable disappearing object

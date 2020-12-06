@@ -4,9 +4,6 @@ using UnityEngine.UI;
 
 public class InLevelManager : MonoBehaviour
 {
-	public string MusicName { get; private set; }
-	public string MusicDir { get; private set; }
-	public AudioClip music;
 	public AudioClip levelComplete;
 	public AudioClip levelFailed;
 	public float MusicNotesOffset;
@@ -33,25 +30,27 @@ public class InLevelManager : MonoBehaviour
 		totalTimeUI = uiComponents.Timer.GetChild(1).GetComponent<Text>();
 		audioSource = GetComponent<AudioSource>();
 		currentTimeBar = uiComponents.TimerBar;
+
+		string uri = "file://" + CrossSceneData.LevelDir + "/" + CrossSceneData.SelectedLevelName + "/" + CrossSceneData.SelectedLevelName + ".ogg";
+		StartCoroutine(GetComponent<MusicLoader>().PlayMusic(audioSource, uri, false));
 	}
 
 	void Start()
 	{
 		StartCoroutine(FinishLoading(loadingTime));
-		totalTimeUI.text = music.length.ToString("F0") + " sec";
 	}
 
 
 	// Update is called once per frame
 	void Update()
 	{
-		float timePassedPercent = timeSinceLoaded / music.length;
+		float timePassedPercent = timeSinceLoaded / audioSource.clip.length;
 		currentTimeBar.localScale = new Vector3(timePassedPercent, 1, 1);
 
 		timeSinceLoaded += Time.deltaTime;
 		currentTimeUI.text = timeSinceLoaded.ToString("F0");
 
-		if (timeSinceLoaded > music.length)
+		if (timeSinceLoaded > audioSource.clip.length)
 			EndGameScreen();
 	}
 
@@ -67,8 +66,9 @@ public class InLevelManager : MonoBehaviour
 
 		// Set everything ready to start
 		playerMovement.enabled = true;
-		audioSource.PlayOneShot(music);
+		audioSource.PlayOneShot(audioSource.clip);
 		timeSinceLoaded = 0;
+		totalTimeUI.text = audioSource.clip.length.ToString("F0") + " sec";
 	}
 
 	public void EndGameScreen(bool failed = false)

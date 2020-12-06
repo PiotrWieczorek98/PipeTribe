@@ -6,15 +6,16 @@ public class MusicLoader : MonoBehaviour
 {
 	AudioSource musicSource;
 
-	public IEnumerator PlayMusic(AudioSource audioSource, string fileLoc)
+	public IEnumerator PlayMusic(AudioSource audioSource, string fileLoc, bool playOnLoad = true)
 	{
 		musicSource = audioSource;
 		yield return StartCoroutine(LoadMp3File(fileLoc));
-		audioSource.Play();
+		if (playOnLoad)
+			audioSource.Play();
 	}
 
 	// Create Audio Clip from ogg file
-	public IEnumerator LoadMp3File(string fileLoc)
+	IEnumerator LoadMp3File(string fileLoc)
 	{
 		using (UnityWebRequest www = UnityWebRequestMultimedia.GetAudioClip(fileLoc, AudioType.OGGVORBIS))
 		{

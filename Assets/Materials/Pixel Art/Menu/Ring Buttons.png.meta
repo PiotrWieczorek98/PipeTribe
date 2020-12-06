@@ -56,6 +56,18 @@ TextureImporter:
   - first:
       213: -6239556505461846742
     second: Ring Buttons_9
+  - first:
+      213: 4726146937599184221
+    second: Ring Buttons_10
+  - first:
+      213: -7415962790696754201
+    second: Ring Buttons_11
+  - first:
+      213: 2309632516063101982
+    second: Ring Buttons_12
+  - first:
+      213: 1903407113133339418
+    second: Ring Buttons_13
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -147,11 +159,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 1
+        y: 13
         width: 42
         height: 57
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -168,11 +180,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 0
-        y: 71
+        y: 83
         width: 42
         height: 57
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -189,11 +201,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 70
-        y: 103
+        y: 115
         width: 66
         height: 25
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -210,11 +222,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 140
-        y: 103
+        y: 115
         width: 66
         height: 25
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -231,11 +243,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 210
-        y: 71
+        y: 83
         width: 42
         height: 57
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -252,11 +264,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 280
-        y: 103
+        y: 115
         width: 67
         height: 25
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -273,11 +285,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 70
-        y: 33
+        y: 45
         width: 66
         height: 25
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -294,11 +306,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 140
-        y: 33
+        y: 45
         width: 66
         height: 25
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -315,11 +327,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 210
-        y: 1
+        y: 13
         width: 42
         height: 57
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -336,11 +348,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 280
-        y: 33
+        y: 45
         width: 67
         height: 25
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -348,6 +360,90 @@ TextureImporter:
       bones: []
       spriteID: a2d08f7ba64a869a0800000000000000
       internalID: -6239556505461846742
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ring Buttons_10
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 83
+        width: 42
+        height: 57
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d5d46eb7995a69140800000000000000
+      internalID: 4726146937599184221
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ring Buttons_11
+      rect:
+        serializedVersion: 2
+        x: 350
+        y: 13
+        width: 42
+        height: 57
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7e361012225351990800000000000000
+      internalID: -7415962790696754201
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ring Buttons_12
+      rect:
+        serializedVersion: 2
+        x: 421
+        y: 83
+        width: 42
+        height: 57
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e1402a159867d0020800000000000000
+      internalID: 2309632516063101982
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Ring Buttons_13
+      rect:
+        serializedVersion: 2
+        x: 421
+        y: 13
+        width: 42
+        height: 57
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a13b3494fa24a6a10800000000000000
+      internalID: 1903407113133339418
       vertices: []
       indices: 
       edges: []

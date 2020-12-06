@@ -59,7 +59,7 @@ public class MusicNote : MonoBehaviour
 		// Pipe system is an only child of root which is the "world" game object
 		pipeSystem = transform.root.GetChild(0).GetComponent(typeof(PipeSystem)) as PipeSystem;
 		// Futher rotation based on absolute world rotation to avoid color shift when entering next pipe
-		pipeRotation -= pipeSystem.GetWorldAbsoluteRotation;
+		pipeRotation -= pipeSystem.WorldAbsoluteRotation;
 
 		rotater.localPosition = new Vector3(0f, pipe.CurveRadius);
 		rotater.localRotation = Quaternion.Euler(pipeRotation, 0f, 0f);

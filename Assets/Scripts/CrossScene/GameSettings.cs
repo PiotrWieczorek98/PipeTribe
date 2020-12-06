@@ -55,15 +55,9 @@ public class GameSettings : MonoBehaviour
 	public void SetVolume(VolumeSlider volumeSlider)
 	{
 		audioMixer.SetFloat(volumeSlider.volumeType.ToString(), volumeSlider.volume);
-		try
-		{
-			VolumeLevels.Remove(volumeSlider.volumeType);
-			VolumeLevels.Add(volumeSlider.volumeType, volumeSlider.volume);
-		}
-		catch (UnityException e)
-		{
-			Debug.LogError(e.Message);
-		}
+		
+		VolumeLevels.Remove(volumeSlider.volumeType);
+		VolumeLevels.Add(volumeSlider.volumeType, volumeSlider.volume);
 
 		// Save changes
 		SaveSettings();

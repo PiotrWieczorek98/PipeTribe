@@ -55,25 +55,46 @@ public class LevelBrowser : MonoBehaviour
 
 	private void Update()
 	{
-		if (Input.mouseScrollDelta.y > 0 && selectedBox > 0)
+		if (Input.mouseScrollDelta.y > 0)
 		{
-			selectedBox--;
-			gloabalDestination = new Vector3(0, gloabalDestination.y - 100f, 1);
+			MoveUp();
 		}
-		else if (Input.mouseScrollDelta.y < 0 && selectedBox < boxes.Count - 1)
+		else if (Input.mouseScrollDelta.y < 0)
 		{
-			selectedBox++;
-			gloabalDestination = new Vector3(0, gloabalDestination.y + 100f, 1);
+			MoveDown();
 		}
 
 		for (int i = 0; i < boxes.Count; i++)
 		{
 			Vector3 localDestination = new Vector3(0, i * -100f + gloabalDestination.y, 1);
-			float scale = CrossSceneData.Remap(Mathf.Abs(i - selectedBox), 0, boxes.Count, 4, 2f);
-			Vector3 localScale = new Vector3(scale, scale, 1);
+			float distanceFromCenter = Mathf.Abs(i - selectedBox);
+			if (distanceFromCenter > 3)
+			{
+				distanceFromCenter = 3;
+			}
+			distanceFromCenter = CrossSceneData.Remap(distanceFromCenter, 0, boxes.Count, 4, 2f);
+			Vector3 localScale = new Vector3(distanceFromCenter, distanceFromCenter, 1);
 			boxes[i].anchoredPosition = Vector3.Lerp(boxes[i].anchoredPosition, localDestination, Time.deltaTime * movementSpeed);
 			boxes[i].localScale = Vector3.Lerp(boxes[i].localScale, localScale, Time.deltaTime * movementSpeed);
 		}
+	}
 
+	public void MoveDown()
+	{
+		if (selectedBox < boxes.Count - 1)
+		{
+			selectedBox++;
+			gloabalDestination = new Vector3(0, gloabalDestination.y + 100f, 1);
+			CrossSceneData.SelectedLevelName = boxes[selectedBox].GetComponent<LevelBox>().title.text;
+		}
+	}
+	public void MoveUp()
+	{
+		if (selectedBox > 0)
+		{
+			selectedBox--;
+			gloabalDestination = new Vector3(0, gloabalDestination.y - 100f, 1);
+			CrossSceneData.SelectedLevelName = boxes[selectedBox].GetComponent<LevelBox>().title.text;
+		}
 	}
 }

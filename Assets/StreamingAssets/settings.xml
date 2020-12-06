@@ -9,7 +9,7 @@
     <Action1>Space</Action1>
     <Action2>C</Action2>
     <Start>S</Start>
-    <Stop>P</Stop>
+    <Stop>S</Stop>
     <Tap>T</Tap>
   </KeyBinds>
 </GameSettings>

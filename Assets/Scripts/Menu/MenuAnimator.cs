@@ -12,10 +12,14 @@ public class MenuAnimator : MonoBehaviour
 	public AnimationClip loading;
 	public AnimationClip beat;
 	public AnimationClip zoomOut;
+	public AnimationClip zoomInReverse;
+	public AnimationClip zoomOutReverse;
+
 
 	public Transform letters;
 	public Transform logo;
 	public Transform settings;
+	public Transform levelBrowser;
 
 	AudioSource musicSource;
 	float currentTime = 0;

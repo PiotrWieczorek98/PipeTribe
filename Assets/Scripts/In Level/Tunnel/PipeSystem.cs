@@ -11,18 +11,19 @@ public class PipeSystem : MonoBehaviour
 
 	public Pipe pipePrefab;
 	public int pipesDisplayedAtTheSameTime;
+	public float WorldAbsoluteRotation { get; private set; } = 0;
 
 	Pipe[] pipes;
 
 	List<(float, float)> musicNotesTimeline;
 	float timeWhenPipeEntered = 0;
-	float worldAbsoluteRotation = 0;
-
 
 	public void Awake()
 	{
 		string destination = CrossSceneData.LevelDir + "/" + CrossSceneData.SelectedLevelName + "/" + CrossSceneData.SelectedLevelName;
 		musicNotesTimeline = FindObjectOfType<LevelDataPasser>().LoadLevelDataFromDat(destination, true);
+		// First tuple contains bpm  and offset
+		musicNotesTimeline.RemoveAt(0);
 
 		pipes = new Pipe[pipesDisplayedAtTheSameTime];
 		for (int i = 0; i < pipes.Length; i++)
@@ -39,7 +40,7 @@ public class PipeSystem : MonoBehaviour
 			else
 			{
 				pipe.GeneratePipe();
-				worldAbsoluteRotation = pipe.AlignWith(pipes[i - 1], worldAbsoluteRotation);
+				WorldAbsoluteRotation = pipe.AlignWith(pipes[i - 1], WorldAbsoluteRotation);
 				timeWhenPipeEntered = pipe.GenerateMusicNotes(musicNotesTimeline, timeWhenPipeEntered);
 			}
 		}
@@ -58,7 +59,7 @@ public class PipeSystem : MonoBehaviour
 			// Regenerate the last pipe to avoid looping pipes
 			pipes[pipes.Length - 1].GeneratePipe();
 			// Align newly generated pipe
-			worldAbsoluteRotation = pipes[pipes.Length - 1].AlignWith(pipes[pipes.Length - 2], worldAbsoluteRotation);
+			WorldAbsoluteRotation = pipes[pipes.Length - 1].AlignWith(pipes[pipes.Length - 2], WorldAbsoluteRotation);
 			transform.localPosition = new Vector3(0f, -pipes[1].CurveRadius);
 			// Generate music notes for new pipe
 			timeWhenPipeEntered = pipes[pipes.Length - 1].GenerateMusicNotes(musicNotesTimeline, timeWhenPipeEntered);
@@ -104,5 +105,4 @@ public class PipeSystem : MonoBehaviour
 		}
 	}
 
-	public float GetWorldAbsoluteRotation { get { return worldAbsoluteRotation; } }
 }
