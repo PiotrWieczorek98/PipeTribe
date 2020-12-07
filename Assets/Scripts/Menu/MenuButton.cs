@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class MenuButton : MonoBehaviour
 {
-	public enum TypeOfButton { LevelBrowser, Settings, Exit, LevelEditor, Back, Up, Down, Play };
+	public enum TypeOfButton { LevelBrowser, Settings, Exit, LevelEditor, Back, Up, Down, Play, Left, Right };
 	public TypeOfButton typeOfButton;
 
 	public Sprite defaultSprite;
@@ -81,6 +81,14 @@ public class MenuButton : MonoBehaviour
 
 			case TypeOfButton.Down:
 				FindObjectOfType<LevelBrowser>().MoveDown();
+				break;
+
+			case TypeOfButton.Left:
+				FindObjectOfType<SettingsTabs>().MoveLeft();
+				break;
+
+			case TypeOfButton.Right:
+				FindObjectOfType<SettingsTabs>().MoveRight();
 				break;
 
 			case TypeOfButton.Play:

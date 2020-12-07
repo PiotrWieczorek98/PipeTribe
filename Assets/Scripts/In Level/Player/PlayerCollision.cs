@@ -6,7 +6,7 @@ public class PlayerCollision : MonoBehaviour
 {
 	UIComponents uIComponents;
 	RingManager ringManager;
-	InLevelManager gameManager;
+	GameSettings gameSettings;
 
 	Text comboCounterUI;
 	Animator animator;
@@ -21,7 +21,7 @@ public class PlayerCollision : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
 	{
-		gameManager = FindObjectOfType<InLevelManager>();
+		gameSettings = FindObjectOfType<GameSettings>();
 		uIComponents = FindObjectOfType<UIComponents>();
 
 		healthPointsBarUI = uIComponents.HealthPointsBar;
@@ -50,17 +50,17 @@ public class PlayerCollision : MonoBehaviour
 			StartCoroutine(setBoolParameterNextFrame("Jump", false));
 
 			if (healthPoints < 100)
-				healthPoints += gameManager.healthRegainOnHit;
+				healthPoints += gameSettings.HealthRegainOnHit;
 		}
 		else
 		{
 			comboCounter = 0;
-			healthPoints -= gameManager.healthLossOnFail;
+			healthPoints -= gameSettings.HealthLossOnFail;
 		}
 
 		healthPoints = Mathf.Clamp(healthPoints, 0, 100);
 		if (healthPoints <= 0)
-			gameManager.EndGameScreen(true);
+			FindObjectOfType<InLevelManager>().EndGameScreen(true);
 		else if (healthPoints < 20)
 			healthPointsBarUI.GetComponent<Image>().color = Color.red;
 		else if (healthPoints < 40)

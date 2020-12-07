@@ -91,7 +91,7 @@ public class LevelDataPasser : MonoBehaviour
 		if (addOffset)
 		{
 			// Add offset to each note - user preferences
-			float offset = FindObjectOfType<GameSettings>().MusicNotesOffset;
+			float offset = FindObjectOfType<GameSettings>().NotesOffset;
 			List<(float, float)> tupleListOffset = new List<(float, float)>();
 			foreach (var note in tupleList)
 			{

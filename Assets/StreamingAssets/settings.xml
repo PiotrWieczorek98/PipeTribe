@@ -11,5 +11,10 @@
     <Start>S</Start>
     <Stop>S</Stop>
     <Tap>T</Tap>
-  </KeyBinds>
+  <Difficulty>
+    <NoteOffset>0.1</NoteOffset>
+    <Randomness>0.4</Randomness>
+	<HealthLossOnFail>20</HealthLossOnFail>
+    <HealthRegainOnHit>5</HealthRegainOnHit>
+  </Difficulty>
 </GameSettings>

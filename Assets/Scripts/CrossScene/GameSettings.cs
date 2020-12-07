@@ -20,12 +20,17 @@ public static class CrossSceneData
 public class GameSettings : MonoBehaviour
 {
 	public enum VolumeType { MasterVolume, MusicVolume, EffectsVolume }
+	public enum DifficultyType { NoteOffset, Randomness, HealthRegainOnHit, HealthLossOnFail }
 	public enum KeyType { Action1, Action2, Start, Stop, Tap };
 	public AudioMixer audioMixer;
 
 	public Dictionary<KeyType, KeyCode> KeyBindings { get; private set; }
 	public Dictionary<VolumeType, float> VolumeLevels { get; private set; }
-	public float MusicNotesOffset { get; private set; } = 0;
+	public Dictionary<DifficultyType, float> DifficultyValues { get; private set; }
+	public float NotesOffset { get; private set; }
+	public float Randomness { get; private set; }
+	public float HealthRegainOnHit { get; private set; }
+	public float HealthLossOnFail { get; private set; }
 
 	private void Awake()
 	{
@@ -55,9 +60,23 @@ public class GameSettings : MonoBehaviour
 	public void SetVolume(VolumeSlider volumeSlider)
 	{
 		audioMixer.SetFloat(volumeSlider.volumeType.ToString(), volumeSlider.volume);
-		
+
 		VolumeLevels.Remove(volumeSlider.volumeType);
 		VolumeLevels.Add(volumeSlider.volumeType, volumeSlider.volume);
+
+		// Save changes
+		SaveSettings();
+	}
+
+	public float GetDifficultyValue(DifficultyType type)
+	{
+		return DifficultyValues[type];
+	}
+
+	public void SetDifficultyValue(DifficultySlider difficultySlider)
+	{
+		DifficultyValues.Remove(difficultySlider.difficultyType);
+		DifficultyValues.Add(difficultySlider.difficultyType, difficultySlider.value);
 
 		// Save changes
 		SaveSettings();
@@ -98,6 +117,11 @@ public class GameSettings : MonoBehaviour
 					stop = (KeyCode)System.Enum.Parse(typeof(KeyCode), node.Element("Stop").Value);
 					tap = (KeyCode)System.Enum.Parse(typeof(KeyCode), node.Element("Tap").Value);
 				}
+				else if (node.Name == "Difficulty")
+				{
+					NotesOffset = float.Parse(node.Element("NoteOffset").Value);
+					Randomness = float.Parse(node.Element("Randomness").Value);
+				}
 			}
 		}
 		catch
@@ -108,20 +132,27 @@ public class GameSettings : MonoBehaviour
 		// Set those settings in game
 		KeyBindings = new Dictionary<KeyType, KeyCode>()
 		{
-			{KeyType.Action1,    action1},
-			{KeyType.Action2,    action2 },
-			{KeyType.Tap,        tap },
-			{KeyType.Start,      start },
-			{KeyType.Stop,       stop }
+			{KeyType.Action1, action1},
+			{KeyType.Action2, action2},
+			{KeyType.Tap, tap},
+			{KeyType.Start, start},
+			{KeyType.Stop, stop}
 		};
 
 		VolumeLevels = new Dictionary<VolumeType, float>()
 		{
-			{VolumeType.MasterVolume,   masterVolume},
-			{VolumeType.MusicVolume,    musicVolume},
-			{VolumeType.EffectsVolume,  effectsVolume},
+			{VolumeType.MasterVolume, masterVolume},
+			{VolumeType.MusicVolume, musicVolume},
+			{VolumeType.EffectsVolume, effectsVolume},
 		};
 
+		DifficultyValues = new Dictionary<DifficultyType, float>()
+		{
+			{DifficultyType.NoteOffset, NotesOffset},
+			{DifficultyType.Randomness, Randomness},
+			{DifficultyType.HealthLossOnFail, HealthLossOnFail},
+			{DifficultyType.HealthRegainOnHit, HealthRegainOnHit},
+		};
 	}
 
 	public void SaveSettings()
@@ -138,7 +169,12 @@ public class GameSettings : MonoBehaviour
 				new XElement("Action2", KeyBindings[KeyType.Action2]),
 				new XElement("Start", KeyBindings[KeyType.Start]),
 				new XElement("Stop", KeyBindings[KeyType.Stop]),
-				new XElement("Tap", KeyBindings[KeyType.Tap]))
+				new XElement("Tap", KeyBindings[KeyType.Tap])),
+			new XElement("Difficulty",
+				new XElement("NoteOffset", NotesOffset),
+				new XElement("Randomness", Randomness),
+				new XElement("HealthLossOnFail", HealthLossOnFail),
+				new XElement("HealthRegainOnHit", HealthRegainOnHit))
 		);
 
 		xmlTree.Save(fileLoc);

@@ -6,11 +6,6 @@ public class InLevelManager : MonoBehaviour
 {
 	public AudioClip levelComplete;
 	public AudioClip levelFailed;
-	public float MusicNotesOffset;
-	// Minimum time between notes to allow change of segment the note is placed on
-	public float minDeltaTimeToSwitch;
-	public float healthRegainOnHit;
-	public float healthLossOnFail;
 
 	public float loadingTime;
 	public Transform endGamePanel;
