@@ -79,7 +79,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Not Played
+  m_Text: 0
 --- !u!114 &4315426482718926285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,7 +212,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Not Played
+  m_Text: 63,95143
 --- !u!114 &4315426482829782451
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -402,7 +402,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: two door cinema club - undercover martyn
+  m_Text: janji - heroes tonight
 --- !u!114 &4315426483277568613
 MonoBehaviour:
   m_ObjectHideFlags: 0

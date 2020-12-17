@@ -10,7 +10,7 @@ public class LevelBox : MonoBehaviour
 	public Text combo;
 	public Text score;
 
-	public void InitializeBox(string songName, BackgroundColor boxColor, float positionY)
+	public void InitializeBox(string songName, BackgroundColor boxColor)
 	{
 		title.text = songName;
 
@@ -60,7 +60,5 @@ public class LevelBox : MonoBehaviour
 				boxBackground.color = UnityEngine.Color.white;
 				break;
 		}
-
-		GetComponent<RectTransform>().anchoredPosition = new Vector2(0, positionY);
 	}
 }

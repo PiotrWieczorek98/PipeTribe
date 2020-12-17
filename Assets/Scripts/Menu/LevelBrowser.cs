@@ -8,15 +8,21 @@ public class LevelBrowser : MonoBehaviour
 {
 	public GameObject levelBox;
 	List<RectTransform> boxes;
+	List<AudioClip> musicList;
 	int selectedBox = 0;
 
 	float movementSpeed = 3;
-	Vector3 gloabalDestination;
+	Vector3 globalDestination;
+	MenuManager menuManager;
 
-	private void Awake()
+	public void Awake()
 	{
+		menuManager = FindObjectOfType<MenuManager>();
+
 		boxes = new List<RectTransform>();
-		gloabalDestination = new Vector3();
+		globalDestination = new Vector3();
+		musicList = new List<AudioClip>();
+
 
 		// Find all music in user's level directory
 		string[] levels = Directory.GetDirectories(CrossSceneData.LevelDir);
@@ -40,33 +46,67 @@ public class LevelBrowser : MonoBehaviour
 			LevelBox.BackgroundColor boxColor = (LevelBox.BackgroundColor)colorIndex;
 
 			// Initialize object
-			levelBox.GetComponent<LevelBox>().InitializeBox(levelName, boxColor, posY);
+			box.GetComponent<LevelBox>().InitializeBox(levelName, boxColor);
+			box.GetComponent<RectTransform>().anchoredPosition = new Vector2(0, posY);
 
+			// Add to list
+			boxes.Add(box.GetComponent<RectTransform>());
+			
+			// Increment
+			posY -= 100;
 			if (colorIndex < 5)
 				colorIndex++;
 			else
 				colorIndex = 0;
-			posY -= 100;
-
-			// Add to list
-			boxes.Add(box.GetComponent<RectTransform>());
 		}
+
+		CrossSceneData.SelectedLevelName = new DirectoryInfo(levelsSorted[0]).Name;
+		// Load ogg files to AudioClip list
+		StartCoroutine(LoadMusicList(levelsSorted));
+	}
+
+	IEnumerator LoadMusicList(List<string> levelsSorted)
+	{
+		MusicLoader musicLoader = FindObjectOfType<MusicLoader>();
+		yield return StartCoroutine(musicLoader.LoadMusicFiles(musicList, levelsSorted));
+
+		// Disable level browser because user is currently in main menu
+		transform.parent.gameObject.SetActive(false);
+	}
+
+	public void SetFirstMusic()
+	{
+		menuManager.MusicSource.clip = musicList[0];
+		menuManager.MusicSource.Play();
 	}
 
 	private void Update()
 	{
+		bool moved = false;
 		if (Input.mouseScrollDelta.y > 0)
 		{
 			MoveUp();
+			moved = true;
 		}
 		else if (Input.mouseScrollDelta.y < 0)
 		{
 			MoveDown();
+			moved = true;
+
 		}
 
+		// If list was moved
+		if (moved)
+		{
+			CrossSceneData.SelectedLevelName = boxes[selectedBox].GetComponent<LevelBox>().title.text;
+			menuManager.MusicSource.clip = musicList[selectedBox];
+			menuManager.MusicSource.Play();
+		}
+
+		// Move animation requires interpolation
 		for (int i = 0; i < boxes.Count; i++)
 		{
-			Vector3 localDestination = new Vector3(0, i * -100f + gloabalDestination.y, 1);
+			Vector3 localDestination = new Vector3(0, i * -100f + globalDestination.y, 1);
 			float distanceFromCenter = Mathf.Abs(i - selectedBox);
 			if (distanceFromCenter > 3)
 			{
@@ -84,17 +124,26 @@ public class LevelBrowser : MonoBehaviour
 		if (selectedBox < boxes.Count - 1)
 		{
 			selectedBox++;
-			gloabalDestination = new Vector3(0, gloabalDestination.y + 100f, 1);
-			CrossSceneData.SelectedLevelName = boxes[selectedBox].GetComponent<LevelBox>().title.text;
+			globalDestination = new Vector3(0, globalDestination.y + 100f, 1);
+		}
+		else
+		{
+			selectedBox = 0;
+			globalDestination = new Vector3(0, 0, 1);
 		}
 	}
+
 	public void MoveUp()
 	{
 		if (selectedBox > 0)
 		{
 			selectedBox--;
-			gloabalDestination = new Vector3(0, gloabalDestination.y - 100f, 1);
-			CrossSceneData.SelectedLevelName = boxes[selectedBox].GetComponent<LevelBox>().title.text;
+			globalDestination = new Vector3(0, globalDestination.y - 100f, 1);
+		}
+		else
+		{
+			selectedBox = boxes.Count - 1;
+			globalDestination = new Vector3(0, (boxes.Count - 1) * 100f, 1);
 		}
 	}
 }

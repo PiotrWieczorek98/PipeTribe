@@ -124,12 +124,13 @@ public class LevelCreatorButton : MonoBehaviour
 		// load data if such exist
 		string fileLocation = CrossSceneData.LevelDir + "/" + levelName + "/" + levelName;
 		List<(float, float)> noteTuples = levelDataPasser.LoadLevelDataFromDat(fileLocation);
+		if (noteTuples == null)
+			yield break;
+
 		(float, float) bmpAndOffset = noteTuples[0];
 		noteTuples.RemoveAt(0);
 		levelCreatorManager.SetBmpOffset(bmpAndOffset.Item1, bmpAndOffset.Item2);
 
-		if (noteTuples == null)
-			yield break;
 		foreach ((float, float) noteTuple in noteTuples)
 		{
 			timelineIndicator.addNoteObject(noteTuple.Item1, noteTuple.Item2);

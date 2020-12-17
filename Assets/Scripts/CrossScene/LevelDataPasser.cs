@@ -123,4 +123,32 @@ public class LevelDataPasser : MonoBehaviour
 
 		return tupleList;
 	}
+
+	public void SaveScore(string fileLoc, float score, float combo)
+	{
+		fileLoc += ".dat";
+		FileStream file;
+
+		Directory.CreateDirectory(Application.dataPath + "/levels/");
+
+		if (File.Exists(fileLoc))
+			file = File.OpenWrite(fileLoc);
+		else
+			file = File.Create(fileLoc);
+
+		BinaryFormatter bf = new BinaryFormatter();
+		List<(float, float)> scoreList;
+		try
+		{
+			scoreList = (List<(float, float)>)bf.Deserialize(file);
+		}
+		catch
+		{
+			scoreList = new List<(float, float)>();
+		}
+		scoreList.Add((score, combo));
+
+		bf.Serialize(file, scoreList);
+		file.Close();
+	}
 }

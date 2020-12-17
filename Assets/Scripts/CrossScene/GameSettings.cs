@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
+using System.Globalization;
 
 /// <summary>
 /// Class required to pass informations between scenes
@@ -20,17 +21,20 @@ public static class CrossSceneData
 public class GameSettings : MonoBehaviour
 {
 	public enum VolumeType { MasterVolume, MusicVolume, EffectsVolume }
-	public enum DifficultyType { NoteOffset, Randomness, HealthRegainOnHit, HealthLossOnFail }
+	public enum DifficultyType { Speed, NoteOffset, Randomness, HealthRegainOnHit, HealthLossOnFail }
 	public enum KeyType { Action1, Action2, Start, Stop, Tap };
 	public AudioMixer audioMixer;
 
 	public Dictionary<KeyType, KeyCode> KeyBindings { get; private set; }
 	public Dictionary<VolumeType, float> VolumeLevels { get; private set; }
 	public Dictionary<DifficultyType, float> DifficultyValues { get; private set; }
+	public float Speed { get; private set; }
 	public float NotesOffset { get; private set; }
 	public float Randomness { get; private set; }
 	public float HealthRegainOnHit { get; private set; }
 	public float HealthLossOnFail { get; private set; }
+	//TODO create settings entry
+	public bool ComboEffects { get; private set; } = true;
 
 	private void Awake()
 	{
@@ -39,6 +43,14 @@ public class GameSettings : MonoBehaviour
 
 		LoadSettings();
 		SaveSettings();
+	}
+
+	private void Start()
+	{
+		// Set volume settings in game
+		audioMixer.SetFloat(VolumeType.MasterVolume.ToString(), GetVolume(VolumeType.MasterVolume));
+		audioMixer.SetFloat(VolumeType.MusicVolume.ToString(), GetVolume(VolumeType.MusicVolume));
+		audioMixer.SetFloat(VolumeType.EffectsVolume.ToString(), GetVolume(VolumeType.EffectsVolume));
 	}
 
 	public KeyCode GetBindedKey(KeyType keyType)
@@ -105,9 +117,9 @@ public class GameSettings : MonoBehaviour
 			{
 				if (node.Name == "Volume")
 				{
-					masterVolume = float.Parse(node.Element("Master").Value);
-					effectsVolume = float.Parse(node.Element("Effects").Value);
-					musicVolume = float.Parse(node.Element("Music").Value);
+					masterVolume = float.Parse(node.Element("Master").Value, CultureInfo.InvariantCulture);
+					effectsVolume = float.Parse(node.Element("Effects").Value, CultureInfo.InvariantCulture);
+					musicVolume = float.Parse(node.Element("Music").Value, CultureInfo.InvariantCulture);
 				}
 				else if (node.Name == "KeyBinds")
 				{
@@ -119,8 +131,11 @@ public class GameSettings : MonoBehaviour
 				}
 				else if (node.Name == "Difficulty")
 				{
-					NotesOffset = float.Parse(node.Element("NoteOffset").Value);
-					Randomness = float.Parse(node.Element("Randomness").Value);
+					Speed = float.Parse(node.Element("Speed").Value, CultureInfo.InvariantCulture);
+					NotesOffset = float.Parse(node.Element("NoteOffset").Value, CultureInfo.InvariantCulture);
+					Randomness = float.Parse(node.Element("Randomness").Value, CultureInfo.InvariantCulture);
+					HealthLossOnFail = float.Parse(node.Element("HealthLossOnFail").Value, CultureInfo.InvariantCulture);
+					HealthRegainOnHit = float.Parse(node.Element("HealthRegainOnHit").Value, CultureInfo.InvariantCulture);
 				}
 			}
 		}
@@ -129,7 +144,7 @@ public class GameSettings : MonoBehaviour
 			Debug.LogError("Xml load error");
 		}
 
-		// Set those settings in game
+		// Create dictionaries to use across the game
 		KeyBindings = new Dictionary<KeyType, KeyCode>()
 		{
 			{KeyType.Action1, action1},
@@ -148,11 +163,13 @@ public class GameSettings : MonoBehaviour
 
 		DifficultyValues = new Dictionary<DifficultyType, float>()
 		{
+			{DifficultyType.Speed, Speed},
 			{DifficultyType.NoteOffset, NotesOffset},
 			{DifficultyType.Randomness, Randomness},
 			{DifficultyType.HealthLossOnFail, HealthLossOnFail},
 			{DifficultyType.HealthRegainOnHit, HealthRegainOnHit},
 		};
+
 	}
 
 	public void SaveSettings()
@@ -171,6 +188,7 @@ public class GameSettings : MonoBehaviour
 				new XElement("Stop", KeyBindings[KeyType.Stop]),
 				new XElement("Tap", KeyBindings[KeyType.Tap])),
 			new XElement("Difficulty",
+				new XElement("Speed", Speed),
 				new XElement("NoteOffset", NotesOffset),
 				new XElement("Randomness", Randomness),
 				new XElement("HealthLossOnFail", HealthLossOnFail),

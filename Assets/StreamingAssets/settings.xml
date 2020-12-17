@@ -1,20 +1,22 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <GameSettings>
   <Volume>
-    <Master>-40</Master>
-    <Music>0</Music>
-    <Effects>-6</Effects>
+    <Master>-25.3072</Master>
+    <Music>-10</Music>
+    <Effects>-5</Effects>
   </Volume>
   <KeyBinds>
     <Action1>Space</Action1>
     <Action2>C</Action2>
     <Start>S</Start>
-    <Stop>S</Stop>
+    <Stop>P</Stop>
     <Tap>T</Tap>
+  </KeyBinds>
   <Difficulty>
-    <NoteOffset>0.1</NoteOffset>
+    <Speed>3</Speed>
+    <NoteOffset>-0.2</NoteOffset>
     <Randomness>0.4</Randomness>
-	<HealthLossOnFail>20</HealthLossOnFail>
+    <HealthLossOnFail>20</HealthLossOnFail>
     <HealthRegainOnHit>5</HealthRegainOnHit>
   </Difficulty>
 </GameSettings>

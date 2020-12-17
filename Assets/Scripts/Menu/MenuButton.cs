@@ -54,6 +54,7 @@ public class MenuButton : MonoBehaviour
 			case TypeOfButton.LevelBrowser:
 				StartCoroutine(Transition(menuManager.mainMenu.transform, menuManager.levelBrowser.transform));
 				menuManager.CurrentWindow = MenuManager.Windows.LevelBrowser;
+				FindObjectOfType<LevelBrowser>().SetFirstMusic();
 				break;
 
 			case TypeOfButton.Settings:

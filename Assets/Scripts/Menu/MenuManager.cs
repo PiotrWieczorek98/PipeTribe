@@ -33,8 +33,7 @@ public class MenuManager : MonoBehaviour
 			return;
 
 		// Random index
-		//int index = Random.Range(0, musicFiles.Length - 1);
-		int index = 1;
+		int index = Random.Range(0, musicFiles.Length - 1);
 		MusicName = Path.GetFileName(musicFiles[index]);
 		MusicName = MusicName.Replace(".ogg", "");
 		MusicDir = musicFiles[index];

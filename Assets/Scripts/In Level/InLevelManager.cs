@@ -7,24 +7,21 @@ public class InLevelManager : MonoBehaviour
 	public AudioClip levelComplete;
 	public AudioClip levelFailed;
 
+	public Text currentTimeUI;
+	public Text totalTimeUI;
 	public float loadingTime;
 	public Transform endGamePanel;
-	float timeSinceLoaded = 0;
+	public Transform effectsPanel;
+	public AnimationClip countdown;
+	public RectTransform currentTimeBar;
 
+	float timeSinceLoaded = 0;
 	AudioSource audioSource;
-	UIComponents uiComponents;
-	Text currentTimeUI;
-	Text totalTimeUI;
-	RectTransform currentTimeBar;
+
 
 	void Awake()
 	{
-		uiComponents = FindObjectOfType<UIComponents>();
-
-		currentTimeUI = uiComponents.Timer.GetChild(0).GetComponent<Text>();
-		totalTimeUI = uiComponents.Timer.GetChild(1).GetComponent<Text>();
 		audioSource = GetComponent<AudioSource>();
-		currentTimeBar = uiComponents.TimerBar;
 
 		string uri = "file://" + CrossSceneData.LevelDir + "/" + CrossSceneData.SelectedLevelName + "/" + CrossSceneData.SelectedLevelName + ".ogg";
 		StartCoroutine(GetComponent<MusicLoader>().PlayMusic(audioSource, uri, false));
@@ -32,7 +29,7 @@ public class InLevelManager : MonoBehaviour
 
 	void Start()
 	{
-		StartCoroutine(FinishLoading(loadingTime));
+		StartCoroutine(FinishLoading());
 	}
 
 
@@ -50,16 +47,29 @@ public class InLevelManager : MonoBehaviour
 	}
 
 	// This method is required to avoid desync and lag at the beggining of play when entities still load;
-	public IEnumerator FinishLoading(float delay)
+	public IEnumerator FinishLoading()
 	{
 		PlayerMovement playerMovement = FindObjectOfType<PlayerMovement>();
 		// Disable player to stop movement of the pipe system
 		playerMovement.enabled = false;
 
 		// Wait to sync
-		yield return new WaitForSeconds(delay);
+		Text text = effectsPanel.GetComponentInChildren<Text>();
+		effectsPanel.GetComponent<Animator>().Play(countdown.name);
+		Vector3 scale = text.transform.localScale;
+		text.transform.localScale = scale * 3;
+		text.text = "3";
+		yield return new WaitForSeconds(1);
+		text.text = "2";
+		yield return new WaitForSeconds(1);
+		text.text = "1";
+		yield return new WaitForSeconds(1);
+		text.text = "GO!";
+		yield return new WaitForSeconds(1);
 
 		// Set everything ready to start
+		text.transform.localScale = scale;
+		text.text = "Loading...";
 		playerMovement.enabled = true;
 		audioSource.PlayOneShot(audioSource.clip);
 		timeSinceLoaded = 0;
@@ -102,5 +112,8 @@ public class InLevelManager : MonoBehaviour
 		totalScore.text = playerCollision.TotalPlayerScore.ToString();
 		maxCombo.text = playerCollision.MaxComboAchieved.ToString();
 		percentage.text = playerCollision.ScorePercentage.ToString("F2") + "%";
+
+		string fileLoc = CrossSceneData.ScoresDir + "/" + CrossSceneData.SelectedLevelName;
+		FindObjectOfType<LevelDataPasser>().SaveScore(fileLoc, playerCollision.TotalPlayerScore, playerCollision.MaxComboAchieved);
 	}
 }

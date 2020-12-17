@@ -4,35 +4,33 @@ using UnityEngine.UI;
 
 public class PlayerCollision : MonoBehaviour
 {
-	UIComponents uIComponents;
+	public AudioClip hitSound;
+	public AudioClip missSound;
+	public Text comboCounterUI;
+	public Text scorePercentageUI;
+	public RectTransform healthPointsBarUI;
+
+	Animator animator;
+	AudioSource audioSource;
 	RingManager ringManager;
 	GameSettings gameSettings;
-
-	Text comboCounterUI;
-	Animator animator;
-	Text scorePercentageUI;
-	RectTransform healthPointsBarUI;
 
 	int comboCounter = 0;
 	int noteCounter = 0;
 	int totalPossibleScore = 0;
 	float healthPoints = 100;
 
-	// Start is called before the first frame update
-	void Start()
+	private void Awake()
 	{
 		gameSettings = FindObjectOfType<GameSettings>();
-		uIComponents = FindObjectOfType<UIComponents>();
-
-		healthPointsBarUI = uIComponents.HealthPointsBar;
-		scorePercentageUI = uIComponents.ScorePercentage;
-		ringManager = uIComponents.RingManager;
-		comboCounterUI = uIComponents.ComboCounter;
+		ringManager = FindObjectOfType<RingManager>();
 		animator = comboCounterUI.GetComponent<Animator>();
+		audioSource = GetComponent<AudioSource>();
 
 		comboCounterUI.text = "0x";
 		scorePercentageUI.text = "100%";
 	}
+
 
 	// When note block hits player collider - where segments are placed
 	private void OnTriggerEnter(Collider other)
@@ -40,7 +38,8 @@ public class PlayerCollision : MonoBehaviour
 		MusicNote noteHit = other.GetComponentInParent<MusicNote>();
 		noteCounter++;
 
-		if (noteHit.ColorOfNote.ringElement == ringManager.SelectedRingElement.RingElement())
+		// Player was correct
+		if (ringManager.SelectedRingElement != null && noteHit.ColorOfNote.ringElement == ringManager.SelectedRingElement.RingElement())
 		{
 			comboCounter++;
 			if (comboCounter > MaxComboAchieved)
@@ -49,16 +48,23 @@ public class PlayerCollision : MonoBehaviour
 			animator.SetBool("Jump", true);
 			StartCoroutine(setBoolParameterNextFrame("Jump", false));
 
-			if (healthPoints < 100)
-				healthPoints += gameSettings.HealthRegainOnHit;
+			healthPoints += gameSettings.HealthRegainOnHit;
+			if (healthPoints > 100)
+				healthPoints = 100;
+
+			audioSource.PlayOneShot(hitSound);
 		}
+		// Player missed
 		else
 		{
 			comboCounter = 0;
 			healthPoints -= gameSettings.HealthLossOnFail;
+			if (healthPoints < 0)
+				healthPoints = 0;
+
+			audioSource.PlayOneShot(missSound);
 		}
 
-		healthPoints = Mathf.Clamp(healthPoints, 0, 100);
 		if (healthPoints <= 0)
 			FindObjectOfType<InLevelManager>().EndGameScreen(true);
 		else if (healthPoints < 20)

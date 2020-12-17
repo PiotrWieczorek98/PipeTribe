@@ -41,7 +41,7 @@ public class Pipe : MonoBehaviour
 
 		// How long will it take to pass this pipe
 		float arcLength = CurveAngle / 360 * (2f * Mathf.PI * CurveRadius);
-		TimeToPassPipe = arcLength / player.GetPlayerVelocity;
+		TimeToPassPipe = arcLength / FindObjectOfType<GameSettings>().GetDifficultyValue(GameSettings.DifficultyType.Speed);
 
 		// Since we start the game at the second pipe, do not generate notes for the first one
 		if (!isFirstPipe)

@@ -5,7 +5,7 @@ public class PlayerMovement : MonoBehaviour
 
 	public PipeSystem pipeSystem;
 	public AnimationClip comboAnimation;
-	public float velocity;
+	public float Velocity { get; private set; }
 
 	Pipe currentPipe;
 
@@ -18,13 +18,18 @@ public class PlayerMovement : MonoBehaviour
 	public void Awake()
 	{
 		world = pipeSystem.transform.parent;
+	}
+
+	private void Start()
+	{
+		Velocity = FindObjectOfType<GameSettings>().GetDifficultyValue(GameSettings.DifficultyType.Speed);
 		currentPipe = pipeSystem.SetupPipe(true);
 		SetupCurrentPipe();
 	}
 
 	private void Update()
 	{
-		float delta = velocity * Time.deltaTime;
+		float delta = Velocity * Time.deltaTime;
 		systemRotation += delta * deltaToRotation;
 
 		if (systemRotation >= currentPipe.CurveAngle)
@@ -50,7 +55,4 @@ public class PlayerMovement : MonoBehaviour
 
 		world.localRotation = Quaternion.Euler(worldRotation, 0f, 0f);
 	}
-
-
-	public float GetPlayerVelocity { get { return velocity; } }
 }

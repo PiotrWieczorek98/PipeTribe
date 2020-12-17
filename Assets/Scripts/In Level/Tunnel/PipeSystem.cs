@@ -26,6 +26,10 @@ public class PipeSystem : MonoBehaviour
 		musicNotesTimeline.RemoveAt(0);
 
 		pipes = new Pipe[pipesDisplayedAtTheSameTime];
+	}
+
+	private void Start()
+	{
 		for (int i = 0; i < pipes.Length; i++)
 		{
 			Pipe pipe = pipes[i] = Instantiate<Pipe>(pipePrefab);
