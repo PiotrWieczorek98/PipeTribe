@@ -35,52 +35,6 @@ public class Pipe : MonoBehaviour
 		mesh.RecalculateNormals();
 	}
 
-	public float GenerateMusicNotes(List<(float, float)> songMusicNotes, float timeWhenPipeEntered, bool isFirstPipe = false)
-	{
-		PlayerMovement player = GameObject.FindGameObjectWithTag("Player").GetComponent(typeof(PlayerMovement)) as PlayerMovement;
-
-		// How long will it take to pass this pipe
-		float arcLength = CurveAngle / 360 * (2f * Mathf.PI * CurveRadius);
-		TimeToPassPipe = arcLength / FindObjectOfType<GameSettings>().GetDifficultyValue(GameSettings.DifficultyType.Speed);
-
-		// Since we start the game at the second pipe, do not generate notes for the first one
-		if (!isFirstPipe)
-		{
-			List<(float, float, float)> notesForThisPipe = new List<(float, float, float)> { };
-			for (int i = 0; i < songMusicNotes.Count; i++)
-			{
-				float noteAppearTime = songMusicNotes[i].Item1;
-				if (noteAppearTime > timeWhenPipeEntered && noteAppearTime < timeWhenPipeEntered + TimeToPassPipe)
-				{
-					noteAppearTime -= timeWhenPipeEntered;
-
-					float noteAppearSegment = CrossSceneData.Remap(noteAppearTime, 0, TimeToPassPipe, 0, CurveAngle);
-					(float, float, float) tmp = (noteAppearSegment, songMusicNotes[i].Item2, songMusicNotes[i].Item1);
-
-					notesForThisPipe.Add(tmp);
-				}
-			}
-
-			// Generate notes for this pipe
-			notePlacer.GenerateItems(this, notesForThisPipe);
-
-			// Remove notes for this pipe from original list to avoid repetition
-			for (int i = 0; i < notesForThisPipe.Count; i++)
-			{
-				for (int j = 0; j < songMusicNotes.Count; j++)
-				{
-					if (notesForThisPipe[i].Item1 == songMusicNotes[j].Item1)
-					{
-						songMusicNotes.RemoveAt(j);
-						break;
-					}
-				}
-			}
-		}
-		//Debug.Log("When entered: " + timeWhenPipeEntered + " To Pass: " + timeToPassPipe);
-		return timeWhenPipeEntered + TimeToPassPipe;
-	}
-
 	private void SetVertices()
 	{
 		vertices = new Vector3[pipeSegmentCount * CurveSegmentCount * 4];
@@ -195,6 +149,50 @@ public class Pipe : MonoBehaviour
 		transform.localScale = Vector3.one;
 
 		return worldAbsoluteRotation;
+	}
+
+	public float GenerateMusicNotes(List<(float, float)> songMusicNotes, float timeWhenPipeEntered, bool isFirstPipe = false)
+	{
+		// How long will it take to pass this pipe
+		float arcLength = CurveAngle / 360 * (2f * Mathf.PI * CurveRadius);
+		TimeToPassPipe = arcLength / FindObjectOfType<GameSettings>().GetDifficultyValue(GameSettings.DifficultyType.Speed);
+
+		// Since we start the game at the second pipe, do not generate notes for the first one
+		if (!isFirstPipe)
+		{
+			List<(float, float, float)> notesForThisPipe = new List<(float, float, float)> { };
+			for (int i = 0; i < songMusicNotes.Count; i++)
+			{
+				float noteAppearTime = songMusicNotes[i].Item1;
+				if (noteAppearTime > timeWhenPipeEntered && noteAppearTime < timeWhenPipeEntered + TimeToPassPipe)
+				{
+					noteAppearTime -= timeWhenPipeEntered;
+
+					float noteAppearSegment = CrossSceneData.Remap(noteAppearTime, 0, TimeToPassPipe, 0, CurveAngle);
+					(float, float, float) tmp = (noteAppearSegment, songMusicNotes[i].Item2, songMusicNotes[i].Item1);
+
+					notesForThisPipe.Add(tmp);
+				}
+			}
+
+			// Generate notes for this pipe
+			notePlacer.GenerateItems(this, notesForThisPipe);
+
+			// Remove notes for this pipe from original list to avoid repetition
+			for (int i = 0; i < notesForThisPipe.Count; i++)
+			{
+				for (int j = 0; j < songMusicNotes.Count; j++)
+				{
+					if (notesForThisPipe[i].Item1 == songMusicNotes[j].Item1)
+					{
+						songMusicNotes.RemoveAt(j);
+						break;
+					}
+				}
+			}
+		}
+		//Debug.Log("When entered: " + timeWhenPipeEntered + " To Pass: " + timeToPassPipe);
+		return timeWhenPipeEntered + TimeToPassPipe;
 	}
 
 	public void destroyChildren()

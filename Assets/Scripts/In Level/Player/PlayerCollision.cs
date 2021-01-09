@@ -17,6 +17,7 @@ public class PlayerCollision : MonoBehaviour
 
 	int comboCounter = 0;
 	int noteCounter = 0;
+	int notesHit = 0;
 	int totalPossibleScore = 0;
 	float healthPoints = 100;
 
@@ -42,6 +43,7 @@ public class PlayerCollision : MonoBehaviour
 		if (ringManager.SelectedRingElement != null && noteHit.ColorOfNote.ringElement == ringManager.SelectedRingElement.RingElement())
 		{
 			comboCounter++;
+			notesHit++;
 			if (comboCounter > MaxComboAchieved)
 				MaxComboAchieved = comboCounter;
 
@@ -78,7 +80,7 @@ public class PlayerCollision : MonoBehaviour
 		int baseScore = 100;
 		TotalPlayerScore += comboCounter * baseScore;
 		totalPossibleScore += noteCounter * baseScore;
-		ScorePercentage = (float)TotalPlayerScore * 100 / (float)totalPossibleScore;
+		ScorePercentage = (float)notesHit * 100 / (float)noteCounter;
 
 		// Show on UI
 		scorePercentageUI.text = ScorePercentage.ToString("F2") + "%"; // Two decimal points

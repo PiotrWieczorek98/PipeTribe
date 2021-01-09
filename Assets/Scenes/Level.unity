@@ -488,7 +488,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 62, y: 0}
+  m_AnchoredPosition: {x: 66.7, y: 0}
   m_SizeDelta: {x: 25, y: 125}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &161518995
@@ -541,7 +541,7 @@ GameObject:
   - component: {fileID: 198732813}
   - component: {fileID: 198732812}
   m_Layer: 5
-  m_Name: Percent Value
+  m_Name: End Percentage Score
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1170,7 +1170,7 @@ GameObject:
   - component: {fileID: 562315185}
   - component: {fileID: 562315184}
   m_Layer: 5
-  m_Name: Score Value
+  m_Name: End Score
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2026,7 +2026,7 @@ GameObject:
   - component: {fileID: 1042071606}
   - component: {fileID: 1042071605}
   m_Layer: 5
-  m_Name: Combo Percentage
+  m_Name: HUD Percentage Score
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2198,7 +2198,7 @@ GameObject:
   - component: {fileID: 1139134415}
   - component: {fileID: 1139134417}
   m_Layer: 5
-  m_Name: Combo Counter
+  m_Name: HUD Combo Counter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2887,7 +2887,7 @@ MonoBehaviour:
   hitSound: {fileID: 8300000, guid: 812a215f9fad604479ed07665f542688, type: 3}
   missSound: {fileID: 8300000, guid: d2c17883984ecb145a67894a17795918, type: 3}
   comboCounterUI: {fileID: 1139134415}
-  scorePercentageUI: {fileID: 562315184}
+  scorePercentageUI: {fileID: 1042071605}
   healthPointsBarUI: {fileID: 1723904270}
 --- !u!1 &1504035324
 GameObject:
@@ -2901,7 +2901,7 @@ GameObject:
   - component: {fileID: 1504035327}
   - component: {fileID: 1504035326}
   m_Layer: 5
-  m_Name: Combo Value
+  m_Name: End Combo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

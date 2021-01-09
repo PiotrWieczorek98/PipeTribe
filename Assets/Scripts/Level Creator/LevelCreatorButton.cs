@@ -48,12 +48,10 @@ public class LevelCreatorButton : MonoBehaviour
 			StartCoroutine(ClickedButtonAnimation());
 
 			string levelName = levelCreatorManager.MusicName;
-			if (levelName == null || levelName == "")
-				return;
-			else
+			if (levelName != null && levelName != "")
 				levelName = levelName.ToLower();
 
-			switch (typeOfButton)
+				switch (typeOfButton)
 			{
 				case TypeOfButton.Save:
 					if (levelCreatorManager.MusicLoaded)
@@ -64,7 +62,8 @@ public class LevelCreatorButton : MonoBehaviour
 					}
 					break;
 				case TypeOfButton.Load:
-					StartCoroutine(LoadMusic(levelName));
+					if (levelName != null && levelName != "")
+						StartCoroutine(LoadMusic(levelName));
 					break;
 				case TypeOfButton.ResetZoom:
 					if (levelCreatorManager.MusicLoaded)

@@ -49,6 +49,8 @@ public class MenuButton : MonoBehaviour
 	{
 		MenuAnimator menuAnimator = FindObjectOfType<MenuAnimator>();
 		MenuManager menuManager = FindObjectOfType<MenuManager>();
+		LevelBrowser levelBrowser = FindObjectOfType<LevelBrowser>();
+
 		switch (typeOfButton)
 		{
 			case TypeOfButton.LevelBrowser:
@@ -67,6 +69,7 @@ public class MenuButton : MonoBehaviour
 					StartCoroutine(Transition(menuManager.settings.transform, menuManager.mainMenu.transform, true));
 				else if (menuManager.CurrentWindow == MenuManager.Windows.LevelBrowser)
 					StartCoroutine(Transition(menuManager.levelBrowser.transform, menuManager.mainMenu.transform, true));
+
 				menuManager.CurrentWindow = MenuManager.Windows.MainMenu;
 				break;
 
@@ -77,11 +80,13 @@ public class MenuButton : MonoBehaviour
 				break;
 
 			case TypeOfButton.Up:
-				FindObjectOfType<LevelBrowser>().MoveUp();
+				levelBrowser.MoveUp();
+				levelBrowser.ChangeMusic();
 				break;
 
 			case TypeOfButton.Down:
-				FindObjectOfType<LevelBrowser>().MoveDown();
+				levelBrowser.MoveDown();
+				levelBrowser.ChangeMusic();
 				break;
 
 			case TypeOfButton.Left:
@@ -112,10 +117,13 @@ public class MenuButton : MonoBehaviour
 	IEnumerator Transition(Transform currentlyActive, Transform newActive, bool reverse = false)
 	{
 		MenuAnimator menuAnimator = FindObjectOfType<MenuAnimator>();
+		newActive.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, 0, 0);
+
 		// Set draw order
 		//currentlyActive.SetAsLastSibling();
+
 		// Activate appearing appear
-		newActive.gameObject.SetActive(true);
+		//newActive.gameObject.SetActive(true);
 		// Disable buttons for transition time
 		foreach (MenuButton button in currentlyActive.GetComponentsInChildren<MenuButton>())
 			button.SetActive(false);
@@ -137,7 +145,9 @@ public class MenuButton : MonoBehaviour
 		yield return new WaitForSeconds(menuAnimator.zoomIn.length);
 
 		// Disable disappearing object
-		currentlyActive.gameObject.SetActive(false);
+		//currentlyActive.gameObject.SetActive(false);
+		currentlyActive.GetComponent<RectTransform>().anchoredPosition = new Vector3(99999, -99999, 0);
+
 		// Enable buttons
 		foreach (MenuButton button in newActive.GetComponentsInChildren<MenuButton>())
 			button.SetActive(true);

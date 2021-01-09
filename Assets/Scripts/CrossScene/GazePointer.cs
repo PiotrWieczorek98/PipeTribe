@@ -17,16 +17,19 @@ public class GazePointer : MonoBehaviour
 
 		public GazePoint()
 		{
-			// Connect client
-			GazeManager.Instance.Activate(GazeManager.ApiVersion.VERSION_1_0);
+			try
+			{
+				// Connect client
+				GazeManager.Instance.Activate(GazeManager.ApiVersion.VERSION_1_0);
 
-			// Register this class for events
-			GazeManager.Instance.AddGazeListener(this);
+				// Register this class for events
+				GazeManager.Instance.AddGazeListener(this);
 
-			// Thread.Sleep(5000); // simulate app lifespan (e.g. OnClose/Exit event)
-
-			// Disconnect client
-			// GazeManager.Instance.Deactivate();
+			}
+			catch (System.Exception e)
+			{
+				System.IO.File.AppendAllText(@"C:\Users\Piotrek\Desktop\xd.txt", e.InnerException.Message);
+			}
 		}
 
 		public void OnGazeUpdate(GazeData gazeData)
@@ -54,9 +57,10 @@ public class GazePointer : MonoBehaviour
 	[DllImport("user32.dll")]
 	static extern bool SetCursorPos(int X, int Y);
 	// Start is called before the first frame update
-	void Start()
+	void Awake()
 	{
 		gaze = new GazePoint();
+
 		Vector2 cursorHotspot = new Vector2(cursorTexture.width / 2, cursorTexture.height / 2);
 		Cursor.SetCursor(cursorTexture, cursorHotspot, CursorMode.ForceSoftware);
 		Cursor.visible = cursorVisible;
@@ -68,8 +72,11 @@ public class GazePointer : MonoBehaviour
 		if (useEyeTracker)
 		{
 			coords = gaze.GetGazePoint();
+
 			if (coords.X != 0 && coords.Y != 0 && Application.isFocused && !Input.GetKey(KeyCode.LeftAlt))
+			{
 				SetCursorPos((int)coords.X, (int)coords.Y);//Call this when you want to set the mouse position
+			}
 		}
 	}
 }

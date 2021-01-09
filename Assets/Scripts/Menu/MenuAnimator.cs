@@ -27,15 +27,15 @@ public class MenuAnimator : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
 	{
-		float delay = 1.5f;
-		for (int i = 0; i < letters.childCount; i++)
-		{
-			if (i < 3)
-				StartCoroutine(PlayDelayedAnimation(letters.GetChild(i).GetComponent<Animator>(), jumpTop.name, delay));
-			else
-				StartCoroutine(PlayDelayedAnimation(letters.GetChild(i).GetComponent<Animator>(), jumpBot.name, delay));
-			delay += delayBetweenLetters;
-		}
+		//float delay = 1.5f;
+		//for (int i = 0; i < letters.childCount; i++)
+		//{
+		//	if (i < 3)
+		//		StartCoroutine(PlayDelayedAnimation(letters.GetChild(i).GetComponent<Animator>(), jumpTop.name, delay));
+		//	else
+		//		StartCoroutine(PlayDelayedAnimation(letters.GetChild(i).GetComponent<Animator>(), jumpBot.name, delay));
+		//	delay += delayBetweenLetters;
+		//}
 
 		logo.GetComponent<Animator>().Play(zoomIn.name);
 

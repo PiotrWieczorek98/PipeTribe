@@ -47,7 +47,7 @@ public class NoteTimelineIndicator : MonoBehaviour
 			deltaX = mouseAnchoredPosition - rectTransform.anchoredPosition.x;
 		}
 		// Delete object on action2 key
-		else if (Input.GetKeyDown(action2))
+		else if (Input.GetKeyDown(action2) || Input.GetMouseButtonDown(1))
 		{
 			Destroy(transform.gameObject);
 		}

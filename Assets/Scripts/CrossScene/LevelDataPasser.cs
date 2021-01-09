@@ -86,7 +86,15 @@ public class LevelDataPasser : MonoBehaviour
 		}
 
 		BinaryFormatter bf = new BinaryFormatter();
-		List<(float, float)> tupleList = (List<(float, float)>)bf.Deserialize(file);
+		List<(float, float)> tupleList;
+		try
+		{
+			tupleList = (List<(float, float)>)bf.Deserialize(file);
+		}
+		catch
+		{
+			tupleList = null;
+		}
 
 		if (addOffset)
 		{

@@ -15,15 +15,6 @@ public class RandomPlacer : MonoBehaviour
 			MusicNote note = Instantiate(itemPrefabs[Random.Range(0, itemPrefabs.Length)]);
 			float curveSegment = notesToGenerate[i].Item1;
 			float noteDuration = notesToGenerate[i].Item2;
-			//if(noteDuration == 0)
-			//         {
-			//	note.noteType = MusicNote.NoteType.Tap;
-			//         }
-			//         else
-			//         {
-			//	note.noteType = MusicNote.NoteType.Hold;
-			//	note.Prolong(noteDuration);
-			//         }
 
 
 			// Allow to change segment only if time between notes is big enough - if notes are too close it would break gameplay

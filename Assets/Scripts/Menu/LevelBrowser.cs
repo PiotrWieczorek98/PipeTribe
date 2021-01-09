@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.UI;
 
 //	TODO: load all music at once and switch on select
 public class LevelBrowser : MonoBehaviour
@@ -51,7 +52,7 @@ public class LevelBrowser : MonoBehaviour
 
 			// Add to list
 			boxes.Add(box.GetComponent<RectTransform>());
-			
+
 			// Increment
 			posY -= 100;
 			if (colorIndex < 5)
@@ -71,7 +72,9 @@ public class LevelBrowser : MonoBehaviour
 		yield return StartCoroutine(musicLoader.LoadMusicFiles(musicList, levelsSorted));
 
 		// Disable level browser because user is currently in main menu
-		transform.parent.gameObject.SetActive(false);
+		//Color tmp = new Color(0, 0, 0, 0);
+		//transform.parent.GetChild(transform.parent.childCount - 1).GetComponent<Image>().color = tmp;
+		//transform.parent.gameObject.SetActive(false);
 	}
 
 	public void SetFirstMusic()
@@ -98,9 +101,10 @@ public class LevelBrowser : MonoBehaviour
 		// If list was moved
 		if (moved)
 		{
-			CrossSceneData.SelectedLevelName = boxes[selectedBox].GetComponent<LevelBox>().title.text;
-			menuManager.MusicSource.clip = musicList[selectedBox];
-			menuManager.MusicSource.Play();
+			//CrossSceneData.SelectedLevelName = boxes[selectedBox].GetComponent<LevelBox>().title.text;
+			//menuManager.MusicSource.clip = musicList[selectedBox];
+			//menuManager.MusicSource.Play();
+			ChangeMusic();
 		}
 
 		// Move animation requires interpolation
@@ -117,6 +121,13 @@ public class LevelBrowser : MonoBehaviour
 			boxes[i].anchoredPosition = Vector3.Lerp(boxes[i].anchoredPosition, localDestination, Time.deltaTime * movementSpeed);
 			boxes[i].localScale = Vector3.Lerp(boxes[i].localScale, localScale, Time.deltaTime * movementSpeed);
 		}
+	}
+
+	public void ChangeMusic()
+	{
+		CrossSceneData.SelectedLevelName = boxes[selectedBox].GetComponent<LevelBox>().title.text;
+		menuManager.MusicSource.clip = musicList[selectedBox];
+		menuManager.MusicSource.Play();
 	}
 
 	public void MoveDown()

@@ -93,7 +93,7 @@ public class SettingsTabs : MonoBehaviour
 			child.gameObject.SetActive(true);
 		}
 		yield return new WaitForSeconds(0.5f);
-		for(int i = 0; i< tabs.Count; i++)
+		for (int i = 0; i < tabs.Count; i++)
 		{
 			if (selectedTab != i)
 			{
